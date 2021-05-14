@@ -31,6 +31,6 @@ func Login(username, password, requester):
 func Register(username, password, email, requester):
 	rpc_unreliable_id(1,"fetch", username, password, requester)
 
-remote func AuthenticateResults(state, token):
-	$Login/VBoxContainer/Label2.set_text(state)
-	$Register/VBoxContainer/Label2.set_text(state)
+remote func AuthenticateResults(state, token, requester):
+	print(token)
+	instance_from_id(requester).results(state)

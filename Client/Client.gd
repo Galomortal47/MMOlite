@@ -23,17 +23,19 @@ func _peer_disconected(player_id):
 
 remote func fetch(data, requester):
 	var player_id = get_tree().get_rpc_sender_id()
-	data = get_node("Player").dataprocess(data)
 	rpc_id(player_id, "return_data", data, requester)
 
-var playerdic = {'username':'galo', 'password':'123', 'id' : '8912'}
+var playerdic = {'username':'galo', 'password':'b12a26e761a2518cf4d37114e9a0b94c47e2d48b7f9790a72a98db06a438f9d7', 'id' : '8912'}
 
 remote func AuthenticatePlayer(username, password, requester):
-	var signature = (playerdic.id + playerdic.password).sha256_text()
-	if username == playerdic.username and password == signature:
+	var player_id = get_tree().get_rpc_sender_id()
+	var signature = (playerdic.id + password).sha256_text()
+	if username == playerdic.username and playerdic.password == signature:
 		var token = (str(OS.get_unix_time()).sha256_text() + signature).sha256_text()
-		instance_from_id(requester).AuthenticateResults("connection Suceess", token)
+		rpc_id(player_id, "AuthenticateResults", "connection sucess", token, requester)
+		print('connection sucess')
 		return
 	else:
-		instance_from_id(requester).AuthenticateResults("connection failed")
+		rpc_id(player_id, "AuthenticateResults", "connection failed", {}, requester)
+		print('connection failed')
 	pass
