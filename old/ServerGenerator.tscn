@@ -1,0 +1,10 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://old/ServerGenerator.gd" type="Script" id=1]
+[ext_resource path="res://Server/Server.tscn" type="PackedScene" id=2]
+
+
+
+[node name="ServerGenerator" type="Node"]
+script = ExtResource( 1 )
+server = ExtResource( 2 )
