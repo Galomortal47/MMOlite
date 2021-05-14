@@ -10,7 +10,7 @@ func _ready():
 	var table = 'PlayerInfo8'
 	CreateTable(table,['id integer PRIMARY KEY AUTOINCREMENT','Name text','Score integer','Item text','Level integer'])
 	DeleteItem(table,"Name",'Player')
-	CreateItem(table,"Player '()!!@##",'Name, Score, Item, Level',[33, 'backpack', 999])
+	CreateItem(table,"Player",'Name, Score, Item, Level',[33, 'backpack', 999])
 	UpdateItem(table,"Name","Item",'Player','pickaxe')
 	var itemResult =  ReadItem(table,"Name","Player")
 	print(itemResult)
