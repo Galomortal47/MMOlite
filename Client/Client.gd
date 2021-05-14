@@ -20,7 +20,6 @@ func _peer_conected(player_id):
 
 func _peer_disconected(player_id):
 	print("User " +str(player_id)+ " Disconnected")
-	
 
 remote func fetch(data, requester):
 	var player_id = get_tree().get_rpc_sender_id()

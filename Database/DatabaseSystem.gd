@@ -38,6 +38,7 @@ func DeleteItem(table,key,id):
 func ProcessString(string):
 	if typeof(string) == typeof(""):
 		string = string.replace("'","")
+		string = string.replace('"',"")
 		return "'"+string+"'"
 	else:
 		return str(string)
