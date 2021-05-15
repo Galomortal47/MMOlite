@@ -15,7 +15,7 @@ func data_req():
 
 func consolelog(data):
 	$Label.set_text(data.lineedit)
-	$ping.set_text(str(int(OS.get_system_time_msecs() - data.time)))
+	$ping.set_text("Current Ping is: " + str(int(OS.get_system_time_msecs() - data.time)))
 
 
 func _on_Timer_timeout():

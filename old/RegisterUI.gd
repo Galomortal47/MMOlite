@@ -15,12 +15,13 @@ func _on_Button_button_down():
 		$VBoxContainer/Label3.set_text("Username is too short")
 		return
 	$VBoxContainer/Label3.set_text("... Connecting to Server")
-	get_parent().Register(username, password.sha256_text(), email, get_instance_id())
+	var salt = str(OS.get_system_time_msecs()).sha256_text()
+	get_parent().Register(username, password.sha256_text(), email, salt, get_instance_id())
 	pass # Replace with function body.
 
 func _on_Button2_button_down():
 	self.hide()
-	get_parent().get_node("Register").show()
+	get_parent().get_node("Login").show()
 	pass # Replace with function body.
 
 func results(state):
