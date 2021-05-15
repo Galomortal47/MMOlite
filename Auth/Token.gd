@@ -11,7 +11,7 @@ func _ready():
 	packet.connect_to_host( "::1", 8082)
 	print("connected")
 
-func _process(delta):
+func _physics_process(delta):
 	var peerstream = PacketPeerStream.new()
 	peerstream.set_stream_peer(packet)
 	if peerstream.get_available_packet_count() > 0:
