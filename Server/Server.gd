@@ -6,11 +6,11 @@ var port = 1909
 var cert = load('user://Certificate/x509_Certificate.crt')
 
 func StartServer():
-	network.create_client(ip, port)
-	get_tree().set_network_peer(network)
 	network.set_dtls_enabled(true)
 	network.set_dtls_verify_enabled(false)
 	network.set_dtls_certificate(cert)
+	network.create_client(ip, port)
+	get_tree().set_network_peer(network)
 	print("serv start")
 	
 	network.connect("connection_failed",self,"_connection_failed")
