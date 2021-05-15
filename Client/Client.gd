@@ -25,7 +25,7 @@ remote func fetch(data, requester):
 	var player_id = get_tree().get_rpc_sender_id()
 	rpc_id(player_id, "return_data", data, requester)
 
-var playerdic = {'username':'galo', 'password':'b12a26e761a2518cf4d37114e9a0b94c47e2d48b7f9790a72a98db06a438f9d7', 'id' : '8912'}
+var playerdic = {'username':'galo', 'password':'b12a26e761a2518cf4d37114e9a0b94c47e2d48b7f9790a72a98db06a438f9d7', 'id' : '8912', 'email':''}
 
 remote func AuthenticatePlayer(username, password, requester):
 	var player_id = get_tree().get_rpc_sender_id()
@@ -38,4 +38,10 @@ remote func AuthenticatePlayer(username, password, requester):
 	else:
 		rpc_id(player_id, "AuthenticateResults", "connection failed", {}, requester)
 		print('connection failed')
+	pass
+
+remote func RegisterPlayer(username, password, email, requester):
+	var player_id = get_tree().get_rpc_sender_id()
+	print('reg')
+	rpc_id(player_id, "AuthenticateResults", "Thanks for Registering: " + str(username), {}, requester)
 	pass

@@ -26,10 +26,10 @@ remote func return_data(data, requester):
 	instance_from_id(requester).consolelog(data)
 
 func Login(username, password, requester):
-	rpc_unreliable_id(1,"AuthenticatePlayer", username, password, requester)
+	rpc_id(1,"AuthenticatePlayer", username, password, requester)
 
 func Register(username, password, email, requester):
-	rpc_unreliable_id(1,"fetch", username, password, requester)
+	rpc_id(1,"RegisterPlayer", username, password, email, requester)
 
 remote func AuthenticateResults(state, token, requester):
 	print(token)
