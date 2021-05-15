@@ -1,7 +1,7 @@
 extends Node
 
 var network = NetworkedMultiplayerENet.new()
-var port = 1909
+export var port = 1909
 var max_players = 100
 var cert = load('user://Certificate/x509_Certificate.crt')
 var key = load('user://Certificate/x509_Key.key')
