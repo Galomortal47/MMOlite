@@ -3,8 +3,6 @@
 [ext_resource path="res://Client/Player.gd" type="Script" id=1]
 [ext_resource path="res://Server/Server.gd" type="Script" id=2]
 
-
-
 [node name="Server" type="Node"]
 script = ExtResource( 2 )
 
@@ -43,4 +41,6 @@ __meta__ = {
 }
 
 [node name="Timer" type="Timer" parent="Node"]
-wait_time = 3.0
+wait_time = 0.016
+autostart = true
+[connection signal="timeout" from="Node/Timer" to="Node" method="_on_Timer_timeout"]
