@@ -23,5 +23,5 @@ func _on_Timer_timeout():
 	pass # Replace with function body.
 
 func _on_Server_connected():
-	get_parent().TokenVerificationResults("123", get_instance_id())
+	get_parent().TokenVerificationResults("6ac2b646e6d80be15b88d2b4a343f95d25e6d5bf5f7b67ae243544309c020f8b1621199275", get_instance_id())
 	pass # Replace with function body.
