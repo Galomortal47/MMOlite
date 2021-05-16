@@ -30,16 +30,21 @@ remote func fetch(data, requester):
 	var player_id = get_tree().get_rpc_sender_id()
 	rpc_id(player_id, "return_data", data, requester)
 
-var playerdic = {'username':'galo', 'password':'b12a26e761a2518cf4d37114e9a0b94c47e2d48b7f9790a72a98db06a438f9d7', 'id' : '8912', 'salt' : 'salt', 'email':''}
+var playerdic = {}
 
 remote func AuthenticatePlayer(username, password, requester):
+	playerdic = $SQLite.ReadItem("UserLogin","username",username)[0]
+	print(playerdic)
+	print(password)
 	var player_id = get_tree().get_rpc_sender_id()
 	var signature = encryptor(playerdic.salt, password)
+	print(signature)
 	if username == playerdic.username and playerdic.password == signature:
 		randomize()
 		var token = (str(randi()).sha256_text() + signature).sha256_text() + str(OS.get_unix_time())
 		rpc_id(player_id, "AuthenticateResults", "Welcome back: " + str(username), token, requester)
 		print('connection sucess')
+		$Token.send_data(token)
 		return
 	else:
 		rpc_id(player_id, "AuthenticateResults", "connection failed", {}, requester)
@@ -48,10 +53,10 @@ remote func AuthenticatePlayer(username, password, requester):
 
 remote func RegisterPlayer(username, password, email, salt, requester):
 	var player_id = get_tree().get_rpc_sender_id()
-	playerdic['username'] = username
-	playerdic['password'] = encryptor(salt, password)
-	playerdic['email'] = email
-	playerdic['salt'] = salt
+	print(salt)
+	print(password)
+	$SQLite.CreateItem("UserLogin",username,'username, password, email, salt',[encryptor(salt, password),email,salt])
+#	print($SQLite.ReadItem("UserLogin","username",username))
 	rpc_id(player_id, "AuthenticateResults", "Thanks for Registering: " + str(username), {}, requester)
 	pass
 
@@ -60,5 +65,5 @@ func encryptor(salt, password):
 	var time = int(OS.get_system_time_msecs())
 	for i in 2048:
 		crypt = (salt + crypt).sha256_text()
-	print("encryption time is: "+str(int(OS.get_system_time_msecs()-time)))
+#	print("encryption time is: "+str(int(OS.get_system_time_msecs()-time)))
 	return crypt

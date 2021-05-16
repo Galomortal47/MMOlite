@@ -1,4 +1,5 @@
 extends Node
+class_name DatabaseManaer
 
 const SQLite = preload("res://addons/godot-sqlite/bin/gdsqlite.gdns")
 onready var db = SQLite.new()
@@ -7,13 +8,12 @@ export var db_name = "res://DataStore/database3"
 func _ready():
 	db.path = db_name
 	db.open_db()
-	var table = 'PlayerInfo8'
-	CreateTable(table,['id integer PRIMARY KEY AUTOINCREMENT','Name text','Score integer','Item text','Level integer'])
-	DeleteItem(table,"Name",'Player')
-	CreateItem(table,"Player",'Name, Score, Item, Level',[33, 'backpack', 999])
-	UpdateItem(table,"Name","Item",'Player','pickaxe')
-	var itemResult =  ReadItem(table,"Name","Player")
-	print(itemResult)
+#	var table = 'PlayerInfo8'
+#	CreateTable(table,['id integer PRIMARY KEY AUTOINCREMENT','Name text','Score integer','Item text','Level integer'])
+#	DeleteItem(table,"Name",'Player')
+#	CreateItem(table,"Player",'Name, Score, Item, Level',[33, 'backpack', 999])
+#	UpdateItem(table,"Name","Item",'Player','pickaxe')
+#	var itemResult =  ReadItem(table,"Name","Player")
 #CREATE TABLE IF NOT EXISTS projects (id integer PRIMARY KEY AUTOINCREMENT,Name text,Score integer);
 func CreateTable(table,dict):
 	db.query("CREATE TABLE IF NOT EXISTS "+table+" ("+ArraytoText(dict)+");")

@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://Client/Client.gd" type="Script" id=1]
 [ext_resource path="res://Auth/Token.gd" type="Script" id=2]
+[ext_resource path="res://Login/SQLite.gd" type="Script" id=4]
 
 [node name="Server" type="Node"]
 script = ExtResource( 1 )
@@ -10,12 +11,5 @@ port = 1911
 [node name="Token" type="Node" parent="."]
 script = ExtResource( 2 )
 
-[node name="Button" type="Button" parent="Token"]
-margin_left = 324.693
-margin_top = 149.132
-margin_right = 647.693
-margin_bottom = 308.132
-__meta__ = {
-"_edit_use_anchors_": false
-}
-[connection signal="button_down" from="Token/Button" to="Token" method="send_data" binds= [ "12" ]]
+[node name="SQLite" type="Node" parent="."]
+script = ExtResource( 4 )
