@@ -37,6 +37,11 @@ func TokenVerificationResults(token, requester):
 
 var PlayerLoad = load('res://Players/PlayerTemplate.tscn')
 
-remote func ReturnTokenVerificationResults(data, requester):
+remote func ReturnTokenVerificationResults(data, username, requester):
 	if data == 'Token Valid':
-		$Players.add_child(PlayerLoad.instance())
+		var instance = PlayerLoad.instance()
+		instance.name = username
+		$Players.add_child(instance)
+
+remote func WorldStatUpdate(loggedusers):
+	print(loggedusers)
