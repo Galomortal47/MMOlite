@@ -28,7 +28,8 @@ func _peer_disconected(player_id):
 
 remote func fetch(data, requester):
 	var player_id = get_tree().get_rpc_sender_id()
-	rpc_id(player_id, "return_data", data, requester)
+	rpc_unreliable_id(player_id, "return_data", data, requester)
+
 
 remote func ReturnTokenVerification(data, requester):
 	var player_id = get_tree().get_rpc_sender_id()
@@ -38,3 +39,6 @@ remote func ReturnTokenVerification(data, requester):
 		$Token.tokens.erase(data)
 	else:
 		rpc_id(player_id, "ReturnTokenVerificationResults", "Token Invalid", requester)
+
+func WorldState():
+	rpc_id(0, "ReturnTokenVerificationResults", "Token Valid")

@@ -50,6 +50,9 @@ remote func AuthenticatePlayer(username, password, requester):
 
 remote func RegisterPlayer(username, password, email, salt, requester):
 	var player_id = get_tree().get_rpc_sender_id()
+	if $SQLite.ReadItem("UserLogin","username",username).size() > 0:
+		rpc_id(player_id, "AuthenticateResults", "username is taken", {}, requester)
+		return
 	$SQLite.CreateItem("UserLogin",username,'username, password, email, salt',[encryptor(salt, password),email,salt])
 	rpc_id(player_id, "AuthenticateResults", "Thanks for Registering: " + str(username), {}, requester)
 	pass

@@ -35,5 +35,8 @@ func TokenVerificationResults(token, requester):
 	print('verification token send')
 	rpc_id(1,"ReturnTokenVerification", token, requester)
 
+var PlayerLoad = load('res://Players/PlayerTemplate.tscn')
+
 remote func ReturnTokenVerificationResults(data, requester):
-	print(data)
+	if data == 'Token Valid':
+		$Players.add_child(PlayerLoad.instance())
