@@ -36,5 +36,5 @@ func Register(username, password, email, salt, requester):
 	rpc_id(1,"RegisterPlayer", username, password, email, salt, requester)
 
 remote func AuthenticateResults(state, token, requester):
-	print(token)
+	Tokendata.token = token
 	instance_from_id(requester).results(state)
