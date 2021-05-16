@@ -9,3 +9,13 @@ port = 1911
 
 [node name="Token" type="Node" parent="."]
 script = ExtResource( 2 )
+
+[node name="Button" type="Button" parent="Token"]
+margin_left = 324.693
+margin_top = 149.132
+margin_right = 647.693
+margin_bottom = 308.132
+__meta__ = {
+"_edit_use_anchors_": false
+}
+[connection signal="button_down" from="Token/Button" to="Token" method="send_data" binds= [ "12" ]]
