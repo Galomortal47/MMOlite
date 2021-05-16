@@ -13,3 +13,4 @@ script = ExtResource( 2 )
 
 [node name="SQLite" type="Node" parent="."]
 script = ExtResource( 4 )
+db_name = "res://DataStore/databasenew"
