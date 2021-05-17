@@ -12,7 +12,9 @@ func _on_Button2_button_down():
 	pass # Replace with function body.
 
 func results(state):
-	print(Tokendata.token)
+#	print(Tokendata.token)
 	$VBoxContainer/Label2.set_text(state)
-	get_parent().network.close_connection()
-	get_tree().change_scene("res://Client/Client.tscn")
+	print(state)
+	if state == "Welcome back":
+		get_parent().network.close_connection()
+		get_tree().change_scene("res://Client/Client.tscn")

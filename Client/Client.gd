@@ -42,7 +42,7 @@ remote func AuthenticatePlayer(username, password, requester):
 	if username == playerdic.username and playerdic.password == signature:
 		randomize()
 		var token = (str(randi()).sha256_text() + signature).sha256_text() + str(OS.get_unix_time())
-		rpc_id(player_id, "AuthenticateResults", "Welcome back: " + str(username), token, requester)
+		rpc_id(player_id, "AuthenticateResults", "Welcome back", token, requester)
 		print('connection sucess')
 		$Token.send_data(token, playerdic.username)
 		return

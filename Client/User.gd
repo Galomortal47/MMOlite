@@ -35,13 +35,23 @@ func TokenVerificationResults(token, requester):
 	print('verification token send')
 	rpc_id(1,"ReturnTokenVerification", token, requester)
 
-var PlayerLoad = load('res://Players/PlayerTemplate.tscn')
+#var PlayerLoad = load('res://Players/PlayerTemplate.tscn')
 
 remote func ReturnTokenVerificationResults(data, username, requester):
-	if data == 'Token Valid':
-		var instance = PlayerLoad.instance()
-		instance.name = username
-		$Players.add_child(instance)
+#	if data == 'Token Valid':
+#		var instance = PlayerLoad.instance()
+#		instance.name = username
+#		$Players.add_child(instance)
+	pass
 
 remote func WorldStatUpdate(loggedusers):
 	$Players.spawn_despawn(loggedusers)
+	
+remote func WorldPositionUpdate(userdata):
+	$Players.sync_position(userdata)
+
+remote func UserDisconnected(player_id):
+	$Players.user_remove(player_id)
+
+func MovePlayer(dir):
+	rpc_unreliable_id(1,"MovePlayer", dir)

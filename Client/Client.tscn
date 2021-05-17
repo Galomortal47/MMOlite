@@ -12,30 +12,30 @@ port = 1910
 script = ExtResource( 1 )
 
 [node name="Label" type="Label" parent="Node"]
-margin_left = 99.5403
-margin_top = 86.9154
-margin_right = 927.54
-margin_bottom = 100.915
+margin_left = -435.414
+margin_top = -217.866
+margin_right = 392.586
+margin_bottom = -203.866
 autowrap = true
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="ping" type="Label" parent="Node"]
-margin_left = 87.6483
-margin_top = 25.0766
-margin_right = 915.648
-margin_bottom = 39.0766
+margin_left = -447.306
+margin_top = -279.704
+margin_right = 380.694
+margin_bottom = -265.704
 autowrap = true
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
 [node name="LineEdit" type="LineEdit" parent="Node"]
-margin_left = 90.5403
-margin_top = 50.9154
-margin_right = 939.54
-margin_bottom = 74.9154
+margin_left = -444.414
+margin_top = -253.866
+margin_right = 404.586
+margin_bottom = -229.866
 text = "test"
 expand_to_text_length = true
 __meta__ = {
@@ -48,5 +48,8 @@ autostart = true
 
 [node name="Players" type="Node2D" parent="."]
 script = ExtResource( 3 )
+
+[node name="Camera2D" type="Camera2D" parent="."]
+current = true
 [connection signal="connected" from="." to="Node" method="_on_Server_connected"]
 [connection signal="timeout" from="Node/Timer" to="Node" method="_on_Timer_timeout"]
