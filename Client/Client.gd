@@ -33,7 +33,10 @@ remote func fetch(data, requester):
 var playerdic = {}
 
 remote func AuthenticatePlayer(username, password, requester):
-	playerdic = $SQLite.ReadItem("UserLogin","username",username)[0]
+	var sql = $SQLite.ReadItem("UserLogin","username",username)
+	if not sql.size() > 0:
+		return
+	playerdic = sql[0]
 	var player_id = get_tree().get_rpc_sender_id()
 	var signature = encryptor(playerdic.salt, password)
 	if username == playerdic.username and playerdic.password == signature:

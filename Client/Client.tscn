@@ -1,7 +1,8 @@
-[gd_scene load_steps=3 format=2]
+[gd_scene load_steps=4 format=2]
 
 [ext_resource path="res://Client/Player.gd" type="Script" id=1]
 [ext_resource path="res://Client/User.gd" type="Script" id=2]
+[ext_resource path="res://Players/PlayersGen.gd" type="Script" id=3]
 
 [node name="Server" type="Node"]
 script = ExtResource( 2 )
@@ -46,5 +47,6 @@ wait_time = 0.5
 autostart = true
 
 [node name="Players" type="Node2D" parent="."]
+script = ExtResource( 3 )
 [connection signal="connected" from="." to="Node" method="_on_Server_connected"]
 [connection signal="timeout" from="Node/Timer" to="Node" method="_on_Timer_timeout"]

@@ -44,4 +44,4 @@ remote func ReturnTokenVerificationResults(data, username, requester):
 		$Players.add_child(instance)
 
 remote func WorldStatUpdate(loggedusers):
-	print(loggedusers)
+	$Players.spawn_despawn(loggedusers)

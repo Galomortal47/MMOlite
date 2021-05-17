@@ -3,7 +3,7 @@ class_name DatabaseManaer
 
 const SQLite = preload("res://addons/godot-sqlite/bin/gdsqlite.gdns")
 onready var db = SQLite.new()
-export var db_name = "res://DataStore/database3"
+export var db_name = "res://DataStore/database1000"
 
 func _ready():
 	db.path = db_name
