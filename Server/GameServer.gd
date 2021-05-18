@@ -60,10 +60,10 @@ remote func ReturnTokenVerification(data, requester):
 		rpc_id(player_id, "ReturnTokenVerificationResults", "Token Invalid", requester)
 
 func WorldState():
-	rpc_id(0, "WorldStatUpdate", loggedusers)
+	rpc_unreliable_id(0, "WorldStatUpdate", loggedusers)
 
 func WorldPosition():
-	rpc_id(0, "WorldPositionUpdate", userdata)
+	rpc_unreliable_id(0, "WorldPositionUpdate", userdata)
 
 remote func MovePlayer(dir):
 	var player_id = get_tree().get_rpc_sender_id()
