@@ -5,6 +5,7 @@ export var port = 1909
 var max_players = 100
 #var cert = load('user://Certificate/x509_Certificate.crt')
 #var key = load('user://Certificate/x509_Key.key')
+export var online_verification_disable = false
 
 var loggedusers = {}
 var userdata = {}
@@ -39,6 +40,8 @@ remote func fetch(data, requester):
 remote func ReturnTokenVerification(data, requester):
 	var player_id = get_tree().get_rpc_sender_id()
 	print('token is being verified')
+	if online_verification_disable:
+		$Token.tokens[data] = str(player_id)
 	if $Token.tokens.has(data):
 		rpc_id(player_id, "ReturnTokenVerificationResults", "Token Valid", $Token.tokens[data], requester)
 		loggedusers[player_id] = $Token.tokens[data]
