@@ -8,10 +8,6 @@ extends KinematicBody2D
 
 # Called when the node enters the scene tree for the first time.
 func _ready():
-#	$Label.set_text(name)
-	randomize()
-	position.x = rand_range(0,1000)
-	position.y = rand_range(0,600)
 	pass # Replace with function body.
 
 

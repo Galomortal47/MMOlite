@@ -10,6 +10,8 @@ export var online_verification_disable = false
 var loggedusers = {}
 var userdata = {}
 
+var PlayerLoad = load('res://Players/PlayerTemplateCol.tscn')
+
 func _ready():
 	StartServer()
 
@@ -30,6 +32,7 @@ func _peer_conected(player_id):
 func _peer_disconected(player_id):
 	loggedusers.erase(player_id)
 	userdata.erase(player_id)
+	$Players.get_node(str(player_id)).queue_free()
 	rpc_id(0, "UserDisconnected", player_id)
 	print("User " +str(player_id)+ " Disconnected")
 
@@ -46,6 +49,11 @@ remote func ReturnTokenVerification(data, requester):
 		rpc_id(player_id, "ReturnTokenVerificationResults", "Token Valid", $Token.tokens[data], requester)
 		loggedusers[player_id] = $Token.tokens[data]
 		userdata[player_id] = {'pos':Vector2(0,0)}
+		var instance = PlayerLoad.instance()
+		randomize()
+		instance.position = Vector2( rand_range(0,100),rand_range(0,60))
+		instance.name = str(player_id)
+		$Players.add_child(instance)
 		print(userdata)
 		$Token.tokens.erase(data)
 	else:
@@ -59,4 +67,6 @@ func WorldPosition():
 
 remote func MovePlayer(dir):
 	var player_id = get_tree().get_rpc_sender_id()
-	userdata[player_id]['pos'] += dir.normalized() * 10
+	var node = $Players.get_node(str(player_id))
+	node.move(dir)
+	userdata[player_id]['pos'] = node.position
