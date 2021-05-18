@@ -2,16 +2,14 @@ extends Node2D
 
 var PlayerLoad = load('res://Players/PlayerTemplate.tscn')
 
-func _input(event):
-	var movment = Vector2(0,0)
-	if Input.is_action_pressed("ui_down"):
-		movment.y += 1
+func _physics_process(delta):
+	var movment = 'stop'
 	if Input.is_action_pressed("ui_up"):
-		movment.y -= 1
+		movment = 'jump'
 	if Input.is_action_pressed("ui_left"):
-		movment.x -= 1
+		movment = 'left'
 	if Input.is_action_pressed("ui_right"):
-		movment.x += 1
+		movment = 'right'
 	get_parent().MovePlayer(movment)
 
 func spawn_despawn(loggedusers):

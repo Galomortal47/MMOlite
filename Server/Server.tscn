@@ -1,8 +1,14 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://Server/GameServer.gd" type="Script" id=1]
 [ext_resource path="res://Server/Player.gd" type="Script" id=2]
 [ext_resource path="res://Server/Token.gd" type="Script" id=3]
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 518.255, 10 )
+
+[sub_resource type="RectangleShape2D" id=2]
+extents = Vector2( 172.9, 10 )
 
 [node name="Server" type="Node"]
 script = ExtResource( 1 )
@@ -22,6 +28,19 @@ autostart = true
 [node name="Timer2" type="Timer" parent="."]
 wait_time = 0.05
 autostart = true
+
+[node name="Debug" type="StaticBody2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Debug"]
+position = Vector2( -3.61353, 280.905 )
+shape = SubResource( 1 )
+
+[node name="CollisionShape2D2" type="CollisionShape2D" parent="Debug"]
+position = Vector2( -268.71, 177.724 )
+shape = SubResource( 2 )
+
+[node name="Camera2D" type="Camera2D" parent="Debug"]
+current = true
 
 [node name="Players" type="Node2D" parent="."]
 [connection signal="timeout" from="Timer" to="." method="WorldState"]
