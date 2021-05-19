@@ -1,9 +1,11 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=9 format=2]
 
 [ext_resource path="res://Client/Player.gd" type="Script" id=1]
 [ext_resource path="res://Client/User.gd" type="Script" id=2]
 [ext_resource path="res://Players/PlayersGen.gd" type="Script" id=3]
 [ext_resource path="res://assets/tilelevels/lv1.tscn" type="PackedScene" id=4]
+[ext_resource path="res://icon.png" type="Texture" id=5]
+[ext_resource path="res://Client/chat.gd" type="Script" id=6]
 
 [sub_resource type="Gradient" id=1]
 offsets = PoolRealArray( 0.736585, 1 )
@@ -17,11 +19,11 @@ width = 600
 script = ExtResource( 2 )
 port = 1910
 
-[node name="Node" type="Node" parent="."]
+[node name="UI" type="CanvasLayer" parent="."]
 script = ExtResource( 1 )
 players = NodePath("../Players")
 
-[node name="Label" type="Label" parent="Node"]
+[node name="Label" type="Label" parent="UI"]
 visible = false
 margin_left = -435.414
 margin_top = -217.866
@@ -32,29 +34,66 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="ping" type="Label" parent="Node"]
-margin_left = -447.306
-margin_top = -279.704
-margin_right = 380.694
-margin_bottom = -265.704
+[node name="ping" type="Label" parent="UI"]
+margin_left = 12.2704
+margin_top = 13.2142
+margin_right = 840.27
+margin_bottom = 27.2142
 text = "Ping:"
 autowrap = true
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="ping2" type="Label" parent="Node"]
-margin_left = -447.306
-margin_top = -265.704
-margin_right = 380.694
-margin_bottom = -251.704
+[node name="chat" type="LineEdit" parent="UI"]
+margin_left = 12.0
+margin_top = 373.0
+margin_right = 198.0
+margin_bottom = 397.0
+placeholder_text = "chat..."
+script = ExtResource( 6 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="RichTextLabel" type="RichTextLabel" parent="UI/chat"]
+margin_top = 32.0
+margin_right = 253.0
+margin_bottom = 216.0
+bbcode_enabled = true
+scroll_following = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="icon" type="TextureRect" parent="UI/chat/RichTextLabel"]
+modulate = Color( 0, 0, 0, 0.223529 )
+anchor_right = 1.0
+anchor_bottom = 1.0
+texture = ExtResource( 5 )
+stretch_mode = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Button" type="Button" parent="UI/chat"]
+margin_left = 186.0
+margin_right = 253.0
+margin_bottom = 24.0
+text = "send"
+
+[node name="ping2" type="Label" parent="UI"]
+margin_left = 12.2704
+margin_top = 27.2142
+margin_right = 840.27
+margin_bottom = 41.2142
 text = "Connected UwU"
 autowrap = true
 __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="LineEdit" type="LineEdit" parent="Node"]
+[node name="LineEdit" type="LineEdit" parent="UI"]
 visible = false
 margin_left = -444.414
 margin_top = -253.866
@@ -66,7 +105,7 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
-[node name="Timer" type="Timer" parent="Node"]
+[node name="Timer" type="Timer" parent="UI"]
 wait_time = 0.5
 autostart = true
 
@@ -90,5 +129,6 @@ modulate = Color( 0.807843, 0.807843, 0.807843, 1 )
 rotation = 1.5708
 scale = Vector2( 1, 1024 )
 texture = SubResource( 2 )
-[connection signal="connected" from="." to="Node" method="_on_Server_connected"]
-[connection signal="timeout" from="Node/Timer" to="Node" method="_on_Timer_timeout"]
+[connection signal="connected" from="." to="UI" method="_on_Server_connected"]
+[connection signal="button_down" from="UI/chat/Button" to="UI/chat" method="_on_Button_button_down"]
+[connection signal="timeout" from="UI/Timer" to="UI" method="_on_Timer_timeout"]

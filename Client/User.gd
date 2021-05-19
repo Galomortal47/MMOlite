@@ -22,7 +22,7 @@ func _connection_failed():
 
 func _connection_succeeded():
 	print("connection_succeeded")
-	$Node.data_req()
+	$UI.data_req()
 	emit_signal("connected")
 
 remote func return_data(data, requester):
@@ -33,6 +33,7 @@ func TokenVerificationResults(token, requester):
 	rpc_id(1,"ReturnTokenVerification", token, requester)
 
 #var PlayerLoad = load('res://Players/PlayerTemplate.tscn')
+
 
 remote func ReturnTokenVerificationResults(data, username, requester):
 #	if data == 'Token Valid':
@@ -50,5 +51,11 @@ remote func WorldPositionUpdate(userdata):
 remote func UserDisconnected(player_id):
 	$Players.user_remove(player_id)
 
+remote func ChatUpdate(chat):
+	$UI/chat.update_chat(chat)
+
 func MovePlayer(dir):
 	rpc_unreliable_id(1,"MovePlayer", dir)
+
+func SendChatMessage(message, requester):
+	rpc_id(1,"ReceiveChatMessage", message, requester)

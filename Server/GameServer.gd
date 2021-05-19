@@ -9,6 +9,7 @@ export var online_verification_disable = false
 
 var loggedusers = {}
 var userdata = {}
+var chat = []
 
 var PlayerLoad = load('res://Players/PlayerTemplateCol.tscn')
 
@@ -54,7 +55,6 @@ remote func ReturnTokenVerification(data, requester):
 		instance.position = Vector2( rand_range(0,100),rand_range(0,60))
 		instance.name = str(player_id)
 		$Players.add_child(instance)
-		print(userdata)
 		$Token.tokens.erase(data)
 	else:
 		rpc_id(player_id, "ReturnTokenVerificationResults", "Token Invalid", requester)
@@ -65,8 +65,18 @@ func WorldState():
 func WorldPosition():
 	rpc_unreliable_id(0, "WorldPositionUpdate", userdata)
 
+func ChatState():
+	if chat.size() > 0:
+		rpc_unreliable_id(0, "ChatUpdate", chat)
+		chat = []
+
 remote func MovePlayer(dir):
 	var player_id = get_tree().get_rpc_sender_id()
 	var node = $Players.get_node(str(player_id))
 	node.move(dir)
 	userdata[player_id]['pos'] = node.position
+
+remote func ReceiveChatMessage(message, requester):
+	var player_id = get_tree().get_rpc_sender_id()
+	chat.append(str(loggedusers[player_id]) +": "+ str(message))
+	

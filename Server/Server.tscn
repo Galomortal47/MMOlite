@@ -32,5 +32,7 @@ current = true
 [node name="Players" type="Node2D" parent="."]
 
 [node name="TileMap" parent="." instance=ExtResource( 4 )]
+visible = false
 [connection signal="timeout" from="Timer" to="." method="WorldState"]
+[connection signal="timeout" from="Timer" to="." method="ChatState"]
 [connection signal="timeout" from="Timer2" to="." method="WorldPosition"]
