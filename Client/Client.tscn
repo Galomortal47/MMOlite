@@ -1,9 +1,17 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://Client/Player.gd" type="Script" id=1]
 [ext_resource path="res://Client/User.gd" type="Script" id=2]
 [ext_resource path="res://Players/PlayersGen.gd" type="Script" id=3]
 [ext_resource path="res://assets/tilelevels/lv1.tscn" type="PackedScene" id=4]
+
+[sub_resource type="Gradient" id=1]
+offsets = PoolRealArray( 0.736585, 1 )
+colors = PoolColorArray( 0.638824, 0.945313, 0.945313, 1, 0.741882, 0.837345, 0.859375, 1 )
+
+[sub_resource type="GradientTexture" id=2]
+gradient = SubResource( 1 )
+width = 600
 
 [node name="Server" type="Node"]
 script = ExtResource( 2 )
@@ -72,5 +80,15 @@ current = true
 z_index = -2
 collision_layer = 0
 collision_mask = 0
+
+[node name="ParallaxBackground" type="ParallaxBackground" parent="."]
+
+[node name="ParallaxLayer" type="ParallaxLayer" parent="ParallaxBackground"]
+modulate = Color( 0.807843, 0.807843, 0.807843, 1 )
+
+[node name="Sprite" type="Sprite" parent="ParallaxBackground/ParallaxLayer"]
+rotation = 1.5708
+scale = Vector2( 1, 1024 )
+texture = SubResource( 2 )
 [connection signal="connected" from="." to="Node" method="_on_Server_connected"]
 [connection signal="timeout" from="Node/Timer" to="Node" method="_on_Timer_timeout"]

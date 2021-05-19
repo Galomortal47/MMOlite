@@ -27,6 +27,10 @@ config/icon="res://icon.png"
 
 Tokendata="*res://tokendata.gd"
 
+[display]
+
+window/stretch/mode="viewport"
+
 [rendering]
 
 quality/driver/driver_name="GLES2"
