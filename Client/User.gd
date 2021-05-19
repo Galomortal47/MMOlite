@@ -37,7 +37,7 @@ func TokenVerificationResults(token, requester):
 
 remote func ReturnTokenVerificationResults(data, username, requester):
 #	if data == 'Token Valid':
-#		var instance = PlayerLoad.instance()
+#		var instance = $Players.PlayerLoad.instance()
 #		instance.name = username
 #		$Players.add_child(instance)
 	pass
@@ -60,8 +60,8 @@ func MovePlayer(dir):
 func SendChatMessage(message, requester):
 	rpc_id(1,"ReceiveChatMessage", message, requester)
 
-func GetSkin(requester):
-	rpc_id(1,"SendSkinBack", requester)
+#func GetSkin():
+#	rpc_id(1,"SendSkinBack")
 
-remote func SkinFromServer(player_id,format, skin, requester):
-	instance_from_id(requester).change_skin(player_id,format , skin)
+#remote func SkinFromServer(player_id,format, skin):
+#	get_node("Players").change_skin(player_id,format, skin)

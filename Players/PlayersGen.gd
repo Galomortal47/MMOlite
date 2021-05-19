@@ -18,8 +18,12 @@ func spawn_despawn(loggedusers):
 		players.append(i.name)
 	for i in loggedusers.keys():
 		if not players.has(str(i)):
+			var n = ['chick', 'cat','cat2', 'cat3']
+			var number = fmod(i,n.size())
+			var skin = load('res://assets/sprites/'+str(n[number])+'.png')
 			var instance = PlayerLoad.instance()
 			instance.name = str(i)
+			instance.get_node('anims/Sprite').texture = skin
 			instance.get_node('Label').set_text(loggedusers[i])
 			add_child(instance)
 
@@ -44,6 +48,7 @@ func user_remove(player_id):
 		get_node(str(player_id)).queue_free()
 
 func change_skin(player_id, format, skin):
+	print("Image of "+str(len(skin)/1024)+" KBs had arrived")
 	var image = Image.new()
 	image.create_from_data(64,64, false, format, skin)
 	var texture = ImageTexture.new()

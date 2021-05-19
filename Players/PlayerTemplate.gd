@@ -1,5 +1,8 @@
 extends KinematicBody2D
 
+#func _ready():
+#	get_parent().get_parent().GetSkin()
+
 func playnanims(anim):
 	match anim:
 		'stop':
