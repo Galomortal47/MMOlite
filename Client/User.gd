@@ -59,3 +59,9 @@ func MovePlayer(dir):
 
 func SendChatMessage(message, requester):
 	rpc_id(1,"ReceiveChatMessage", message, requester)
+
+func GetSkin(requester):
+	rpc_id(1,"SendSkinBack", requester)
+
+remote func SkinFromServer(player_id,format, skin, requester):
+	instance_from_id(requester).change_skin(player_id,format , skin)

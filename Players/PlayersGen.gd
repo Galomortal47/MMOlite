@@ -42,3 +42,10 @@ func user_remove(player_id):
 	print("Player: " +str(player_id)+" has been desconnected")
 	if has_node(str(player_id)):
 		get_node(str(player_id)).queue_free()
+
+func change_skin(player_id, format, skin):
+	var image = Image.new()
+	image.create_from_data(64,64, false, format, skin)
+	var texture = ImageTexture.new()
+	texture.create_from_image(image)
+	get_node(str(player_id)).get_node('anims/Sprite').texture = texture

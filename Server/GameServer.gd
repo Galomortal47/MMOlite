@@ -80,4 +80,8 @@ remote func MovePlayer(dir):
 remote func ReceiveChatMessage(message, requester):
 	var player_id = get_tree().get_rpc_sender_id()
 	chat.append(str(loggedusers[player_id]) +": "+ str(message))
-	
+
+remote func SendSkinBack(requester):
+	var player_id = get_tree().get_rpc_sender_id()
+	var skin = load('res://icon.png')
+	rpc_id(player_id, "SkinFromServer",player_id , skin.get_data().get_format(), skin.get_data().get_data(), requester)
