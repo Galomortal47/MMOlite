@@ -1,5 +1,7 @@
 extends Node
 
+export(NodePath) var players
+
 func _ready():
 	get_parent().StartServer()
 
@@ -15,11 +17,21 @@ func data_req():
 
 func consolelog(data):
 	$Label.set_text(data.lineedit)
-	$ping.set_text("Current Ping is: " + str(int(OS.get_system_time_msecs() - data.time)))
+	$ping.set_text("Ping: " + str(int(OS.get_system_time_msecs() - data.time)))
 
 func _on_Timer_timeout():
 	var json = {"lineedit": str($LineEdit.get_text()), "time" : int(OS.get_system_time_msecs())}
 	get_parent().fetch(json, get_instance_id())
+	match get_parent().network.get_connection_status():
+		0:
+			$ping2.set_text('Disconnected T-T')
+			get_parent().StartServer()
+			for i in get_node(players).get_children():
+				i.queue_free()
+		1:
+			$ping2.set_text('Trying to Connect O.O')
+		2:
+			$ping2.set_text('Connected UwU')
 	pass # Replace with function body.
 
 func _on_Server_connected():

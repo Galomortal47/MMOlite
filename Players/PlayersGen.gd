@@ -4,12 +4,12 @@ var PlayerLoad = load('res://Players/PlayerTemplate.tscn')
 
 func _physics_process(delta):
 	var movment = 'stop'
-	if Input.is_action_pressed("ui_up"):
-		movment = 'jump'
 	if Input.is_action_pressed("ui_left"):
 		movment = 'left'
 	if Input.is_action_pressed("ui_right"):
 		movment = 'right'
+	if Input.is_action_pressed("ui_up"):
+		movment = 'jump'
 	get_parent().MovePlayer(movment)
 
 func spawn_despawn(loggedusers):
