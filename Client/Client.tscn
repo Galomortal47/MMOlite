@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://Client/Player.gd" type="Script" id=1]
 [ext_resource path="res://Client/User.gd" type="Script" id=2]
 [ext_resource path="res://Players/PlayersGen.gd" type="Script" id=3]
+[ext_resource path="res://assets/tilelevels/lv1.tscn" type="PackedScene" id=4]
 
 [node name="Server" type="Node"]
 script = ExtResource( 2 )
@@ -10,6 +11,7 @@ port = 1910
 
 [node name="Node" type="Node" parent="."]
 script = ExtResource( 1 )
+players = NodePath("../Players")
 
 [node name="Label" type="Label" parent="Node"]
 visible = false
@@ -65,5 +67,10 @@ script = ExtResource( 3 )
 
 [node name="Camera2D" type="Camera2D" parent="."]
 current = true
+
+[node name="TileMap" parent="." instance=ExtResource( 4 )]
+z_index = -2
+collision_layer = 0
+collision_mask = 0
 [connection signal="connected" from="." to="Node" method="_on_Server_connected"]
 [connection signal="timeout" from="Node/Timer" to="Node" method="_on_Timer_timeout"]
