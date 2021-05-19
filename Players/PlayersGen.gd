@@ -32,6 +32,7 @@ func sync_position(userdata):
 #	print(bufferdata)
 	for i in userdata.keys():
 		if has_node(str(i)):
+			get_node(str(i)).playnanims(userdata[i]['ani'])
 			if bufferdata[0].has(str(i)):
 				get_node(str(i)).position = lerp(userdata[i]['pos'], bufferdata[0][i]['pos'], 0.5)
 			else:

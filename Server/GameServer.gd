@@ -75,6 +75,7 @@ remote func MovePlayer(dir):
 	var node = $Players.get_node(str(player_id))
 	node.move(dir)
 	userdata[player_id]['pos'] = node.position
+	userdata[player_id]['ani'] = dir
 
 remote func ReceiveChatMessage(message, requester):
 	var player_id = get_tree().get_rpc_sender_id()
