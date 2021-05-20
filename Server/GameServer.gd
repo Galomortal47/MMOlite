@@ -1,8 +1,8 @@
 extends Node
 
 var network = NetworkedMultiplayerENet.new()
-export var port = 1909
-var max_players = 100
+onready var port = Tokendata.PORT
+onready var max_players = Tokendata.maxs_players
 #var cert = load('user://Certificate/x509_Certificate.crt')
 #var key = load('user://Certificate/x509_Key.key')
 export var online_verification_disable = false
@@ -22,7 +22,7 @@ func StartServer():
 #	network.set_dtls_enabled(true)
 	network.create_server(port, max_players)
 	get_tree().set_network_peer(network)
-	print("serv start")
+	print("serv start on port: " + str(port) + " with an limit of "+str(max_players) )
 	
 	network.connect("peer_connected",self,"_peer_conected")
 	network.connect("peer_disconnected",self,"_peer_disconected")

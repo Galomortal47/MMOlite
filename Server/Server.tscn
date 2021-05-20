@@ -7,7 +7,6 @@
 
 [node name="Server" type="Node"]
 script = ExtResource( 1 )
-port = 1910
 online_verification_disable = true
 
 [node name="Player" type="Node" parent="."]

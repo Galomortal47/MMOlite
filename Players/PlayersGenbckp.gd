@@ -42,14 +42,14 @@ var bufferdata = [{},{}]
 
 func sync_position(userdata):
 	bufferdata.append(userdata.duplicate())
-	if bufferdata.size() > lag_compesation_ammount:
+	if bufferdata.size() > 1:
 		bufferdata.remove(0)
 	for i in userdata.keys():
 		if has_node(str(i)):
 			get_node(str(i)).playnanims(userdata[i]['ani'])
 			if bufferdata[0].has(i) and lag_compesation:
 				var new_delta = userdata[i]['pos'] - bufferdata[0][i]['pos']
-				var new_pos = userdata[i]['pos'] + new_delta
+				var new_pos = userdata[i]['pos'] + (new_delta*lag_compesation_ammount)
 				get_node(str(i)).position = ((get_node(str(i)).position*movment_smooth) + lerp(userdata[i]['pos'], new_pos, 0.5))/(movment_smooth+1.0)
 			else:
 				get_node(str(i)).position = userdata[i]['pos']

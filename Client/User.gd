@@ -1,8 +1,8 @@
 extends Node
 
 var network = NetworkedMultiplayerENet.new()
-var ip = "108.61.85.136"#'157.245.218.42'
-export var port = 1911
+var ip = "157.245.218.42"#'127.0.0.1'
+export var port = 1909
 signal connected
 
 func StartServer():

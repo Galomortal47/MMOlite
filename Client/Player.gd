@@ -35,11 +35,12 @@ func _on_Timer_timeout():
 			$ping2.set_text('Trying to Connect O.O')
 		2:
 			$ping2.set_text('Connected UwU')
-	if get_node(players).lag_compesation:
-		$ping3.set_text('lag compesation is: '+ str(get_node(players).lag_compesation_ammount))
-	else:
-		$ping3.set_text('lag compesation is off')
-	pass # Replace with function body.
+	$ping3.set_text('players online: '+ str(get_node(players).get_child_count()))
+#	if get_node(players).lag_compesation:
+#		$ping3.set_text('lag compesation is: '+ str(get_node(players).lag_compesation_ammount))
+#	else:
+#		$ping3.set_text('lag compesation is off')
+#	pass # Replace with function body.
 
 func _on_Server_connected():
 	get_parent().TokenVerificationResults(Tokendata.token, get_instance_id())
