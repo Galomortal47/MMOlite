@@ -16,12 +16,12 @@ func _physics_process(delta):
 	get_parent().MovePlayer(movment)
 	if Input.is_action_just_pressed("ui_lagcomp"):
 		lag_compesation = !lag_compesation
-#	if Input.is_action_just_pressed("ui_plus"):
-#		lag_compesation_ammount += 5.0
-#		movment_smooth += 1.0
-#	if Input.is_action_just_pressed("ui_minus"):
-#		lag_compesation_ammount -= 5.0
-#		movment_smooth -= 1.0
+	if Input.is_action_just_pressed("ui_plus"):
+		lag_compesation_ammount += 1.0
+		movment_smooth += 0.2
+	if Input.is_action_just_pressed("ui_minus"):
+		lag_compesation_ammount -= 1.0
+		movment_smooth -= 0.2
 
 func spawn_despawn(loggedusers):
 	var players = []
@@ -42,14 +42,14 @@ var bufferdata = [{},{}]
 
 func sync_position(userdata):
 	bufferdata.append(userdata.duplicate())
-	if bufferdata.size() > 1:
+	if bufferdata.size() > lag_compesation_ammount:
 		bufferdata.remove(0)
 	for i in userdata.keys():
 		if has_node(str(i)):
 			get_node(str(i)).playnanims(userdata[i]['ani'])
 			if bufferdata[0].has(i) and lag_compesation:
 				var new_delta = userdata[i]['pos'] - bufferdata[0][i]['pos']
-				var new_pos = userdata[i]['pos'] + (new_delta*lag_compesation_ammount)
+				var new_pos = userdata[i]['pos'] + new_delta
 				get_node(str(i)).position = ((get_node(str(i)).position*movment_smooth) + lerp(userdata[i]['pos'], new_pos, 0.5))/(movment_smooth+1.0)
 			else:
 				get_node(str(i)).position = userdata[i]['pos']
