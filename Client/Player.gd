@@ -17,7 +17,10 @@ func data_req():
 
 func consolelog(data):
 	$Label.set_text(data.lineedit)
-	$ping.set_text("Ping: " + str(int(OS.get_system_time_msecs() - data.time)))
+	var ping = int(OS.get_system_time_msecs() - data.time)
+	$ping.set_text("Ping: " + str(ping))
+#	get_node(players).lag_compesation_ammount = ping / 50
+#	get_node(players).movment_smooth = ping / 250
 
 func _on_Timer_timeout():
 	var json = {"lineedit": str($LineEdit.get_text()), "time" : int(OS.get_system_time_msecs())}
@@ -32,6 +35,10 @@ func _on_Timer_timeout():
 			$ping2.set_text('Trying to Connect O.O')
 		2:
 			$ping2.set_text('Connected UwU')
+	if get_node(players).lag_compesation:
+		$ping3.set_text('lag compesation is: '+ str(get_node(players).lag_compesation_ammount))
+	else:
+		$ping3.set_text('lag compesation is off')
 	pass # Replace with function body.
 
 func _on_Server_connected():

@@ -1,6 +1,9 @@
 extends Node2D
 
 var PlayerLoad = load('res://Players/PlayerTemplate.tscn')
+var lag_compesation = true
+var lag_compesation_ammount = 2.0
+var movment_smooth = 0.4
 
 func _physics_process(delta):
 	var movment = 'stop'
@@ -11,6 +14,14 @@ func _physics_process(delta):
 	if Input.is_action_pressed("ui_up"):
 		movment = 'jump'
 	get_parent().MovePlayer(movment)
+	if Input.is_action_just_pressed("ui_lagcomp"):
+		lag_compesation = !lag_compesation
+#	if Input.is_action_just_pressed("ui_plus"):
+#		lag_compesation_ammount += 5.0
+#		movment_smooth += 1.0
+#	if Input.is_action_just_pressed("ui_minus"):
+#		lag_compesation_ammount -= 5.0
+#		movment_smooth -= 1.0
 
 func spawn_despawn(loggedusers):
 	var players = []
@@ -36,10 +47,10 @@ func sync_position(userdata):
 	for i in userdata.keys():
 		if has_node(str(i)):
 			get_node(str(i)).playnanims(userdata[i]['ani'])
-			if bufferdata[0].has(str(i)):
+			if bufferdata[0].has(i) and lag_compesation:
 				var new_delta = userdata[i]['pos'] - bufferdata[0][i]['pos']
-				var new_pos = userdata[i]['pos'] + new_delta
-				get_node(str(i)).position = lerp(userdata[i]['pos'], new_delta, 0.5)
+				var new_pos = userdata[i]['pos'] + (new_delta*lag_compesation_ammount)
+				get_node(str(i)).position = ((get_node(str(i)).position*movment_smooth) + lerp(userdata[i]['pos'], new_pos, 0.5))/(movment_smooth+1.0)
 			else:
 				get_node(str(i)).position = userdata[i]['pos']
 
@@ -55,3 +66,4 @@ func change_skin(player_id, format, skin):
 	var texture = ImageTexture.new()
 	texture.create_from_image(image)
 	get_node(str(player_id)).get_node('anims/Sprite').texture = texture
+

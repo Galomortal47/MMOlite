@@ -49,7 +49,7 @@ remote func ReturnTokenVerification(data, requester):
 	if $Token.tokens.has(data):
 		rpc_id(player_id, "ReturnTokenVerificationResults", "Token Valid", $Token.tokens[data], requester)
 		loggedusers[player_id] = $Token.tokens[data]
-		userdata[player_id] = {'pos':Vector2(0,0)}
+		userdata[player_id] = {'pos':Vector2(0,0),'ani':'stop'}
 		var instance = PlayerLoad.instance()
 		randomize()
 		instance.position = Vector2( rand_range(0,100),rand_range(0,60))
@@ -76,6 +76,7 @@ remote func MovePlayer(dir):
 	node.move(dir)
 	userdata[player_id]['pos'] = node.position
 	userdata[player_id]['ani'] = dir
+	userdata[player_id]['hp'] = node.hp
 
 remote func ReceiveChatMessage(message, requester):
 	var player_id = get_tree().get_rpc_sender_id()
