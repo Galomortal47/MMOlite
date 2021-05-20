@@ -15,3 +15,7 @@ func playnanims(anim):
 		'left':
 			$AnimationPlayer.play('walk')
 			$anims.scale.x = 1
+
+func chat(text):
+	$chatbubble/text.set_text(text)
+	$chatbubble/text/AnimationPlayer.play("anim")

@@ -80,7 +80,7 @@ remote func MovePlayer(dir):
 
 remote func ReceiveChatMessage(message, requester):
 	var player_id = get_tree().get_rpc_sender_id()
-	chat.append(str(loggedusers[player_id]) +": "+ str(message))
+	chat.append({str(loggedusers[player_id]) : str(message)})
 
 #remote func SendSkinBack():
 #	var player_id = get_tree().get_rpc_sender_id()

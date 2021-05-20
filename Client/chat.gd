@@ -11,4 +11,5 @@ func _on_Button_button_down():
 
 func update_chat(chat):
 	for i in chat:
-		$RichTextLabel.set_bbcode($RichTextLabel.get_bbcode() +"\n"+ i) 
+		$RichTextLabel.set_bbcode($RichTextLabel.get_bbcode() +"\n"+ str(i).rstrip('}').lstrip("{")) 
+		get_parent().get_node(get_parent().players).get_node(str(i.keys()[0])).chat(i.values()[0])
