@@ -21,9 +21,11 @@ func _ready():
 	print("Certificate Create")
 
 func CreateX509Cert():
+	print('generating cert')
 	var CNOC = "CN=" + CN + ",0=" + O + ",C=" + C
 	var crypto = Crypto.new()
 	var crypto_key = crypto.generate_rsa(4096)
 	var x509_cert = crypto.generate_self_signed_certificate(crypto_key, CNOC, not_before, not_after)
 	x509_cert.save(x509_cert_path)
 	crypto_key.save(x509_key_path)
+

@@ -14,4 +14,7 @@ func _ready():
 		"-login":
 			print("auth starting server...")
 			get_tree().change_scene("res://Auth/Server.tscn")
+		"-x509":
+			print("generating SSl Cert...")
+			get_tree().change_scene("res://x509Gen/X509Generator.tscn")
 

@@ -15,7 +15,7 @@ func StartServer():
 	network.set_dtls_enabled(true)
 	network.create_server(port, max_players)
 	get_tree().set_network_peer(network)
-	print("serv start")
+	print("serv start at port: " +str(port))
 	
 	network.connect("peer_connected",self,"_peer_conected")
 	network.connect("peer_disconnected",self,"_peer_disconected")
