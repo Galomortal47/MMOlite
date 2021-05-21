@@ -1,7 +1,7 @@
 extends Node
 
 var network = NetworkedMultiplayerENet.new()
-var ip = '127.0.0.1'#"157.245.218.42"#
+var ip = '127.0.0.1'##"157.245.218.42"
 export var port = 1909
 signal connected
 
@@ -35,7 +35,8 @@ func TokenVerificationResults(token, requester):
 #var PlayerLoad = load('res://Players/PlayerTemplate.tscn')
 
 
-remote func ReturnTokenVerificationResults(data, username, requester):
+remote func ReturnTokenVerificationResults(data, username, requester, player_id):
+	$Players.main_user = str(player_id)
 #	if data == 'Token Valid':
 #		var instance = $Players.PlayerLoad.instance()
 #		instance.name = username
@@ -67,6 +68,16 @@ func SendChatMessage(message, requester):
 remote func Die(player_id):
 	if $Players.has_node(str(player_id)):
 		$Players.get_node(str(player_id)).visible = false
+
+remote func InitialPlayerData(playershealth):
+	print(playershealth.keys())
+	print( $Players.get_child_count())
+	for player_id in playershealth.keys():
+		if $Players.has_node(str(player_id)):
+			$Players.get_node(str(player_id)).hurt(playershealth[player_id ])
+
+func GetInitialPlayerData():
+	rpc_id(1,"RequestInitialPlayerData")
 
 #func GetSkin():
 #	rpc_id(1,"SendSkinBack")
