@@ -16,7 +16,7 @@ func _physics_process(delta):
 		packet = socket.take_connection()
 	else:
 		return
-	if packet.get_available_bytes() > 0:
+	if packet.get_available_packets() > 0:
 		var dict = packet.get_var().duplicate()
 		var key =str(dict.keys()[0])
 		var value = dict[key]

@@ -54,6 +54,8 @@ func _on_Timer_timeout():
 	pass # Replace with function body.
 
 func _on_Area2D_body_entered(body):
+	if body == self:
+		return
 	body.hp -= 20
 	get_parent().get_parent().DamagePlayer(int(body.name),20)
 	pass # Replace with function body.

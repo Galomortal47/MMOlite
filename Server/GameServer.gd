@@ -9,7 +9,7 @@ export var online_verification_disable = false
 
 var loggedusers = {}
 var userdata = {}
-var playershealth = {}
+var entityshealth = {}
 var chat = []
 
 var PlayerLoad = load('res://Players/PlayerTemplateCol.tscn')
@@ -48,10 +48,10 @@ remote func ReturnTokenVerification(data, requester):
 	if online_verification_disable:
 		$Token.tokens[data] = str(player_id)
 	if $Token.tokens.has(data):
-		rpc_id(player_id, "ReturnTokenVerificationResults", "Token Valid", $Token.tokens[data], requester)
+		rpc_id(player_id, "ReturnTokenVerificationResults", "Token Valid", $Token.tokens[data], requester, player_id)
 		loggedusers[player_id] = $Token.tokens[data]
 		userdata[player_id] = {'pos':Vector2(0,0),'ani':'stop','lk':0}
-		playershealth[player_id] = 100
+		entityshealth[player_id] = 100
 		var instance = PlayerLoad.instance()
 		randomize()
 		instance.position = Vector2( rand_range(0,100),rand_range(0,60))
@@ -86,14 +86,19 @@ remote func ReceiveChatMessage(message, requester):
 	chat.append({str(loggedusers[player_id]) : str(message)})
 
 func DamagePlayer(player_id,damage):
-	playershealth[player_id] -= damage
-	if playershealth[player_id] > 0:
-		rpc_id(0, "DamageUpdate", player_id,  playershealth[player_id])
+	print(player_id)
+	entityshealth[player_id] -= damage
+	if entityshealth[player_id] > 0:
+		rpc_id(0, "DamageUpdate", player_id, entityshealth[player_id])
 	else:
 		rpc_id(0, "Die", player_id)
 		$Players.get_node(str(player_id)).set_physics_process(false)
 		$Players.get_node(str(player_id)).get_node('CollisionShape2D').queue_free()
 		$Players.get_node(str(player_id)).alive = false
+
+remote func RequestInitialPlayerData():
+	var player_id = get_tree().get_rpc_sender_id()
+	rpc_id(player_id, "InitialPlayerData", entityshealth)
 
 #remote func SendSkinBack():
 #	var player_id = get_tree().get_rpc_sender_id()

@@ -5,6 +5,7 @@ var lag_compesation = true
 var lag_compesation_ammount = 2.0
 var movment_smooth = 0.4
 var hp = 100
+var main_user = ''
 
 func _physics_process(delta):
 	var movment = 'stop'
@@ -16,7 +17,10 @@ func _physics_process(delta):
 		movment = 'jump'
 	if Input.is_action_pressed("ui_attack"):
 		movment = 'attk'
-	var look = Vector2(512,600).angle_to(get_local_mouse_position())
+	var look_at =  self
+	if has_node(main_user):
+		look_at = get_node(main_user)
+	var look = look_at.get_angle_to(get_global_mouse_position())
 	get_parent().MovePlayer(movment,look)
 	if Input.is_action_just_pressed("ui_lagcomp"):
 		lag_compesation = !lag_compesation
