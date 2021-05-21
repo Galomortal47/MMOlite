@@ -1,7 +1,7 @@
 extends Node
 
 var network = NetworkedMultiplayerENet.new()
-var ip = "157.245.218.42"#'127.0.0.1'
+var ip = '127.0.0.1'#"157.245.218.42"#
 export var port = 1909
 signal connected
 
@@ -54,11 +54,19 @@ remote func UserDisconnected(player_id):
 remote func ChatUpdate(chat):
 	$UI/chat.update_chat(chat)
 
-func MovePlayer(dir):
-	rpc_unreliable_id(1,"MovePlayer", dir)
+remote func DamageUpdate(player_id, damage):
+	if $Players.has_node(str(player_id)):
+		$Players.get_node(str(player_id)).hurt(damage)
+
+func MovePlayer(dir, look):
+	rpc_unreliable_id(1,"MovePlayer", dir, look)
 
 func SendChatMessage(message, requester):
 	rpc_id(1,"ReceiveChatMessage", message, requester)
+
+remote func Die(player_id):
+	if $Players.has_node(str(player_id)):
+		$Players.get_node(str(player_id)).visible = false
 
 #func GetSkin():
 #	rpc_id(1,"SendSkinBack")

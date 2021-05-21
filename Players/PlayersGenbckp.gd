@@ -4,6 +4,7 @@ var PlayerLoad = load('res://Players/PlayerTemplate.tscn')
 var lag_compesation = true
 var lag_compesation_ammount = 2.0
 var movment_smooth = 0.4
+var hp = 100
 
 func _physics_process(delta):
 	var movment = 'stop'
@@ -13,7 +14,10 @@ func _physics_process(delta):
 		movment = 'right'
 	if Input.is_action_pressed("ui_up"):
 		movment = 'jump'
-	get_parent().MovePlayer(movment)
+	if Input.is_action_pressed("ui_attack"):
+		movment = 'attk'
+	var look = Vector2(512,600).angle_to(get_local_mouse_position())
+	get_parent().MovePlayer(movment,look)
 	if Input.is_action_just_pressed("ui_lagcomp"):
 		lag_compesation = !lag_compesation
 	if Input.is_action_just_pressed("ui_plus"):
@@ -53,6 +57,7 @@ func sync_position(userdata):
 				get_node(str(i)).position = ((get_node(str(i)).position*movment_smooth) + lerp(userdata[i]['pos'], new_pos, 0.5))/(movment_smooth+1.0)
 			else:
 				get_node(str(i)).position = userdata[i]['pos']
+			get_node(str(i)).get_node('melee').rotation = userdata[i]['lk']
 
 func user_remove(player_id):
 	print("Player: " +str(player_id)+" has been desconnected")

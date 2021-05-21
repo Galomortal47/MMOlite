@@ -2,8 +2,9 @@ extends KinematicBody2D
 
 var motion = Vector2(0,0)
 var UP = Vector2(0,-1)
-var hp = 4
+var hp = 100
 var coyote_time = true
+var alive = true
 
 func move(dir):
 	match dir:
@@ -24,6 +25,8 @@ func move(dir):
 		'stop':
 			if is_on_floor():
 				motion.x *= 0.8
+		'attk':
+			melee_attack()
 
 func jump():
 	if coyote_time:
@@ -39,7 +42,18 @@ func _physics_process(delta):
 		coyote_time = true
 	motion = move_and_slide(motion, UP)
 
+func aim(dir):
+	$melee.rotation = dir
+
+func melee_attack():
+	if alive:
+		$melee/AnimationPlayer.play("attack")
 
 func _on_Timer_timeout():
 	coyote_time = false
+	pass # Replace with function body.
+
+func _on_Area2D_body_entered(body):
+	body.hp -= 20
+	get_parent().get_parent().DamagePlayer(int(body.name),20)
 	pass # Replace with function body.
