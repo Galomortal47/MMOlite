@@ -108,7 +108,7 @@ tracks/1/keys = {
 "values": [ true ]
 }
 
-[sub_resource type="GDScript" id=8]
+[sub_resource type="GDScript" id=7]
 script/source = "extends Sprite
 
 func _physics_process(delta):
@@ -120,8 +120,7 @@ func _physics_process(delta):
 		self.scale.y = 1
 "
 
-[sub_resource type="Animation" id=7]
-resource_name = "attack"
+[sub_resource type="Animation" id=8]
 length = 0.5
 tracks/0/type = "value"
 tracks/0/path = NodePath("axe:rotation_degrees")
@@ -203,6 +202,8 @@ __meta__ = {
 show_behind_parent = true
 anchor_right = 1.0
 anchor_bottom = 1.0
+margin_right = 36.0
+rect_scale = Vector2( 0.64, 1 )
 texture = SubResource( 2 )
 expand = true
 stretch_mode = 1
@@ -275,7 +276,7 @@ position = Vector2( 0, 12 )
 position = Vector2( 38.4284, 11.3235 )
 scale = Vector2( -1, 1 )
 texture = ExtResource( 4 )
-script = SubResource( 8 )
+script = SubResource( 7 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="melee"]
-anims/attack = SubResource( 7 )
+anims/attack = SubResource( 8 )

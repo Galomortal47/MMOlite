@@ -5,6 +5,7 @@ var hp = 100
 func hurt(damage):
 	hp = damage
 	$hp.set_text(str(hp)+'hp')
+	$hp/icon.rect_size.x = float(hp)
 
 #func _ready():
 #	get_parent().get_parent().GetSkin()
