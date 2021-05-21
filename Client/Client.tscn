@@ -152,6 +152,8 @@ texture = SubResource( 4 )
 [node name="Timer" type="Timer" parent="."]
 one_shot = true
 autostart = true
+
+[node name="NPCs" type="Node2D" parent="."]
 [connection signal="connected" from="." to="UI" method="_on_Server_connected"]
 [connection signal="button_down" from="UI/chat/Button" to="UI/chat" method="_on_Button_button_down"]
 [connection signal="timeout" from="UI/Timer" to="UI" method="_on_Timer_timeout"]
