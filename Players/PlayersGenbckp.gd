@@ -6,6 +6,7 @@ var lag_compesation_ammount = 2.0
 var movment_smooth = 0.4
 var hp = 100
 var main_user = ''
+var weapon_selected = 1
 
 func _physics_process(delta):
 	var movment = 'stop'
@@ -16,9 +17,17 @@ func _physics_process(delta):
 	if Input.is_action_pressed("ui_up"):
 		movment = 'jump'
 	if Input.is_action_pressed("ui_attack"):
-		movment = 'attk'
-	if Input.is_action_pressed("ui_shoot"):
-		movment = 'shot'
+		match weapon_selected:
+			1:
+				movment = 'attk'
+			2:
+				movment = 'shot'
+	if Input.is_action_pressed("ui_1"):
+		weapon_selected = 1
+		movment = 'change1'
+	if Input.is_action_pressed("ui_2"):
+		weapon_selected = 2
+		movment = 'change2'
 	var look_at =  self
 	if has_node(main_user):
 		look_at = get_node(main_user)
