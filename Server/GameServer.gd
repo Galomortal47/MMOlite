@@ -1,7 +1,7 @@
 extends Node
 
 var network = NetworkedMultiplayerENet.new()
-onready var port = Tokendata.PORT
+onready var port = 1909
 onready var max_players = Tokendata.maxs_players
 #var cert = load('user://Certificate/x509_Certificate.crt')
 #var key = load('user://Certificate/x509_Key.key')
@@ -100,11 +100,14 @@ func DamagePlayer(instance_id,damage):
 	if entityshealth[instance_id] > 0:
 		rpc_id(0, "DamageUpdate", node.get_path(), entityshealth[instance_id])
 	else:
-		rpc_id(0, "Die", node.get_path())
+		Kill(node)
 		node.set_physics_process(false)
 		if node.has_node('CollisionShape2D'):
 			node.get_node('CollisionShape2D').queue_free()
 		node.alive = false
+
+func Kill(node):
+	rpc_id(0, "Die", node.get_path())
 
 remote func RequestInitialPlayerData():
 	var player_id = get_tree().get_rpc_sender_id()

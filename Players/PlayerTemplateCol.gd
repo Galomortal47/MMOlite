@@ -5,6 +5,9 @@ var UP = Vector2(0,-1)
 var hp = 100
 var coyote_time = true
 var alive = true
+var nextshoot = true
+
+var BulletLoad = load('res://assets/Enemy/Bulletcol.tscn')
 
 func _ready():
 	get_node('../..').entityshealth[get_instance_id()] = hp
@@ -30,6 +33,8 @@ func move(dir):
 				motion.x *= 0.8
 		'attk':
 			melee_attack()
+		'shot':
+			shoot_attack()
 
 func jump():
 	if coyote_time:
@@ -40,7 +45,7 @@ func jump():
 func _physics_process(delta):
 	if not is_on_floor():
 		motion.y += 10
-		$Timer.start()
+		$coyotetime.start()
 	else:
 		coyote_time = true
 	motion = move_and_slide(motion, UP)
@@ -52,8 +57,22 @@ func melee_attack():
 	if alive:
 		$melee/AnimationPlayer.play("attack")
 
+func shoot_attack():
+	if alive and nextshoot:
+		$shoottimer.start()
+		var bulletinstance = BulletLoad.instance()
+		bulletinstance.rotation = $melee.rotation
+		bulletinstance.ignorenode = self
+		bulletinstance.position = position
+		nextshoot = false
+		get_node('../../NPCs').add_child(bulletinstance)
+
 func _on_Timer_timeout():
 	coyote_time = false
+	pass # Replace with function body.
+
+func _on_shoottimer_timeout():
+	nextshoot = true
 	pass # Replace with function body.
 
 func _on_Area2D_body_entered(body):

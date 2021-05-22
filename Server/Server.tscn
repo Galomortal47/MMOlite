@@ -24,9 +24,12 @@ wait_time = 0.05
 autostart = true
 
 [node name="WorldNPCState" type="Timer" parent="."]
+wait_time = 0.25
+autostart = true
 
 [node name=" WorldNPCPosition" type="Timer" parent="."]
 wait_time = 0.05
+autostart = true
 
 [node name="Debug" type="StaticBody2D" parent="."]
 

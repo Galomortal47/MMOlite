@@ -1,8 +1,8 @@
 extends Node
 
 var network = NetworkedMultiplayerENet.new()
-var ip =  Tokendata.ip
-var port = Tokendata.PORT
+var ip =  '127.0.0.1'
+var port = 1909
 signal connected
 
 func StartServer():

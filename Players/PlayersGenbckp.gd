@@ -17,6 +17,8 @@ func _physics_process(delta):
 		movment = 'jump'
 	if Input.is_action_pressed("ui_attack"):
 		movment = 'attk'
+	if Input.is_action_pressed("ui_shoot"):
+		movment = 'shot'
 	var look_at =  self
 	if has_node(main_user):
 		look_at = get_node(main_user)

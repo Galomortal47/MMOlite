@@ -10,7 +10,7 @@ var alive = true
 
 func _ready():
 	get_node(server).entityshealth[get_instance_id()] = hp
-	get_node('../..').NPCs[name] = name
+	get_node('../..').NPCs[name] = 'monster'
 
 func hunt_player():
 	for i in get_node(playersnode).get_children():
