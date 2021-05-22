@@ -54,7 +54,7 @@ func _physics_process(delta):
 	motion = move_and_slide(motion, UP)
 
 func aim(dir):
-	$melee.rotation = dir
+	$melee.rotation_degrees  = dir
 
 func melee_attack():
 	if alive:

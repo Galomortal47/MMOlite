@@ -32,7 +32,7 @@ func _physics_process(delta):
 	var look_at =  self
 	if has_node(main_user):
 		look_at = get_node(main_user)
-	var look = look_at.get_angle_to(get_global_mouse_position())
+	var look = rad2deg(look_at.get_angle_to(get_global_mouse_position()))
 	get_parent().MovePlayer(movment,look, attack)
 	if Input.is_action_just_pressed("ui_lagcomp"):
 		lag_compesation = !lag_compesation
@@ -74,7 +74,7 @@ func sync_position(userdata):
 				get_node(str(i)).position = ((get_node(str(i)).position*movment_smooth) + lerp(userdata[i]['pos'], new_pos, 0.5))/(movment_smooth+1.0)
 			else:
 				get_node(str(i)).position = userdata[i]['pos']
-			get_node(str(i)).get_node('melee').rotation = userdata[i]['lk']
+			get_node(str(i)).get_node('melee').rotation_degrees = userdata[i]['lk']
 
 func user_remove(player_id):
 	print("Player: " +str(player_id)+" has been desconnected")
