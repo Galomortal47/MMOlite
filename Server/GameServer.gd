@@ -71,7 +71,6 @@ func WorldPosition():
 
 func WorldNPCState():
 	rpc_unreliable_id(0, "NPCUpdate", NPCs)
-	NPCs = {}
 
 func WorldNPCPosition():
 	rpc_unreliable_id(0, "PosNPCUpdate", NPCdata)

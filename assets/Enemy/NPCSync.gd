@@ -7,9 +7,11 @@ var movment_smooth = 0.4
 
 func spawn_despawn(loggedusers):
 	var players = []
+	print(loggedusers)
 	for i in get_children():
 		players.append(i.name)
-	for i in loggedusers:
+	for i in loggedusers.keys():
+		print(i)
 		if not players.has(str(i)):
 			var instance = PlayerLoad.instance()
 			instance.name = str(i)

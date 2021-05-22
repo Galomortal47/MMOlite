@@ -1,7 +1,7 @@
 extends Node
 
 var network = NetworkedMultiplayerENet.new()
-var ip = '127.0.0.1'##"157.245.218.42"
+var ip =  "157.245.218.42"##'127.0.0.1'##"157.245.218.42"
 export var port = 1909
 signal connected
 
@@ -33,7 +33,6 @@ func TokenVerificationResults(token, requester):
 	rpc_id(1,"ReturnTokenVerification", token, requester)
 
 #var PlayerLoad = load('res://Players/PlayerTemplate.tscn')
-
 
 remote func ReturnTokenVerificationResults(data, username, requester, player_id):
 	$Players.main_user = str(player_id)
