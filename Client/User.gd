@@ -64,8 +64,8 @@ remote func DamageUpdate(nodepath, damage):
 	if has_node(nodepath):
 		get_node(nodepath).hurt(damage)
 
-func MovePlayer(dir, look):
-	rpc_unreliable_id(1,"MovePlayer", dir, look)
+func MovePlayer(dir, look, attack):
+	rpc_unreliable_id(1,"MovePlayer", dir, look, attack)
 
 func SendChatMessage(message, requester):
 	rpc_id(1,"ReceiveChatMessage", message, requester)

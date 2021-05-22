@@ -81,14 +81,16 @@ func ChatState():
 		rpc_unreliable_id(0, "ChatUpdate", chat)
 		chat = []
 
-remote func MovePlayer(dir, look):
+remote func MovePlayer(dir, look, attack):
 	var player_id = get_tree().get_rpc_sender_id()
 	var node = $Players.get_node(str(player_id))
+	node.attack(attack)
 	node.move(dir)
 	node.aim(look)
 	userdata[player_id]['pos'] = node.position
 	userdata[player_id]['ani'] = dir
 	userdata[player_id]['lk'] = look
+	userdata[player_id]['atk'] = attack
 
 remote func ReceiveChatMessage(message, requester):
 	var player_id = get_tree().get_rpc_sender_id()
@@ -100,6 +102,7 @@ func DamagePlayer(instance_id,damage):
 	if entityshealth[instance_id] > 0:
 		rpc_id(0, "DamageUpdate", node.get_path(), entityshealth[instance_id])
 	else:
+		node.die()
 		Kill(node)
 		node.set_physics_process(false)
 		if node.has_node('CollisionShape2D'):

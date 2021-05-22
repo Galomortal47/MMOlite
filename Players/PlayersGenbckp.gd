@@ -9,6 +9,7 @@ var main_user = ''
 var weapon_selected = 1
 
 func _physics_process(delta):
+	var attack = ''
 	var movment = 'stop'
 	if Input.is_action_pressed("ui_left"):
 		movment = 'left'
@@ -19,20 +20,20 @@ func _physics_process(delta):
 	if Input.is_action_pressed("ui_attack"):
 		match weapon_selected:
 			1:
-				movment = 'attk'
+				attack = 'attk'
 			2:
-				movment = 'shot'
+				attack = 'shot'
 	if Input.is_action_pressed("ui_1"):
 		weapon_selected = 1
-		movment = 'change1'
+		attack = 'change1'
 	if Input.is_action_pressed("ui_2"):
 		weapon_selected = 2
-		movment = 'change2'
+		attack = 'change2'
 	var look_at =  self
 	if has_node(main_user):
 		look_at = get_node(main_user)
 	var look = look_at.get_angle_to(get_global_mouse_position())
-	get_parent().MovePlayer(movment,look)
+	get_parent().MovePlayer(movment,look, attack)
 	if Input.is_action_just_pressed("ui_lagcomp"):
 		lag_compesation = !lag_compesation
 	if Input.is_action_just_pressed("ui_plus"):
@@ -66,6 +67,7 @@ func sync_position(userdata):
 	for i in userdata.keys():
 		if has_node(str(i)):
 			get_node(str(i)).playnanims(userdata[i]['ani'])
+			get_node(str(i)).playnanims(userdata[i]['atk'])
 			if bufferdata[0].has(i) and lag_compesation:
 				var new_delta = userdata[i]['pos'] - bufferdata[0][i]['pos']
 				var new_pos = userdata[i]['pos'] + (new_delta*lag_compesation_ammount)

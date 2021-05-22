@@ -13,6 +13,9 @@ func _ready():
 	name += str(randi())
 	get_node('../..').NPCs[name] = 'bullet'
 
+func die():
+	pass
+
 func move():
 	get_node('../..').NPCdata[name] = {'pos':position}
 	var dir = Vector2(cos(get_rotation()), sin(get_rotation()))

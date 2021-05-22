@@ -31,6 +31,9 @@ func move(dir):
 		'stop':
 			if is_on_floor():
 				motion.x *= 0.8
+
+func attack(dir):
+	match dir:
 		'attk':
 			melee_attack()
 		'shot':
@@ -66,6 +69,9 @@ func shoot_attack():
 		bulletinstance.position = position
 		nextshoot = false
 		get_node('../../NPCs').add_child(bulletinstance)
+
+func die():
+	pass
 
 func _on_Timer_timeout():
 	coyote_time = false
