@@ -1,10 +1,12 @@
-[gd_scene load_steps=10 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://Client/Player.gd" type="Script" id=1]
 [ext_resource path="res://Client/User.gd" type="Script" id=2]
 [ext_resource path="res://Players/PlayersGenbckp.gd" type="Script" id=3]
 [ext_resource path="res://assets/tilelevels/lv1.tscn" type="PackedScene" id=4]
+[ext_resource path="res://assets/Enemy/NPCSync.gd" type="Script" id=5]
 [ext_resource path="res://Client/chat.gd" type="Script" id=6]
+[ext_resource path="res://assets/Enemy/NPC.tscn" type="PackedScene" id=7]
 
 [sub_resource type="Gradient" id=1]
 offsets = PoolRealArray( 0 )
@@ -154,6 +156,11 @@ one_shot = true
 autostart = true
 
 [node name="NPCs" type="Node2D" parent="."]
+script = ExtResource( 5 )
+
+[node name="NPC2" parent="NPCs" instance=ExtResource( 7 )]
+
+[node name="NPC" parent="NPCs" instance=ExtResource( 7 )]
 [connection signal="connected" from="." to="UI" method="_on_Server_connected"]
 [connection signal="button_down" from="UI/chat/Button" to="UI/chat" method="_on_Button_button_down"]
 [connection signal="timeout" from="UI/Timer" to="UI" method="_on_Timer_timeout"]

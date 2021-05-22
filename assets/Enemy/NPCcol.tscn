@@ -1,0 +1,29 @@
+[gd_scene load_steps=3 format=2]
+
+[ext_resource path="res://assets/Enemy/Enemy.gd" type="Script" id=1]
+
+[sub_resource type="RectangleShape2D" id=1]
+extents = Vector2( 20, 20 )
+
+[node name="NPC" type="KinematicBody2D"]
+collision_mask = 17
+script = ExtResource( 1 )
+playersnode = NodePath("../../Players")
+server = NodePath("../..")
+
+[node name="Timer3" type="Timer" parent="."]
+wait_time = 2.0
+autostart = true
+
+[node name="Timer4" type="Timer" parent="."]
+wait_time = 0.05
+autostart = true
+
+[node name="attack" type="Timer" parent="."]
+one_shot = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource( 1 )
+[connection signal="timeout" from="Timer3" to="." method="hunt_player"]
+[connection signal="timeout" from="Timer4" to="." method="move"]
+[connection signal="timeout" from="attack" to="." method="attack"]

@@ -46,8 +46,14 @@ remote func ReturnTokenVerificationResults(data, username, requester, player_id)
 remote func WorldStatUpdate(loggedusers):
 	$Players.spawn_despawn(loggedusers)
 	
-remote func WorldPositionUpdate(userdata):
+remote func WorldPosUpdate(userdata):
 	$Players.sync_position(userdata)
+
+remote func NPCUpdate(loggedusers):
+	$NPCs.spawn_despawn(loggedusers)
+	
+remote func PosNPCUpdate(userdata):
+	$NPCs.sync_position(userdata)
 
 remote func UserDisconnected(player_id):
 	$Players.user_remove(player_id)
@@ -55,9 +61,9 @@ remote func UserDisconnected(player_id):
 remote func ChatUpdate(chat):
 	$UI/chat.update_chat(chat)
 
-remote func DamageUpdate(player_id, damage):
-	if $Players.has_node(str(player_id)):
-		$Players.get_node(str(player_id)).hurt(damage)
+remote func DamageUpdate(nodepath, damage):
+	if has_node(nodepath):
+		get_node(nodepath).hurt(damage)
 
 func MovePlayer(dir, look):
 	rpc_unreliable_id(1,"MovePlayer", dir, look)
@@ -65,13 +71,11 @@ func MovePlayer(dir, look):
 func SendChatMessage(message, requester):
 	rpc_id(1,"ReceiveChatMessage", message, requester)
 
-remote func Die(player_id):
-	if $Players.has_node(str(player_id)):
-		$Players.get_node(str(player_id)).visible = false
+remote func Die(nodepath):
+	if has_node(nodepath):
+		get_node(nodepath).visible = false
 
 remote func InitialPlayerData(playershealth):
-	print(playershealth.keys())
-	print( $Players.get_child_count())
 	for player_id in playershealth.keys():
 		if $Players.has_node(str(player_id)):
 			$Players.get_node(str(player_id)).hurt(playershealth[player_id ])

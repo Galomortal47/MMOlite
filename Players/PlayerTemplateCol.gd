@@ -6,6 +6,9 @@ var hp = 100
 var coyote_time = true
 var alive = true
 
+func _ready():
+	get_node('../..').entityshealth[get_instance_id()] = hp
+
 func move(dir):
 	match dir:
 		'jump':
@@ -57,5 +60,5 @@ func _on_Area2D_body_entered(body):
 	if body == self:
 		return
 	body.hp -= 20
-	get_parent().get_parent().DamagePlayer(int(body.name),20)
+	get_parent().get_parent().DamagePlayer(body.get_instance_id(),20)
 	pass # Replace with function body.

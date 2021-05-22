@@ -1,17 +1,12 @@
-[gd_scene load_steps=13 format=2]
+[gd_scene load_steps=12 format=2]
 
 [ext_resource path="res://icon.png" type="Texture" id=1]
 [ext_resource path="res://Players/PlayerTemplate.gd" type="Script" id=2]
 [ext_resource path="res://assets/sprites/cat.png" type="Texture" id=3]
 [ext_resource path="res://assets/sprites/axe.png" type="Texture" id=4]
+[ext_resource path="res://assets/hp.tscn" type="PackedScene" id=5]
 
-[sub_resource type="Gradient" id=1]
-colors = PoolColorArray( 0.542969, 0, 0, 1, 1, 0, 0, 1 )
-
-[sub_resource type="GradientTexture" id=2]
-gradient = SubResource( 1 )
-
-[sub_resource type="Animation" id=3]
+[sub_resource type="Animation" id=1]
 resource_name = "anim"
 length = 7.0
 tracks/0/type = "value"
@@ -27,7 +22,7 @@ tracks/0/keys = {
 "values": [ Vector2( 1e-05, 1e-05 ), Vector2( 1, 1 ), Vector2( 1, 1 ), Vector2( 1, 1 ), Vector2( 1, 1 ), Vector2( 0, 0 ) ]
 }
 
-[sub_resource type="Animation" id=4]
+[sub_resource type="Animation" id=2]
 tracks/0/type = "value"
 tracks/0/path = NodePath("anims/Sprite:scale")
 tracks/0/interp = 1
@@ -53,7 +48,7 @@ tracks/1/keys = {
 "values": [ false ]
 }
 
-[sub_resource type="Animation" id=5]
+[sub_resource type="Animation" id=3]
 length = 2.0
 loop = true
 tracks/0/type = "value"
@@ -81,7 +76,7 @@ tracks/1/keys = {
 "values": [ false ]
 }
 
-[sub_resource type="Animation" id=6]
+[sub_resource type="Animation" id=4]
 loop = true
 tracks/0/type = "value"
 tracks/0/path = NodePath("anims/Sprite:scale")
@@ -108,7 +103,7 @@ tracks/1/keys = {
 "values": [ true ]
 }
 
-[sub_resource type="GDScript" id=7]
+[sub_resource type="GDScript" id=5]
 script/source = "extends Sprite
 
 func _physics_process(delta):
@@ -120,7 +115,7 @@ func _physics_process(delta):
 		self.scale.y = 1
 "
 
-[sub_resource type="Animation" id=8]
+[sub_resource type="Animation" id=6]
 length = 0.5
 tracks/0/type = "value"
 tracks/0/path = NodePath("axe:rotation_degrees")
@@ -180,36 +175,7 @@ texture = ExtResource( 1 )
 expand = true
 stretch_mode = 1
 
-[node name="hp" type="Label" parent="."]
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-margin_left = -32.0
-margin_top = -54.0
-margin_right = 32.0
-margin_bottom = -38.0
-grow_horizontal = 2
-grow_vertical = 2
-text = "100hp"
-align = 1
-valign = 1
-__meta__ = {
-"_edit_use_anchors_": false
-}
-
-[node name="icon" type="TextureRect" parent="hp"]
-show_behind_parent = true
-anchor_right = 1.0
-anchor_bottom = 1.0
-margin_right = 36.0
-rect_scale = Vector2( 0.64, 1 )
-texture = SubResource( 2 )
-expand = true
-stretch_mode = 1
-__meta__ = {
-"_edit_use_anchors_": false
-}
+[node name="hp" parent="." instance=ExtResource( 5 )]
 
 [node name="chatbubble" type="Polygon2D" parent="."]
 show_behind_parent = true
@@ -241,7 +207,7 @@ __meta__ = {
 }
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="chatbubble/text"]
-anims/anim = SubResource( 3 )
+anims/anim = SubResource( 1 )
 
 [node name="anims" type="Node2D" parent="."]
 
@@ -252,9 +218,9 @@ offset = Vector2( 0, -32 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 autoplay = "stop"
-anims/jump = SubResource( 4 )
-anims/stop = SubResource( 5 )
-anims/walk = SubResource( 6 )
+anims/jump = SubResource( 2 )
+anims/stop = SubResource( 3 )
+anims/walk = SubResource( 4 )
 
 [node name="CPUParticles2D" type="CPUParticles2D" parent="."]
 modulate = Color( 0.560784, 0.462745, 0.34902, 1 )
@@ -276,7 +242,7 @@ position = Vector2( 0, 12 )
 position = Vector2( 38.4284, 11.3235 )
 scale = Vector2( -1, 1 )
 texture = ExtResource( 4 )
-script = SubResource( 7 )
+script = SubResource( 5 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="melee"]
-anims/attack = SubResource( 8 )
+anims/attack = SubResource( 6 )

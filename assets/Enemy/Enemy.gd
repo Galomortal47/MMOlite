@@ -6,11 +6,11 @@ var target
 var motion = Vector2(0,0)
 var UP = Vector2(0,-1)
 var hp = 100
+var alive = true
 
 func _ready():
-	randomize()
-	name = str(int(rand_range(0,10000000)))
-	get_node(server).entityshealth[int(name)] = hp
+	get_node(server).entityshealth[get_instance_id()] = hp
+	get_node('../..').NPCs[name] = name
 
 func hunt_player():
 	for i in get_node(playersnode).get_children():
@@ -18,8 +18,12 @@ func hunt_player():
 			target = i
 
 func move():
-	if target == null:
+	get_node('../..').NPCdata[name] = {'pos':position}
+	if target == null or not alive:
 		return
+	if position.distance_to(target.position) < 64:
+		if $attack.is_stopped():
+			$attack.start()
 	motion.x = (target.position - position).normalized().x * 450
 	if (target.position - position).y < -100:
 		if is_on_floor():
@@ -27,3 +31,9 @@ func move():
 	if not is_on_floor():
 		motion.y += 30
 	motion = move_and_slide(motion, UP)
+
+func attack():
+	if target == null or not alive:
+		return
+	if position.distance_to(target.position) < 64:
+		get_parent().get_parent().DamagePlayer(target.get_instance_id(),10)

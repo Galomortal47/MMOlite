@@ -1,0 +1,32 @@
+[gd_scene load_steps=4 format=2]
+
+[ext_resource path="res://icon.png" type="Texture" id=2]
+[ext_resource path="res://assets/hp.tscn" type="PackedScene" id=3]
+
+[sub_resource type="GDScript" id=1]
+script/source = "extends KinematicBody2D
+
+export(NodePath) var playersnode
+export(NodePath) var server
+var target
+var motion = Vector2(0,0)
+var UP = Vector2(0,-1)
+var hp = 100
+var alive = true
+
+func hurt(damage):
+	hp = damage
+	$hp.set_text(str(hp)+'hp')
+	$hp/icon.rect_size.x = float(hp)
+
+"
+
+[node name="NPC" type="KinematicBody2D"]
+collision_mask = 17
+script = SubResource( 1 )
+
+[node name="icon" type="Sprite" parent="."]
+scale = Vector2( 0.7, 0.7 )
+texture = ExtResource( 2 )
+
+[node name="hp" parent="." instance=ExtResource( 3 )]

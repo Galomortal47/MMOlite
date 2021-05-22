@@ -12,6 +12,9 @@ var userdata = {}
 var entityshealth = {}
 var chat = []
 
+var NPCs = {}
+var NPCdata = {}
+
 var PlayerLoad = load('res://Players/PlayerTemplateCol.tscn')
 
 func _ready():
@@ -51,7 +54,6 @@ remote func ReturnTokenVerification(data, requester):
 		rpc_id(player_id, "ReturnTokenVerificationResults", "Token Valid", $Token.tokens[data], requester, player_id)
 		loggedusers[player_id] = $Token.tokens[data]
 		userdata[player_id] = {'pos':Vector2(0,0),'ani':'stop','lk':0}
-		entityshealth[player_id] = 100
 		var instance = PlayerLoad.instance()
 		randomize()
 		instance.position = Vector2( rand_range(0,100),rand_range(0,60))
@@ -65,7 +67,15 @@ func WorldState():
 	rpc_unreliable_id(0, "WorldStatUpdate", loggedusers)
 
 func WorldPosition():
-	rpc_unreliable_id(0, "WorldPositionUpdate", userdata)
+	rpc_unreliable_id(0, "WorldPosUpdate", userdata)
+
+func WorldNPCState():
+	rpc_unreliable_id(0, "NPCUpdate", NPCs)
+	NPCs = {}
+
+func WorldNPCPosition():
+	rpc_unreliable_id(0, "PosNPCUpdate", NPCdata)
+	NPCdata = {}
 
 func ChatState():
 	if chat.size() > 0:
@@ -85,16 +95,17 @@ remote func ReceiveChatMessage(message, requester):
 	var player_id = get_tree().get_rpc_sender_id()
 	chat.append({str(loggedusers[player_id]) : str(message)})
 
-func DamagePlayer(player_id,damage):
-	print(player_id)
-	entityshealth[player_id] -= damage
-	if entityshealth[player_id] > 0:
-		rpc_id(0, "DamageUpdate", player_id, entityshealth[player_id])
+func DamagePlayer(instance_id,damage):
+	var node = instance_from_id(instance_id)
+	entityshealth[instance_id] -= damage
+	if entityshealth[instance_id] > 0:
+		rpc_id(0, "DamageUpdate", node.get_path(), entityshealth[instance_id])
 	else:
-		rpc_id(0, "Die", player_id)
-		$Players.get_node(str(player_id)).set_physics_process(false)
-		$Players.get_node(str(player_id)).get_node('CollisionShape2D').queue_free()
-		$Players.get_node(str(player_id)).alive = false
+		rpc_id(0, "Die", node.get_path())
+		node.set_physics_process(false)
+		if node.has_node('CollisionShape2D'):
+			node.get_node('CollisionShape2D').queue_free()
+		node.alive = false
 
 remote func RequestInitialPlayerData():
 	var player_id = get_tree().get_rpc_sender_id()
