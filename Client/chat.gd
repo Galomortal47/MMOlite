@@ -5,6 +5,8 @@ func _input(event):
 		_on_Button_button_down()
 
 func _on_Button_button_down():
+	if len(get_text()) == 0:
+		return
 	get_parent().get_parent().SendChatMessage(get_text(), get_instance_id())
 	set_text("")
 	pass # Replace with function body.
