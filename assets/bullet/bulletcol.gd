@@ -19,7 +19,7 @@ func die():
 
 func move():
 #	print(room)
-	get_node('../..').room_array[room].NPCdata[name] = {'pos':position}
+	get_node('../..').room_array[room].NPCdata[name] = {'pos':Vector2(int(position.x),int(position.y))}
 	var dir = Vector2(cos(get_rotation()), sin(get_rotation()))
 	motion = dir * speed
 	motion = move_and_slide(motion, UP)

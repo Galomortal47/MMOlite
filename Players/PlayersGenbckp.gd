@@ -32,7 +32,7 @@ func _physics_process(delta):
 	var look_at =  self
 	if has_node(main_user):
 		look_at = get_node(main_user)
-	var look = rad2deg(look_at.get_angle_to(get_global_mouse_position()))
+	var look = int(rad2deg(look_at.get_angle_to(get_global_mouse_position())))
 	get_parent().MovePlayer(movment,look, attack)
 	if Input.is_action_just_pressed("ui_lagcomp"):
 		lag_compesation = !lag_compesation
