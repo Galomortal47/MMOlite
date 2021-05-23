@@ -27,8 +27,11 @@ autostart = true
 wait_time = 0.25
 autostart = true
 
-[node name=" WorldNPCPosition" type="Timer" parent="."]
+[node name="WorldNPCPosition" type="Timer" parent="."]
 wait_time = 0.05
+autostart = true
+
+[node name="ScoreUpdate" type="Timer" parent="."]
 autostart = true
 
 [node name="Debug" type="StaticBody2D" parent="."]
@@ -42,8 +45,9 @@ current = true
 visible = false
 
 [node name="NPCs" type="Node2D" parent="."]
-[connection signal="timeout" from="WorldState" to="." method="ChatState"]
 [connection signal="timeout" from="WorldState" to="." method="WorldState"]
+[connection signal="timeout" from="WorldState" to="." method="ChatState"]
 [connection signal="timeout" from="WorldPosition" to="." method="WorldPosition"]
 [connection signal="timeout" from="WorldNPCState" to="." method="WorldNPCState"]
-[connection signal="timeout" from=" WorldNPCPosition" to="." method="WorldNPCPosition"]
+[connection signal="timeout" from="WorldNPCPosition" to="." method="WorldNPCPosition"]
+[connection signal="timeout" from="ScoreUpdate" to="." method="ScoreState"]

@@ -8,6 +8,7 @@ var speed = 1500
 var lifespan = 20
 var ignorenode
 var room = 0
+var father
 
 func _ready():
 	randomize()
@@ -31,7 +32,7 @@ func move():
 		queue_free()
 	if $bullet.is_colliding():
 		if not ignorenode == $bullet.get_collider():
-			get_parent().get_parent().DamagePlayer($bullet.get_collider().get_instance_id(),10)
+			get_parent().get_parent().DamagePlayer($bullet.get_collider().get_instance_id(),10, father)
 			get_node('../..').room_array[room].NPCdata.erase(name) 
 			get_node('../..').NPCs.erase(name) 
 			get_node('../..').Kill(self)

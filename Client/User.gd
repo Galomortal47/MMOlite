@@ -1,7 +1,7 @@
 extends Node
 
 var network = NetworkedMultiplayerENet.new()
-var ip =  '157.245.218.42'
+var ip =  '127.0.0.1'#'157.245.218.42'
 var port = 1909
 signal connected
 
@@ -59,6 +59,9 @@ remote func UserDisconnected(player_id):
 
 remote func ChatUpdate(chat):
 	$UI/chat.update_chat(chat)
+
+remote func ScoreUpdate(score):
+	$UI.update_score(score)
 
 remote func DamageUpdate(nodepath, damage):
 	if has_node(nodepath):

@@ -8,6 +8,9 @@ onready var max_players = Tokendata.maxs_players
 export var online_verification_disable = false
 
 class Room:
+	var roomname = 'room1'
+	var gamemode = 'free for all'
+	var map = 'ffa_dust'
 	var userdata = {}
 	var NPCdata = {}
 
@@ -18,6 +21,8 @@ var NPCs = {}
 var userroom = {}
 
 var room_array = []
+
+var kill_death = {}
 
 var PlayerLoad = load('res://Players/PlayerTemplateCol.tscn')
 
@@ -62,6 +67,7 @@ remote func ReturnTokenVerification(data, requester):
 		var room_id = 0
 		room_array[room_id].userdata[player_id] = {'pos':Vector2(0,0),'ani':'stop','lk':0,'atk':''}
 		userroom[player_id] = room_id 
+		kill_death[player_id] = {'d':0,'k':0}
 		var instance = PlayerLoad.instance()
 		randomize()
 		instance.position = Vector2( rand_range(0,100),rand_range(0,60))
@@ -95,6 +101,11 @@ func ChatState():
 		rpc_unreliable_id(0, "ChatUpdate", chat)
 		chat = []
 
+func ScoreState():
+	if loggedusers.size() == 0:
+		return
+	rpc_unreliable_id(0, "ScoreUpdate", kill_death)
+
 remote func MovePlayer(dir, look, attack):
 	var player_id = get_tree().get_rpc_sender_id()
 	var node = $Players.get_node(str(player_id))
@@ -110,7 +121,7 @@ remote func ReceiveChatMessage(message, requester):
 	var player_id = get_tree().get_rpc_sender_id()
 	chat.append({str(loggedusers[player_id]) : str(message)})
 
-func DamagePlayer(instance_id,damage):
+func DamagePlayer(instance_id,damage, attacker):
 	var node = instance_from_id(instance_id)
 	entityshealth[instance_id] -= damage
 	if entityshealth[instance_id] > 0:
@@ -118,6 +129,8 @@ func DamagePlayer(instance_id,damage):
 	else:
 		node.die()
 		Kill(node)
+		kill_death[attacker]['k'] += 1 
+		kill_death[int(node.name)]['d'] += 1 
 		node.set_physics_process(false)
 		if node.has_node('CollisionShape2D'):
 			node.get_node('CollisionShape2D').queue_free()

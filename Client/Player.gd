@@ -10,10 +10,27 @@ var start = false
 func data_req():
 	start = true
 
+func _input(event):
+	$score.visible = Input.is_action_pressed('ui_tab')
+
 #func _physics_process(delta):
 #	if start:
 #		var json = {"lineedit": str($LineEdit.get_text()), "time" : int(OS.get_system_time_msecs())}
 #		get_parent().fetch(json, get_instance_id())
+
+func update_score(score):
+	var space = "                   "
+	var text = space+' Username '+space+'K'+space+'D'
+	for i in get_node(players).get_children():
+		text += '\n'
+		text += space
+		text += i.get_node('Label').get_text()
+		text += space
+		text += str(score[int(i.name)]['k'])
+		text += space
+		text += str(score[int(i.name)]['d'])
+	
+	$score.set_bbcode(str(text))
 
 func consolelog(data):
 	$Label.set_text(data.lineedit)
