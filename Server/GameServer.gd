@@ -133,7 +133,7 @@ func DamagePlayer(instance_id,damage, attacker):
 		kill_death[int(node.name)]['d'] += 1 
 		node.set_physics_process(false)
 		if node.has_node('CollisionShape2D'):
-			node.get_node('CollisionShape2D').queue_free()
+			node.get_node('CollisionShape2D').set_deferred("disabled", true)
 		node.alive = false
 
 func Kill(node):
