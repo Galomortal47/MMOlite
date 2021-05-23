@@ -1,7 +1,7 @@
 extends Node
 
 var network = NetworkedMultiplayerENet.new()
-var ip =  '127.0.0.1'
+var ip =  '157.245.218.42'
 var port = 1909
 signal connected
 

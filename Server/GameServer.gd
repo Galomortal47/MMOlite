@@ -101,7 +101,7 @@ remote func MovePlayer(dir, look, attack):
 	node.attack(attack)
 	node.move(dir)
 	node.aim(look)
-	room_array[userroom[player_id]].userdata[player_id]['pos'] = Vector2(int(node.position.x),int(node.position.y))
+	room_array[userroom[player_id]].userdata[player_id]['pos'] = node.position
 	room_array[userroom[player_id]].userdata[player_id]['ani'] = dir
 	room_array[userroom[player_id]].userdata[player_id]['lk'] = look
 	room_array[userroom[player_id]].userdata[player_id]['atk'] = attack
