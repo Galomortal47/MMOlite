@@ -18,11 +18,11 @@ func hunt_player():
 			target = i
 
 func die():
-	get_node('../..').NPCdata.erase(name) 
+	get_node('../..').room_array[0].NPCdata.erase(name) 
 	get_node('../..').NPCs.erase(name) 
 
 func move():
-	get_node('../..').NPCdata[name] = {'pos':position}
+	get_node('../..').room_array[0].NPCdata[name] = {'pos':position}
 	if target == null or not alive:
 		return
 	if position.distance_to(target.position) < 64:

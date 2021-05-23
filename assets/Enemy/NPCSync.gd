@@ -12,7 +12,7 @@ func spawn_despawn(loggedusers):
 	for i in get_children():
 		players.append(i.name)
 	for i in loggedusers.keys():
-		print(i)
+#		print(i)
 		if not players.has(str(i)):
 			var instance
 			match loggedusers[i]:
