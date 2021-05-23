@@ -1,23 +1,29 @@
 extends Node
 
 var network = NetworkedMultiplayerENet.new()
-onready var port = 1909
+onready var port =1909
 onready var max_players = Tokendata.maxs_players
 #var cert = load('user://Certificate/x509_Certificate.crt')
 #var key = load('user://Certificate/x509_Key.key')
 export var online_verification_disable = false
 
+class Room:
+	var userdata = {}
+	var NPCdata = {}
+
 var loggedusers = {}
-var userdata = {}
 var entityshealth = {}
 var chat = []
-
 var NPCs = {}
-var NPCdata = {}
+var userroom = {}
+
+var room_array = []
 
 var PlayerLoad = load('res://Players/PlayerTemplateCol.tscn')
 
 func _ready():
+	var new_room = Room.new()
+	room_array.append(new_room)
 	StartServer()
 
 func StartServer():
@@ -36,7 +42,7 @@ func _peer_conected(player_id):
 
 func _peer_disconected(player_id):
 	loggedusers.erase(player_id)
-	userdata.erase(player_id)
+	room_array[userroom[player_id]].userdata.erase(player_id)
 	$Players.get_node(str(player_id)).queue_free()
 	rpc_id(0, "UserDisconnected", player_id)
 	print("User " +str(player_id)+ " Disconnected")
@@ -53,7 +59,9 @@ remote func ReturnTokenVerification(data, requester):
 	if $Token.tokens.has(data):
 		rpc_id(player_id, "ReturnTokenVerificationResults", "Token Valid", $Token.tokens[data], requester, player_id)
 		loggedusers[player_id] = $Token.tokens[data]
-		userdata[player_id] = {'pos':Vector2(0,0),'ani':'stop','lk':0}
+		var room_id = 0
+		room_array[room_id].userdata[player_id] = {'pos':Vector2(0,0),'ani':'stop','lk':0,'atk':''}
+		userroom[player_id] = room_id 
 		var instance = PlayerLoad.instance()
 		randomize()
 		instance.position = Vector2( rand_range(0,100),rand_range(0,60))
@@ -64,17 +72,23 @@ remote func ReturnTokenVerification(data, requester):
 		rpc_id(player_id, "ReturnTokenVerificationResults", "Token Invalid", requester)
 
 func WorldState():
+	if loggedusers.size() == 0:
+		return
 	rpc_unreliable_id(0, "WorldStatUpdate", loggedusers)
 
 func WorldPosition():
-	rpc_unreliable_id(0, "WorldPosUpdate", userdata)
+	for j in loggedusers.keys():
+		rpc_unreliable_id(j, "WorldPosUpdate", room_array[userroom[j]].userdata)
 
 func WorldNPCState():
+	if loggedusers.size() == 0:
+		return
 	rpc_unreliable_id(0, "NPCUpdate", NPCs)
 
 func WorldNPCPosition():
-	rpc_unreliable_id(0, "PosNPCUpdate", NPCdata)
-	NPCdata = {}
+	for j in loggedusers.keys():
+		rpc_unreliable_id(j, "PosNPCUpdate", room_array[userroom[j]].NPCdata)
+#		room_array[userroom[j]].NPCdata = {}
 
 func ChatState():
 	if chat.size() > 0:
@@ -87,10 +101,10 @@ remote func MovePlayer(dir, look, attack):
 	node.attack(attack)
 	node.move(dir)
 	node.aim(look)
-	userdata[player_id]['pos'] = node.position
-	userdata[player_id]['ani'] = dir
-	userdata[player_id]['lk'] = look
-	userdata[player_id]['atk'] = attack
+	room_array[userroom[player_id]].userdata[player_id]['pos'] = Vector2(int(node.position.x),int(node.position.y))
+	room_array[userroom[player_id]].userdata[player_id]['ani'] = dir
+	room_array[userroom[player_id]].userdata[player_id]['lk'] = look
+	room_array[userroom[player_id]].userdata[player_id]['atk'] = attack
 
 remote func ReceiveChatMessage(message, requester):
 	var player_id = get_tree().get_rpc_sender_id()
