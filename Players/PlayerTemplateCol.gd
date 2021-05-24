@@ -88,3 +88,14 @@ func _on_Area2D_body_entered(body):
 	body.hp -= 20
 	get_parent().get_parent().DamagePlayer(body.get_instance_id(),20,int(name))
 	pass # Replace with function body.
+
+func Respaw():
+	set_physics_process(true)
+	get_node('CollisionShape2D').set_deferred("disabled", false)
+	alive = true
+	hp = 100
+	get_node('../..').entityshealth[get_instance_id()] = hp
+	position = Vector2(0,0)
+	get_node('../..').Revive(self)
+	get_node('../..').setHealth(hp, self)
+	pass # Replace with function body.

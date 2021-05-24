@@ -1,8 +1,17 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=7 format=2]
 
+[ext_resource path="res://Login/BrowsingList.gd" type="Script" id=1]
 [ext_resource path="res://Server/Server.gd" type="Script" id=2]
 [ext_resource path="res://old/LoginUI.gd" type="Script" id=3]
 [ext_resource path="res://old/RegisterUI.gd" type="Script" id=4]
+
+[sub_resource type="Gradient" id=1]
+offsets = PoolRealArray( 0 )
+colors = PoolColorArray( 0, 0, 0, 0.533333 )
+
+[sub_resource type="GradientTexture" id=2]
+gradient = SubResource( 1 )
+width = 128
 
 [node name="Server" type="Node"]
 script = ExtResource( 2 )
@@ -76,6 +85,7 @@ margin_right = 200.0
 margin_bottom = 368.0
 
 [node name="Register" type="NinePatchRect" parent="."]
+visible = false
 anchor_left = 0.5
 anchor_right = 0.5
 anchor_bottom = 1.0
@@ -170,8 +180,70 @@ margin_bottom = 401.0
 margin_top = 405.0
 margin_right = 202.0
 margin_bottom = 419.0
+
+[node name="BrowsingList" type="NinePatchRect" parent="."]
+anchor_left = 0.5
+anchor_right = 0.5
+anchor_bottom = 1.0
+script = ExtResource( 1 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TextureRect" type="TextureRect" parent="BrowsingList"]
+margin_left = -400.0
+margin_top = 87.0
+margin_right = 400.0
+margin_bottom = 487.0
+texture = SubResource( 2 )
+stretch_mode = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="RichTextLabel" type="ItemList" parent="BrowsingList"]
+margin_left = -400.0
+margin_top = 87.0
+margin_right = 400.0
+margin_bottom = 487.0
+max_columns = 10
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="BrowsingList"]
+visible = false
+anchor_left = 0.5
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = -400.0
+margin_right = 400.0
+grow_horizontal = 2
+grow_vertical = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label" type="Label" parent="BrowsingList/VBoxContainer"]
+margin_right = 800.0
+margin_bottom = 65.0
+text = "
+
+
+"
+
+[node name="Label2" type="Label" parent="BrowsingList/VBoxContainer"]
+margin_top = 69.0
+margin_right = 800.0
+margin_bottom = 83.0
+text = "Server List:"
+
+[node name="Timer" type="Timer" parent="."]
+autostart = true
 [connection signal="button_down" from="Login/VBoxContainer/Button" to="Login" method="_on_Button_button_down"]
 [connection signal="button_down" from="Login/VBoxContainer/Button2" to="Login" method="_on_Button2_button_down"]
 [connection signal="toggled" from="Register/VBoxContainer/CheckBox" to="Register" method="_on_CheckBox_toggled"]
 [connection signal="button_down" from="Register/VBoxContainer/Button" to="Register" method="_on_Button_button_down"]
 [connection signal="button_down" from="Register/VBoxContainer/Button2" to="Register" method="_on_Button2_button_down"]
+[connection signal="item_activated" from="BrowsingList/RichTextLabel" to="BrowsingList" method="_on_RichTextLabel_item_activated"]
+[connection signal="timeout" from="Timer" to="." method="fetch_server_list"]

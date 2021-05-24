@@ -1,7 +1,8 @@
-[gd_scene load_steps=4 format=2]
+[gd_scene load_steps=5 format=2]
 
 [ext_resource path="res://Client/Client.gd" type="Script" id=1]
 [ext_resource path="res://Auth/Token.gd" type="Script" id=2]
+[ext_resource path="res://Auth/ServerBrowser.gd" type="Script" id=3]
 [ext_resource path="res://Login/SQLite.gd" type="Script" id=4]
 
 [node name="Server" type="Node"]
@@ -14,3 +15,6 @@ script = ExtResource( 2 )
 [node name="SQLite" type="Node" parent="."]
 script = ExtResource( 4 )
 db_name = "res://DataStore/databasenew"
+
+[node name="ServerBrowser" type="Node" parent="."]
+script = ExtResource( 3 )

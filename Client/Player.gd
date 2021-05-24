@@ -18,6 +18,13 @@ func _input(event):
 #		var json = {"lineedit": str($LineEdit.get_text()), "time" : int(OS.get_system_time_msecs())}
 #		get_parent().fetch(json, get_instance_id())
 
+func update_time(time):
+	var text = ''
+	text += str(int(time/60.0))
+	text += ":"
+	text += str(int(fmod(time,60)))
+	$time.set_text(text)
+
 func update_score(score):
 	var space = "                   "
 	var text = space+' Username '+space+'K'+space+'D'
@@ -62,3 +69,6 @@ func _on_Timer_timeout():
 func _on_Server_connected():
 	get_parent().TokenVerificationResults(Tokendata.token, get_instance_id())
 	pass # Replace with function body.
+
+func victory(winner, highest):
+	$Victory.set_text("The Winner is " + str(winner) + " With an Score of " +  str(highest))

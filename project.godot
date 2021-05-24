@@ -9,12 +9,18 @@
 config_version=4
 
 _global_script_classes=[ {
+"base": "Timer",
+"class": "ClassTimer",
+"language": "GDScript",
+"path": "res://assets/TimerClass.gd"
+}, {
 "base": "Node",
 "class": "DatabaseManaer",
 "language": "GDScript",
 "path": "res://Database/DatabaseSystem.gd"
 } ]
 _global_script_class_icons={
+"ClassTimer": "",
 "DatabaseManaer": ""
 }
 

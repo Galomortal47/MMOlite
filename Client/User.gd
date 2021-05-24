@@ -1,8 +1,8 @@
 extends Node
 
 var network = NetworkedMultiplayerENet.new()
-var ip =  '127.0.0.1'#'157.245.218.42'
-var port = 1909
+var ip =  Tokendata.ip#'157.245.218.42'
+var port = Tokendata.PORT
 signal connected
 
 func StartServer():
@@ -60,8 +60,9 @@ remote func UserDisconnected(player_id):
 remote func ChatUpdate(chat):
 	$UI/chat.update_chat(chat)
 
-remote func ScoreUpdate(score):
+remote func ScoreUpdate(score, timeleft):
 	$UI.update_score(score)
+	$UI.update_time(timeleft)
 
 remote func DamageUpdate(nodepath, damage):
 	if has_node(nodepath):
@@ -77,10 +78,21 @@ remote func Die(nodepath):
 	if has_node(nodepath):
 		get_node(nodepath).visible = false
 
+remote func getHealth(serverhp, nodepath):
+	if has_node(nodepath):
+		get_node(nodepath).hurt(serverhp)
+
+remote func Spawn(nodepath):
+	if has_node(nodepath):
+		get_node(nodepath).visible = true
+
 remote func InitialPlayerData(playershealth):
 	for player_id in playershealth.keys():
 		if $Players.has_node(str(player_id)):
 			$Players.get_node(str(player_id)).hurt(playershealth[player_id ])
+
+remote func VictoryScreen(winner, highest):
+	$UI.victory(winner, highest)
 
 func GetInitialPlayerData():
 	rpc_id(1,"RequestInitialPlayerData")

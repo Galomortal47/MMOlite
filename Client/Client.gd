@@ -5,6 +5,8 @@ export var port = 1909
 var max_players = 100
 var cert = load('user://Certificate/x509_Certificate.crt')
 var key = load('user://Certificate/x509_Key.key')
+var server_list
+var room_list = {}
 
 func _ready():
 	StartServer()
@@ -32,7 +34,7 @@ remote func fetch(data, requester):
 
 var playerdic = {}
 
-remote func AuthenticatePlayer(username, password, requester):
+remote func AuthenticatePlayer(username, password, requester, ip):
 	var sql = $SQLite.ReadItem("UserLogin","username",username)
 	if not sql.size() > 0:
 		return
@@ -44,7 +46,7 @@ remote func AuthenticatePlayer(username, password, requester):
 		var token = (str(randi()).sha256_text() + signature).sha256_text() + str(OS.get_unix_time())
 		rpc_id(player_id, "AuthenticateResults", "Welcome back", token, requester)
 		print('connection sucess')
-		$Token.send_data(token, playerdic.username)
+		$Token.send_data(token, playerdic.username, ip)
 		return
 	else:
 		rpc_id(player_id, "AuthenticateResults", "connection failed", {}, requester)
@@ -67,3 +69,8 @@ func encryptor(salt, password):
 		crypt = (salt + crypt).sha256_text()
 	print("encryption time is: "+str(int(OS.get_system_time_msecs()-time)))
 	return crypt
+
+remote func fetch_servers():
+	print('data requested')
+	var player_id = get_tree().get_rpc_sender_id()
+	rpc_id(player_id, "return_server_list", server_list)

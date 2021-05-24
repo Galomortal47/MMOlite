@@ -1,7 +1,7 @@
 extends Node
 
 var network = NetworkedMultiplayerENet.new()
-var ip ='157.245.218.42'#"127.0.0.1"#"104.207.129.209" #"189.126.106.201"
+var ip = '127.0.0.1'#'157.245.218.42'#"127.0.0.1"#"104.207.129.209" #"189.126.106.201"
 export var port = 1911
 var cert = load('user://Certificate/x509_Certificate.crt')
 
@@ -32,8 +32,8 @@ func _connection_succeeded():
 remote func return_data(data, requester):
 	instance_from_id(requester).consolelog(data)
 
-func Login(username, password, requester):
-	rpc_id(1,"AuthenticatePlayer", username, password, requester)
+func Login(username, password, requester, ip):
+	rpc_id(1,"AuthenticatePlayer", username, password, requester, ip)
 
 func Register(username, password, email, salt, requester):
 	rpc_id(1,"RegisterPlayer", username, password, email, salt, requester)
@@ -41,3 +41,9 @@ func Register(username, password, email, salt, requester):
 remote func AuthenticateResults(state, token, requester):
 	Tokendata.token = token
 	instance_from_id(requester).results(state)
+
+func fetch_server_list():
+	rpc_unreliable_id(1,"fetch_servers")
+
+remote func return_server_list(list):
+	$BrowsingList.browse_list(list)

@@ -1,9 +1,10 @@
-[gd_scene load_steps=5 format=2]
+[gd_scene load_steps=6 format=2]
 
 [ext_resource path="res://Server/GameServer.gd" type="Script" id=1]
 [ext_resource path="res://Server/Player.gd" type="Script" id=2]
 [ext_resource path="res://Server/Token.gd" type="Script" id=3]
 [ext_resource path="res://assets/tilelevels/lv1.tscn" type="PackedScene" id=4]
+[ext_resource path="res://Server/ServerBrowse.gd" type="Script" id=5]
 
 [node name="Server" type="Node"]
 script = ExtResource( 1 )
@@ -14,6 +15,13 @@ script = ExtResource( 2 )
 
 [node name="Token" type="Node" parent="."]
 script = ExtResource( 3 )
+
+[node name="ServerBrowse" type="Node" parent="."]
+script = ExtResource( 5 )
+
+[node name="Timer" type="Timer" parent="ServerBrowse"]
+wait_time = 5.0
+autostart = true
 
 [node name="WorldState" type="Timer" parent="."]
 wait_time = 0.5
@@ -34,6 +42,10 @@ autostart = true
 [node name="ScoreUpdate" type="Timer" parent="."]
 autostart = true
 
+[node name="GameEnd" type="Timer" parent="."]
+wait_time = 20.0
+autostart = true
+
 [node name="Debug" type="StaticBody2D" parent="."]
 
 [node name="Camera2D" type="Camera2D" parent="Debug"]
@@ -45,9 +57,11 @@ current = true
 visible = false
 
 [node name="NPCs" type="Node2D" parent="."]
+[connection signal="timeout" from="ServerBrowse/Timer" to="ServerBrowse" method="send_data"]
 [connection signal="timeout" from="WorldState" to="." method="WorldState"]
 [connection signal="timeout" from="WorldState" to="." method="ChatState"]
 [connection signal="timeout" from="WorldPosition" to="." method="WorldPosition"]
 [connection signal="timeout" from="WorldNPCState" to="." method="WorldNPCState"]
 [connection signal="timeout" from="WorldNPCPosition" to="." method="WorldNPCPosition"]
 [connection signal="timeout" from="ScoreUpdate" to="." method="ScoreState"]
+[connection signal="timeout" from="GameEnd" to="." method="GameEnd"]

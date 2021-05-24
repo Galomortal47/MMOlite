@@ -6,8 +6,8 @@ var string
 var json2
 var json = {"token":""}
 
-func send_data(token, username):
-	packet.connect_to_host( "::1", 8082)
+func send_data(token, username, ip):
+	packet.connect_to_host( ip, 8082)
 	print("Token: " + str(token) + " was sent")
 	var peerstream = PacketPeerStream.new()
 	peerstream.set_stream_peer(packet)

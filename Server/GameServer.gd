@@ -7,10 +7,12 @@ onready var max_players = Tokendata.maxs_players
 #var key = load('user://Certificate/x509_Key.key')
 export var online_verification_disable = false
 
+var roomname = 'room1'
+var gamemode = 'free for all'
+var map = 'ffa_dust'
+var ip = '127.0.0.1'
+
 class Room:
-	var roomname = 'room1'
-	var gamemode = 'free for all'
-	var map = 'ffa_dust'
 	var userdata = {}
 	var NPCdata = {}
 
@@ -104,7 +106,7 @@ func ChatState():
 func ScoreState():
 	if loggedusers.size() == 0:
 		return
-	rpc_unreliable_id(0, "ScoreUpdate", kill_death)
+	rpc_unreliable_id(0, "ScoreUpdate", kill_death, $GameEnd.time_left)
 
 remote func MovePlayer(dir, look, attack):
 	var player_id = get_tree().get_rpc_sender_id()
@@ -135,9 +137,16 @@ func DamagePlayer(instance_id,damage, attacker):
 		if node.has_node('CollisionShape2D'):
 			node.get_node('CollisionShape2D').set_deferred("disabled", true)
 		node.alive = false
+		node.get_node('Respaw').start()
+
+func setHealth(hp, node):
+	rpc_id(0, "getHealth", hp, node.get_path())
 
 func Kill(node):
 	rpc_id(0, "Die", node.get_path())
+
+func Revive(node):
+	rpc_id(0, "Spawn", node.get_path())
 
 remote func RequestInitialPlayerData():
 	var player_id = get_tree().get_rpc_sender_id()
@@ -149,3 +158,13 @@ remote func RequestInitialPlayerData():
 #	var number = fmod(player_id,n.size())
 #	var skin = load('res://assets/sprites/'+str(n[number])+'.png')
 #	rpc_id(player_id, "SkinFromServer",player_id , skin.get_data().get_format(), skin.get_data().get_data())
+
+func GameEnd():
+	var winner = ''
+	var highest = 0
+	for i in kill_death.keys():
+		if kill_death[i]['k'] > highest:
+			highest =  kill_death[i]['k'] 
+			winner =  i
+	rpc_id(0, "VictoryScreen", winner, highest)
+	pass # Replace with function body.
