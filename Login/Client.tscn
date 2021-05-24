@@ -201,6 +201,16 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="Label2" type="Label" parent="BrowsingList"]
+margin_left = -400.0
+margin_top = 62.2576
+margin_right = 400.0
+margin_bottom = 76.2576
+text = "Server List:"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="RichTextLabel" type="ItemList" parent="BrowsingList"]
 margin_left = -400.0
 margin_top = 87.0
@@ -223,20 +233,6 @@ grow_vertical = 2
 __meta__ = {
 "_edit_use_anchors_": false
 }
-
-[node name="Label" type="Label" parent="BrowsingList/VBoxContainer"]
-margin_right = 800.0
-margin_bottom = 65.0
-text = "
-
-
-"
-
-[node name="Label2" type="Label" parent="BrowsingList/VBoxContainer"]
-margin_top = 69.0
-margin_right = 800.0
-margin_bottom = 83.0
-text = "Server List:"
 
 [node name="Timer" type="Timer" parent="."]
 autostart = true

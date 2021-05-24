@@ -8,6 +8,8 @@ var key = load('user://Certificate/x509_Key.key')
 var server_list
 var room_list = {}
 
+var token_list = {}
+
 func _ready():
 	StartServer()
 
@@ -34,7 +36,7 @@ remote func fetch(data, requester):
 
 var playerdic = {}
 
-remote func AuthenticatePlayer(username, password, requester, ip):
+remote func AuthenticatePlayer(username, password, requester):
 	var sql = $SQLite.ReadItem("UserLogin","username",username)
 	if not sql.size() > 0:
 		return
@@ -44,14 +46,21 @@ remote func AuthenticatePlayer(username, password, requester, ip):
 	if username == playerdic.username and playerdic.password == signature:
 		randomize()
 		var token = (str(randi()).sha256_text() + signature).sha256_text() + str(OS.get_unix_time())
+		token_list[player_id] = {'tk':token,'usr':playerdic.username}
 		rpc_id(player_id, "AuthenticateResults", "Welcome back", token, requester)
 		print('connection sucess')
-		$Token.send_data(token, playerdic.username, ip)
 		return
 	else:
 		rpc_id(player_id, "AuthenticateResults", "connection failed", {}, requester)
 		print('connection failed')
 	pass
+
+remote func ServerAddress(ip, port):
+	var player_id = get_tree().get_rpc_sender_id()
+	print('fetching server: ' + ip + ":" + str(port))
+	print(token_list)
+	if token_list.has(player_id):
+		$Token.send_data(token_list[player_id]['tk'],token_list[player_id]['usr'] , ip)
 
 remote func RegisterPlayer(username, password, email, salt, requester):
 	var player_id = get_tree().get_rpc_sender_id()

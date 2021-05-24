@@ -14,4 +14,13 @@ func _on_Button_button_down():
 func update_chat(chat):
 	for i in chat:
 		$RichTextLabel.set_bbcode($RichTextLabel.get_bbcode() +"\n"+ str(i).rstrip('}').lstrip("{")) 
-		get_parent().get_node(get_parent().players).get_node(str(i.keys()[0])).chat(i.values()[0])
+		var node = get_parent()
+		var node2 = node.get_node(get_parent().players)
+		var node3 
+		var lb = get_parent().get_parent().loggedusers_buffer
+		for j in lb.keys():
+			if lb[j] == i.keys()[0]:
+				node3 = j
+		print(lb.keys())
+		print(i.keys()[0])
+		node2.get_node(str(node3)).chat(i.values()[0])

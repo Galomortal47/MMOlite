@@ -4,6 +4,7 @@ var network = NetworkedMultiplayerENet.new()
 var ip =  Tokendata.ip#'157.245.218.42'
 var port = Tokendata.PORT
 signal connected
+var loggedusers_buffer = {}
 
 func StartServer():
 	network = NetworkedMultiplayerENet.new()
@@ -42,6 +43,7 @@ remote func ReturnTokenVerificationResults(data, username, requester, player_id)
 
 remote func WorldStatUpdate(loggedusers):
 	$Players.spawn_despawn(loggedusers)
+	loggedusers_buffer = loggedusers
 	
 remote func WorldPosUpdate(userdata):
 	$Players.sync_position(userdata)

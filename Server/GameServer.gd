@@ -49,10 +49,11 @@ func _peer_conected(player_id):
 
 func _peer_disconected(player_id):
 	loggedusers.erase(player_id)
-	room_array[userroom[player_id]].userdata.erase(player_id)
-	$Players.get_node(str(player_id)).queue_free()
-	rpc_id(0, "UserDisconnected", player_id)
-	print("User " +str(player_id)+ " Disconnected")
+	if userroom.has(player_id):
+		room_array[userroom[player_id]].userdata.erase(player_id)
+		$Players.get_node(str(player_id)).queue_free()
+		rpc_id(0, "UserDisconnected", player_id)
+		print("User " +str(player_id)+ " Disconnected")
 
 remote func fetch(data, requester):
 	var player_id = get_tree().get_rpc_sender_id()
@@ -110,16 +111,15 @@ func ScoreState():
 
 remote func MovePlayer(dir, look, attack):
 	var player_id = get_tree().get_rpc_sender_id()
-#	if not has_node(str(player_id)):
-#		return
-	var node = $Players.get_node(str(player_id))
-	node.attack(attack)
-	node.move(dir)
-	node.aim(look)
-	room_array[userroom[player_id]].userdata[player_id]['pos'] = node.position
-	room_array[userroom[player_id]].userdata[player_id]['ani'] = dir
-	room_array[userroom[player_id]].userdata[player_id]['lk'] = look
-	room_array[userroom[player_id]].userdata[player_id]['atk'] = attack
+	if $Players.has_node(str(player_id)):
+		var node = $Players.get_node(str(player_id))
+		node.attack(attack)
+		node.move(dir)
+		node.aim(look)
+		room_array[userroom[player_id]].userdata[player_id]['pos'] = node.position
+		room_array[userroom[player_id]].userdata[player_id]['ani'] = dir
+		room_array[userroom[player_id]].userdata[player_id]['lk'] = look
+		room_array[userroom[player_id]].userdata[player_id]['atk'] = attack
 
 remote func ReceiveChatMessage(message, requester):
 	var player_id = get_tree().get_rpc_sender_id()

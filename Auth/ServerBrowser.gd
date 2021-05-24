@@ -18,5 +18,5 @@ func _physics_process(delta):
 		return
 	if packet.get_available_bytes() > 0:
 		data[packet.get_connected_host()] = packet.get_var().duplicate()
-		print("received server data from" + str(packet.get_connected_host()))
+		print("received server data from: " + str(packet.get_connected_host()))
 		get_parent().server_list = data

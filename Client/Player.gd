@@ -73,5 +73,6 @@ func _on_Server_connected():
 func victory(winner, highest):
 	var win 
 	if not winner == null:
-		win = get_node(players).get_node(str(winner)).get_node('Label').get_text()
+		if has_node(players):
+			win = get_node(players).get_node(str(winner)).get_node('Label').get_text()
 	$Victory.set_text("The Winner is " + win + " With an Score of " +  str(highest))

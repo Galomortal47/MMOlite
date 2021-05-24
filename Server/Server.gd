@@ -32,8 +32,8 @@ func _connection_succeeded():
 remote func return_data(data, requester):
 	instance_from_id(requester).consolelog(data)
 
-func Login(username, password, requester, ip):
-	rpc_id(1,"AuthenticatePlayer", username, password, requester, ip)
+func Login(username, password, requester):
+	rpc_id(1,"AuthenticatePlayer", username, password, requester)
 
 func Register(username, password, email, salt, requester):
 	rpc_id(1,"RegisterPlayer", username, password, email, salt, requester)
@@ -47,3 +47,7 @@ func fetch_server_list():
 
 remote func return_server_list(list):
 	$BrowsingList.browse_list(list)
+
+func FetchServerAddress(ip, port):
+	print('fetching server: ' + ip + ":" + str(port))
+	rpc_id(1, 'ServerAddress',ip, port)
