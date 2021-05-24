@@ -1,8 +1,9 @@
 extends NinePatchRect
 
 func _on_Button_button_down():
-	get_parent().get_node("BrowsingList").username = $VBoxContainer/LineEdit.get_text()
-	get_parent().get_node("BrowsingList").password = $VBoxContainer/LineEdit2.get_text().sha256_text()
+	var username = $VBoxContainer/LineEdit.get_text()
+	var password = $VBoxContainer/LineEdit2.get_text().sha256_text()
+	get_parent().Login(username, password, get_instance_id(),"127.0.0.1")
 	pass # Replace with function body.
 
 func _on_Button2_button_down():
@@ -17,3 +18,4 @@ func results(state):
 	if state == "Welcome back":
 		self.hide()
 		get_parent().get_node("BrowsingList").show()
+	
