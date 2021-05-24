@@ -71,4 +71,7 @@ func _on_Server_connected():
 	pass # Replace with function body.
 
 func victory(winner, highest):
-	$Victory.set_text("The Winner is " + str(winner) + " With an Score of " +  str(highest))
+	var win 
+	if not winner == null:
+		win = get_node(players).get_node(str(winner)).get_node('Label').get_text()
+	$Victory.set_text("The Winner is " + win + " With an Score of " +  str(highest))

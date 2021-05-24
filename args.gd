@@ -5,7 +5,7 @@ func _ready():
 	if args.size() == 0:
 		Tokendata.ip = '127.0.0.1'#"157.245.218.42"
 		Tokendata.PORT = 1909
-		get_tree().change_scene("res://Client/Client.tscn")
+		get_tree().change_scene("res://Login/Client.tscn")
 		return
 	match args[0]:
 		"-server":

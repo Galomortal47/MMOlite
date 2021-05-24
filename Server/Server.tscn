@@ -42,7 +42,7 @@ autostart = true
 autostart = true
 
 [node name="GameEnd" type="Timer" parent="."]
-wait_time = 20.0
+wait_time = 30.0
 autostart = true
 
 [node name="Debug" type="StaticBody2D" parent="."]

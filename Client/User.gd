@@ -36,10 +36,8 @@ func TokenVerificationResults(token, requester):
 
 remote func ReturnTokenVerificationResults(data, username, requester, player_id):
 	$Players.main_user = str(player_id)
-#	if data == 'Token Valid':
-#		var instance = $Players.PlayerLoad.instance()
-#		instance.name = username
-#		$Players.add_child(instance)
+	if not data == 'Token Valid':
+		network.close_connection()
 	pass
 
 remote func WorldStatUpdate(loggedusers):

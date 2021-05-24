@@ -110,6 +110,8 @@ func ScoreState():
 
 remote func MovePlayer(dir, look, attack):
 	var player_id = get_tree().get_rpc_sender_id()
+#	if not has_node(str(player_id)):
+#		return
 	var node = $Players.get_node(str(player_id))
 	node.attack(attack)
 	node.move(dir)
