@@ -67,7 +67,7 @@ func shoot_attack():
 		bulletinstance.rotation = $melee.rotation
 		bulletinstance.ignorenode = self
 		bulletinstance.position = position
-		bulletinstance.father = int(name)
+		bulletinstance.father = self
 		nextshoot = false
 		get_node('../../NPCs').add_child(bulletinstance)
 
@@ -86,7 +86,7 @@ func _on_Area2D_body_entered(body):
 	if body == self:
 		return
 	body.hp -= 20
-	get_parent().get_parent().DamagePlayer(body.get_instance_id(),20,int(name))
+	get_parent().get_parent().DamagePlayer(body.get_instance_id(),20,self)
 	pass # Replace with function body.
 
 func Respaw():

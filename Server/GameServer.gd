@@ -131,15 +131,20 @@ func DamagePlayer(instance_id,damage, attacker):
 	if entityshealth[instance_id] > 0:
 		rpc_id(0, "DamageUpdate", node.get_path(), entityshealth[instance_id])
 	else:
+		if node.alive == false:
+			return
 		node.die()
 		Kill(node)
-		kill_death[attacker]['k'] += 1 
-		kill_death[int(node.name)]['d'] += 1 
+		if attacker.get_parent() == get_node("Players"):
+			kill_death[int(attacker.name)]['k'] += 1 
+		if node.get_parent() == get_node("Players"):
+			kill_death[int(node.name)]['d'] += 1 
+			node.get_node('Respaw').start()
+			print('player respawning in five seconds')
 		node.set_physics_process(false)
 		if node.has_node('CollisionShape2D'):
 			node.get_node('CollisionShape2D').set_deferred("disabled", true)
 		node.alive = false
-		node.get_node('Respaw').start()
 
 func setHealth(hp, node):
 	rpc_id(0, "getHealth", hp, node.get_path())

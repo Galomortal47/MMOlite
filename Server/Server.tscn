@@ -1,13 +1,15 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://Server/GameServer.gd" type="Script" id=1]
 [ext_resource path="res://Server/Player.gd" type="Script" id=2]
 [ext_resource path="res://Server/Token.gd" type="Script" id=3]
 [ext_resource path="res://assets/tilelevels/lv1.tscn" type="PackedScene" id=4]
 [ext_resource path="res://Server/ServerBrowse.gd" type="Script" id=5]
+[ext_resource path="res://assets/Enemy/NPCcol.tscn" type="PackedScene" id=6]
 
 [node name="Server" type="Node"]
 script = ExtResource( 1 )
+online_verification_disable = true
 
 [node name="Player" type="Node" parent="."]
 script = ExtResource( 2 )
@@ -57,6 +59,15 @@ current = true
 visible = false
 
 [node name="NPCs" type="Node2D" parent="."]
+
+[node name="NPC" parent="NPCs" instance=ExtResource( 6 )]
+position = Vector2( -90.8088, 112.232 )
+
+[node name="NPC2" parent="NPCs" instance=ExtResource( 6 )]
+position = Vector2( -35.3715, -42.0938 )
+
+[node name="NPC3" parent="NPCs" instance=ExtResource( 6 )]
+position = Vector2( 324.222, 14.8419 )
 [connection signal="timeout" from="ServerBrowse/Timer" to="ServerBrowse" method="send_data"]
 [connection signal="timeout" from="WorldState" to="." method="WorldState"]
 [connection signal="timeout" from="WorldState" to="." method="ChatState"]

@@ -40,4 +40,4 @@ func attack():
 	if target == null or not alive:
 		return
 	if position.distance_to(target.position) < 64:
-		get_parent().get_parent().DamagePlayer(target.get_instance_id(),10)
+		get_parent().get_parent().DamagePlayer(target.get_instance_id(),10,self)
