@@ -24,6 +24,7 @@ margin_left = -100.0
 margin_top = -7.0
 margin_right = 100.0
 margin_bottom = 7.0
+text = "Checking most recent version!"
 align = 1
 valign = 1
 __meta__ = {

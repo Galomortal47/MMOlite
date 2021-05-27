@@ -4,8 +4,13 @@ var currentversion = 100
 var status = 0
 var downloaded_bytes = 0
 var body_size = 0
+var dowload = true
 
 func _ready():
+	if ResourceLoader.exists('user://patches/currentversion.tres'):
+		var loader = load("user://patches/currentversion.tres")
+		currentversion = loader.data[0]['version']
+		print(currentversion)
 	var directory = Directory.new()
 	if directory.dir_exists("user://patches"):
 		pass
@@ -31,11 +36,17 @@ func _on_HTTPRequest2_request_completed(result, response_code, headers, body):
 	body_size = dataprocess['size']
 	if dataprocess['version'] > currentversion:
 		dowloadupdate()
+		dowload = false
+		var data2 = load("res://Launcher/dataresource.gd").new()
+		data2.data = [dataprocess]
+		ResourceSaver.save('user://patches/currentversion.tres', data2)
 	else:
 		print('no version to dowload')
+		$Label.text = 'you are on the most recent version!!!'
 	pass # Replace with function body.
 
 func _process(delta):
 	status = $HTTPRequest.get_http_client_status()
 	downloaded_bytes = $HTTPRequest.get_downloaded_bytes()
-	$Label.text = 'dowloaded '+str(downloaded_bytes/1024) +' kbs of '+ str(body_size) +' kbs'
+	if not dowload:
+		$Label.text = 'dowloading '+str(downloaded_bytes/1024) +' kbs of '+ str(int(body_size)/1024) +' kbs'
