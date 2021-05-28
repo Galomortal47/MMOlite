@@ -92,8 +92,10 @@ remote func ReturnTokenVerification(data, requester):
 		instance.name = str(player_id)
 		$Players.add_child(instance)
 		$Token.tokens.erase(data)
+		print('token is valid')
 	else:
 		rpc_id(player_id, "ReturnTokenVerificationResults", "Token Invalid", requester)
+		print('token is invalid')
 
 func WorldState():
 	if loggedusers.size() == 0:

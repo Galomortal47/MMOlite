@@ -9,7 +9,6 @@
 
 [node name="Server" type="Node"]
 script = ExtResource( 1 )
-online_verification_disable = true
 
 [node name="Player" type="Node" parent="."]
 script = ExtResource( 2 )

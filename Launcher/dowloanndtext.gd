@@ -43,7 +43,8 @@ func _on_HTTPRequest2_request_completed(result, response_code, headers, body):
 		print(body.get_string_from_ascii())
 		print(dataprocess)
 		body_size = dataprocess['size']
-		if dataprocess['version'] > currentversion:
+		var dict = Directory.new()
+		if dataprocess['version'] > currentversion or not dict.file_exists('user://patches/newpatch.pck'):
 			dowloadupdate()
 			dowload = false
 			var data2 = load("res://Launcher/dataresource.gd").new()
