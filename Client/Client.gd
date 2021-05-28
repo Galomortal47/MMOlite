@@ -58,7 +58,7 @@ remote func AuthenticatePlayer(username, password, requester):
 remote func ServerAddress(ip, port):
 	var player_id = get_tree().get_rpc_sender_id()
 	print('fetching server: ' + ip + ":" + str(port))
-	print(token_list)
+#	print(token_list)
 	if token_list.has(player_id):
 		$Token.send_data(token_list[player_id]['tk'],token_list[player_id]['usr'] , ip)
 
@@ -74,12 +74,12 @@ remote func RegisterPlayer(username, password, email, salt, requester):
 func encryptor(salt, password):
 	var crypt = password
 	var time = int(OS.get_system_time_msecs())
-	for i in 2048:
+	for i in 1024:
 		crypt = (salt + crypt).sha256_text()
 	print("encryption time is: "+str(int(OS.get_system_time_msecs()-time)))
 	return crypt
 
 remote func fetch_servers():
-	print('data requested')
+#	print('data requested')
 	var player_id = get_tree().get_rpc_sender_id()
 	rpc_id(player_id, "return_server_list", server_list)

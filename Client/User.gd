@@ -77,6 +77,8 @@ func SendChatMessage(message, requester):
 remote func Die(nodepath):
 	if has_node(nodepath):
 		get_node(nodepath).visible = false
+		if int(get_node(nodepath).name) == get_tree().get_network_unique_id():
+			$UI/ProgressBar/AnimationPlayer.play("New Anim")
 
 remote func getHealth(serverhp, nodepath):
 	if has_node(nodepath):
@@ -96,6 +98,9 @@ remote func VictoryScreen(winner, highest):
 
 func GetInitialPlayerData():
 	rpc_id(1,"RequestInitialPlayerData")
+
+remote func LoadNextScene(scene):
+	get_tree().change_scene_to(load(scene))
 
 #func GetSkin():
 #	rpc_id(1,"SendSkinBack")

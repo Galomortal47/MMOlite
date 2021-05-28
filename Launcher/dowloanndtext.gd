@@ -26,23 +26,36 @@ func dowloadupdate():
 func _on_HTTPRequest_request_completed(result, response_code, headers, body):
 	if response_code == 200:
 		ProjectSettings.load_resource_pack('user://patches/newpatch.pck')
-		get_tree().change_scene_to(load("res://Client/Client.tscn"))
+		get_tree().change_scene_to(load("res://Login/Client.tscn"))
+	else:
+		server_connect_fail()
+
+func server_connect_fail():
+		print('failed to connect to server')
+		if ResourceLoader.exists('user://patches/newpatch.pck'):
+			ProjectSettings.load_resource_pack('user://patches/newpatch.pck')
+		get_tree().change_scene_to(load("res://Login/Client.tscn"))
 
 func _on_HTTPRequest2_request_completed(result, response_code, headers, body):
-	var data = JSON.parse(body.get_string_from_ascii())
-	var dataprocess = data.result
-	print(body.get_string_from_ascii())
-	print(dataprocess)
-	body_size = dataprocess['size']
-	if dataprocess['version'] > currentversion:
-		dowloadupdate()
-		dowload = false
-		var data2 = load("res://Launcher/dataresource.gd").new()
-		data2.data = [dataprocess]
-		ResourceSaver.save('user://patches/currentversion.tres', data2)
+	if response_code == 200:
+		var data = JSON.parse(body.get_string_from_ascii())
+		var dataprocess = data.result
+		print(body.get_string_from_ascii())
+		print(dataprocess)
+		body_size = dataprocess['size']
+		if dataprocess['version'] > currentversion:
+			dowloadupdate()
+			dowload = false
+			var data2 = load("res://Launcher/dataresource.gd").new()
+			data2.data = [dataprocess]
+			ResourceSaver.save('user://patches/currentversion.tres', data2)
+		else:
+			print('no version to dowload')
+			$Label.text = 'you are on the most recent version!!!'
+			ProjectSettings.load_resource_pack('user://patches/newpatch.pck')
+			get_tree().change_scene_to(load("res://Login/Client.tscn"))
 	else:
-		print('no version to dowload')
-		$Label.text = 'you are on the most recent version!!!'
+		server_connect_fail()
 	pass # Replace with function body.
 
 func _process(delta):
@@ -50,3 +63,4 @@ func _process(delta):
 	downloaded_bytes = $HTTPRequest.get_downloaded_bytes()
 	if not dowload:
 		$Label.text = 'dowloading '+str(downloaded_bytes/1024) +' kbs of '+ str(int(body_size)/1024) +' kbs'
+		$ProgressBar.value = downloaded_bytes*100/body_size

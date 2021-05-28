@@ -4,8 +4,8 @@ export(NodePath) var playersnode
 export(NodePath) var server
 var motion = Vector2(0,0)
 var UP = Vector2(0,-1)
-var speed = 1500
-var lifespan = 20
+var speed = 3000
+var lifespan = 30
 var ignorenode
 var room = 0
 var father

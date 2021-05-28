@@ -8,7 +8,7 @@ func browse_list(list):
 	if list == null:
 		return
 	$RichTextLabel.clear()
-	print('received data') 
+#	print('received data') 
 	var space = "                           "
 	var text = ''
 	$Label2.set_text(space + ' Room' +space + 'GameMode' +space + 'Map' +space + 'Playes')
