@@ -91,7 +91,7 @@ remote func ReturnTokenVerification(data, requester):
 		instance.position = Vector2( rand_range(0,100),rand_range(0,60))
 		instance.name = str(player_id)
 		$Players.add_child(instance)
-		$Token.tokens.erase(data)
+#		$Token.tokens.erase(data)
 		print('token is valid')
 	else:
 		rpc_id(player_id, "ReturnTokenVerificationResults", "Token Invalid", requester)
@@ -193,5 +193,9 @@ func GameEnd():
 	rpc_id(0, "VictoryScreen", winner, highest)
 	yield(get_tree().create_timer(5.0), "timeout")
 	rpc_id(0, "LoadNextScene", 'res://Client/Client.tscn')
-	get_tree().reload_current_scene()
+	for i in kill_death.keys():
+		kill_death[i]['k'] = 0
+		kill_death[i]['d'] = 0
+	$GameEnd.start()
+#	get_tree().reload_current_scene()
 	pass # Replace with function body.
