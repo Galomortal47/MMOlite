@@ -10,7 +10,7 @@ export var online_verification_disable = false
 var roomname = 'room1'
 var gamemode = 'free for all'
 var map = 'ffa_dust'
-var ip = '127.0.0.1'
+var ip = '157.245.218.42'
 
 class Room:
 	var userdata = {}
@@ -28,7 +28,22 @@ var kill_death = {}
 
 var PlayerLoad = load('res://Players/PlayerTemplateCol.tscn')
 
+func server_config():
+	if ResourceLoader.exists("user://serverconfig.tres"):
+		var loader = load("user://serverconfig.tres")
+		print(loader.data[0])
+		roomname = loader.data[0]['room']
+		gamemode = loader.data[0]['gamemode']
+		map = loader.data[0]['map']
+		ip = loader.data[0]['ip']
+	else:
+		var data2 = load("res://Launcher/dataresource.gd").new()
+		var data = {'room':'room2','gamemode':'ffa','map':'ffa_forest','ip':'157.245.218.42'}
+		data2.data.append(data)
+		ResourceSaver.save("user://serverconfig.tres", data2)
+
 func _ready():
+	server_config()
 	var new_room = Room.new()
 	room_array.append(new_room)
 	StartServer()
@@ -174,4 +189,7 @@ func GameEnd():
 			highest =  kill_death[i]['k'] 
 			winner =  i
 	rpc_id(0, "VictoryScreen", winner, highest)
+	yield(get_tree().create_timer(5.0), "timeout")
+	rpc_id(0, "LoadNextScene", 'res://Client/Client.tscn')
+	get_tree().reload_current_scene()
 	pass # Replace with function body.

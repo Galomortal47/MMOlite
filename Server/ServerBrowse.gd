@@ -11,7 +11,7 @@ func _ready():
 
 func send_data():
 	packet.connect_to_host( "127.0.0.1", 2909)
-	print("Data to Server Browser was sent")
+#	print("Data to Server Browser was sent")
 	var peerstream = PacketPeerStream.new()
 	peerstream.set_stream_peer(packet)
 	if peerstream.get_available_packet_count() > 0:
