@@ -5,6 +5,7 @@ var i = 0
 var packet
 
 var tokens = {}
+var password = 'd4f8sa4t8ge4w89rtw'
 
 func _ready():
 	socket.listen(8082)
@@ -18,7 +19,9 @@ func _physics_process(delta):
 		return
 	if packet.get_available_bytes() > 0:
 		var dict = packet.get_var().duplicate()
-		var key =str(dict.keys()[0])
-		var value = dict[key]
-		tokens[key] = value
-		print("received token: "+ str(dict))
+		var value = dict['key']
+		if password == dict['password']:
+			tokens[value] = dict['user']
+			print("received token: "+ str(dict))
+		else:
+			print('invalid password')

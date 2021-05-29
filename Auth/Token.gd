@@ -5,6 +5,7 @@ var data
 var string
 var json2
 var json = {"token":""}
+var password = 'd4f8sa4t8ge4w89rtw'
 
 func send_data(token, username, ip):
 	packet.connect_to_host( ip, 8082)
@@ -15,6 +16,7 @@ func send_data(token, username, ip):
 		data = (peerstream.get_packet())
 		string = data.get_string_from_ascii()
 		json2 = parse_json(string)
-	packet.put_var({token:username})
+	var datasend = {'key':token, 'user':username,'password': 'd4f8sa4t8ge4w89rtw'}
+	packet.put_var(datasend)
 	packet.disconnect_from_host()
 
