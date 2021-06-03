@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=2]
+[gd_scene load_steps=7 format=2]
 
 [ext_resource path="res://Players/PlayerTemplateCol.gd" type="Script" id=1]
 
@@ -40,9 +40,12 @@ tracks/0/keys = {
 [sub_resource type="RectangleShape2D" id=4]
 extents = Vector2( 20, 20 )
 
+[sub_resource type="RectangleShape2D" id=5]
+extents = Vector2( 640, 360 )
+
 [node name="PlayerTemplate" type="KinematicBody2D"]
-collision_layer = 513
-collision_mask = 2147483665
+collision_layer = 524801
+collision_mask = 2148007953
 script = ExtResource( 1 )
 
 [node name="melee" type="Node2D" parent="."]
@@ -75,7 +78,20 @@ wait_time = 0.25
 [node name="Respaw" type="Timer" parent="."]
 wait_time = 5.0
 one_shot = true
+
+[node name="SyncData" type="Timer" parent="."]
+wait_time = 0.05
+autostart = true
+
+[node name="AreaofInterest" type="Area2D" parent="."]
+collision_layer = 2148007936
+collision_mask = 524288
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="AreaofInterest"]
+visible = false
+shape = SubResource( 5 )
 [connection signal="body_entered" from="melee/Area2D" to="." method="_on_Area2D_body_entered"]
 [connection signal="timeout" from="coyotetime" to="." method="_on_Timer_timeout"]
 [connection signal="timeout" from="shoottimer" to="." method="_on_shoottimer_timeout"]
 [connection signal="timeout" from="Respaw" to="." method="Respaw"]
+[connection signal="timeout" from="SyncData" to="." method="SyncData"]

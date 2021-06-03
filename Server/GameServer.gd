@@ -12,9 +12,8 @@ var gamemode = 'ffa'
 var map = 'ffa_dust'
 var ip = '157.245.218.42'
 
-class Room:
-	var userdata = {}
-	var NPCdata = {}
+var userdata = {}
+var NPCdata = {}
 
 var loggedusers = {}
 var entityshealth = {}
@@ -22,8 +21,6 @@ var chat = []
 var NPCs = {}
 var userroom = {}
 var team = {'red':0,'blue':0}
-
-var room_array = []
 
 var kill_death = {}
 
@@ -45,8 +42,6 @@ func server_config():
 
 func _ready():
 	server_config()
-	var new_room = Room.new()
-	room_array.append(new_room)
 	StartServer()
 
 func StartServer():
@@ -66,7 +61,7 @@ func _peer_conected(player_id):
 func _peer_disconected(player_id):
 	loggedusers.erase(player_id)
 	if userroom.has(player_id):
-		room_array[userroom[player_id]].userdata.erase(player_id)
+		userdata.erase(player_id)
 		$Players.get_node(str(player_id)).queue_free()
 		rpc_id(0, "UserDisconnected", player_id)
 		print("User " +str(player_id)+ " Disconnected")
@@ -86,7 +81,7 @@ remote func ReturnTokenVerification(data, requester):
 		rpc_id(player_id, "ReturnTokenVerificationResults", "Token Valid", $Token.tokens[data], requester, player_id)
 		loggedusers[player_id] = {'name':$Token.tokens[data],'team':team}
 		var room_id = 0
-		room_array[room_id].userdata[player_id] = {'pos':Vector2(0,0),'ani':'stop','lk':0,'atk':''}
+		userdata[player_id] = {'pos':Vector2(0,0),'ani':'stop','lk':0,'atk':''}
 		userroom[player_id] = room_id 
 		kill_death[player_id] = {'d':0,'k':0}
 		var instance = PlayerLoad.instance()
@@ -110,7 +105,7 @@ func WorldState():
 
 func WorldPosition():
 	for j in loggedusers.keys():
-		rpc_unreliable_id(j, "WorldPosUpdate", room_array[userroom[j]].userdata)
+		rpc_unreliable_id(j, "WorldPosUpdate", userdata)
 
 func WorldNPCState():
 	if loggedusers.size() == 0:
@@ -119,7 +114,7 @@ func WorldNPCState():
 
 func WorldNPCPosition():
 	for j in loggedusers.keys():
-		rpc_unreliable_id(j, "PosNPCUpdate", room_array[userroom[j]].NPCdata)
+		rpc_unreliable_id(j, "PosNPCUpdate", NPCdata)
 #		room_array[userroom[j]].NPCdata = {}
 
 func ChatState():
@@ -139,10 +134,10 @@ remote func MovePlayer(dir, look, attack):
 		node.attack(attack)
 		node.move(dir)
 		node.aim(look)
-		room_array[userroom[player_id]].userdata[player_id]['pos'] = node.position
-		room_array[userroom[player_id]].userdata[player_id]['ani'] = dir
-		room_array[userroom[player_id]].userdata[player_id]['lk'] = look
-		room_array[userroom[player_id]].userdata[player_id]['atk'] = attack
+		userdata[player_id]['pos'] = node.position
+		userdata[player_id]['ani'] = dir
+		userdata[player_id]['lk'] = look
+		userdata[player_id]['atk'] = attack
 
 remote func ReceiveChatMessage(message, requester):
 	var player_id = get_tree().get_rpc_sender_id()
@@ -215,3 +210,6 @@ func RestartMatch():
 	$GameEnd.start()
 #	get_tree().reload_current_scene()
 	pass # Replace with function body.
+
+func AreaofInterestWorldPosition(player_id, data):
+	rpc_unreliable_id(player_id, "WorldPosUpdate", data)

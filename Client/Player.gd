@@ -30,14 +30,16 @@ func update_score(score):
 	var text = space+' Username '+space+'K'+space+'D'
 	for i in get_node(players).get_children():
 		text += '\n'
-		text += '[color='+ get_parent().loggedusers_buffer[int(i.name)]['team']+']'
+		if not get_parent().loggedusers_buffer[int(i.name)]['team'] == null:
+			text += '[color='+ get_parent().loggedusers_buffer[int(i.name)]['team']+']'
 		text += space
 		text += i.get_node('Label').get_text()
 		text += space
 		text += str(score[int(i.name)]['k'])
 		text += space
 		text += str(score[int(i.name)]['d'])
-		text += '[/color]'
+		if not get_parent().loggedusers_buffer[int(i.name)]['team'] == null:
+			text += '[/color]'
 	
 	$score.set_bbcode(str(text))
 

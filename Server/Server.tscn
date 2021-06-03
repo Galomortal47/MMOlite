@@ -29,7 +29,6 @@ wait_time = 0.5
 
 [node name="WorldPosition" type="Timer" parent="."]
 wait_time = 0.05
-autostart = true
 
 [node name="WorldNPCState" type="Timer" parent="."]
 wait_time = 0.25
