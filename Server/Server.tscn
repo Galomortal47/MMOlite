@@ -5,10 +5,11 @@
 [ext_resource path="res://Server/Token.gd" type="Script" id=3]
 [ext_resource path="res://assets/tilelevels/lv1.tscn" type="PackedScene" id=4]
 [ext_resource path="res://Server/ServerBrowse.gd" type="Script" id=5]
-[ext_resource path="res://assets/Enemy/NPCcol.tscn" type="PackedScene" id=6]
+[ext_resource path="res://Server/GameModes.gd" type="Script" id=7]
 
 [node name="Server" type="Node"]
 script = ExtResource( 1 )
+online_verification_disable = true
 
 [node name="Player" type="Node" parent="."]
 script = ExtResource( 2 )
@@ -25,7 +26,6 @@ autostart = true
 
 [node name="WorldState" type="Timer" parent="."]
 wait_time = 0.5
-autostart = true
 
 [node name="WorldPosition" type="Timer" parent="."]
 wait_time = 0.05
@@ -42,8 +42,12 @@ autostart = true
 [node name="ScoreUpdate" type="Timer" parent="."]
 autostart = true
 
+[node name="MatchRestart" type="Timer" parent="."]
+wait_time = 10.0
+one_shot = true
+
 [node name="GameEnd" type="Timer" parent="."]
-wait_time = 120.0
+wait_time = 20.0
 one_shot = true
 autostart = true
 
@@ -59,14 +63,8 @@ visible = false
 
 [node name="NPCs" type="Node2D" parent="."]
 
-[node name="NPC" parent="NPCs" instance=ExtResource( 6 )]
-position = Vector2( -90.8088, 112.232 )
-
-[node name="NPC2" parent="NPCs" instance=ExtResource( 6 )]
-position = Vector2( -35.3715, -42.0938 )
-
-[node name="NPC3" parent="NPCs" instance=ExtResource( 6 )]
-position = Vector2( 324.222, 14.8419 )
+[node name="GameModes" type="Node" parent="."]
+script = ExtResource( 7 )
 [connection signal="timeout" from="ServerBrowse/Timer" to="ServerBrowse" method="send_data"]
 [connection signal="timeout" from="WorldState" to="." method="WorldState"]
 [connection signal="timeout" from="WorldState" to="." method="ChatState"]
@@ -74,4 +72,5 @@ position = Vector2( 324.222, 14.8419 )
 [connection signal="timeout" from="WorldNPCState" to="." method="WorldNPCState"]
 [connection signal="timeout" from="WorldNPCPosition" to="." method="WorldNPCPosition"]
 [connection signal="timeout" from="ScoreUpdate" to="." method="ScoreState"]
+[connection signal="timeout" from="MatchRestart" to="." method="RestartMatch"]
 [connection signal="timeout" from="GameEnd" to="." method="GameEnd"]

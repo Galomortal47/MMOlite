@@ -8,7 +8,7 @@ onready var max_players = Tokendata.maxs_players
 export var online_verification_disable = false
 
 var roomname = 'room1'
-var gamemode = 'free for all'
+var gamemode = 'ffa'
 var map = 'ffa_dust'
 var ip = '157.245.218.42'
 
@@ -21,6 +21,7 @@ var entityshealth = {}
 var chat = []
 var NPCs = {}
 var userroom = {}
+var team = {'red':0,'blue':0}
 
 var room_array = []
 
@@ -80,8 +81,10 @@ remote func ReturnTokenVerification(data, requester):
 	if online_verification_disable:
 		$Token.tokens[data] = str(player_id)
 	if $Token.tokens.has(data):
+		var team = $GameModes.chooseteam(gamemode)
+		print('added player to team: ' + str(team))
 		rpc_id(player_id, "ReturnTokenVerificationResults", "Token Valid", $Token.tokens[data], requester, player_id)
-		loggedusers[player_id] = $Token.tokens[data]
+		loggedusers[player_id] = {'name':$Token.tokens[data],'team':team}
 		var room_id = 0
 		room_array[room_id].userdata[player_id] = {'pos':Vector2(0,0),'ani':'stop','lk':0,'atk':''}
 		userroom[player_id] = room_id 
@@ -90,17 +93,20 @@ remote func ReturnTokenVerification(data, requester):
 		randomize()
 		instance.position = Vector2( rand_range(0,100),rand_range(0,60))
 		instance.name = str(player_id)
+		instance.team = team
 		$Players.add_child(instance)
 #		$Token.tokens.erase(data)
 		print('token is valid')
 	else:
 		rpc_id(player_id, "ReturnTokenVerificationResults", "Token Invalid", requester)
 		print('token is invalid')
+	WorldState()
 
 func WorldState():
 	if loggedusers.size() == 0:
 		return
 	rpc_unreliable_id(0, "WorldStatUpdate", loggedusers)
+#	rpc_unreliable_id(0, "WorldTeamUpdate", teams)
 
 func WorldPosition():
 	for j in loggedusers.keys():
@@ -144,6 +150,9 @@ remote func ReceiveChatMessage(message, requester):
 
 func DamagePlayer(instance_id,damage, attacker):
 	var node = instance_from_id(instance_id)
+	if not attacker.team == null:
+		if attacker.team == node.team:
+			return
 	entityshealth[instance_id] -= damage
 	if entityshealth[instance_id] > 0:
 		rpc_id(0, "DamageUpdate", node.get_path(), entityshealth[instance_id])
@@ -154,6 +163,8 @@ func DamagePlayer(instance_id,damage, attacker):
 		Kill(node)
 		if attacker.get_parent() == get_node("Players"):
 			kill_death[int(attacker.name)]['k'] += 1 
+			if not attacker.team == null:
+				team[attacker.team] += 1
 		if node.get_parent() == get_node("Players"):
 			kill_death[int(node.name)]['d'] += 1 
 			node.get_node('Respaw').start()
@@ -186,16 +197,21 @@ remote func RequestInitialPlayerData():
 func GameEnd():
 	var winner = ''
 	var highest = 0
-	for i in kill_death.keys():
-		if kill_death[i]['k'] > highest:
-			highest =  kill_death[i]['k'] 
-			winner =  i
-	rpc_id(0, "VictoryScreen", winner, highest)
-	yield(get_tree().create_timer(5.0), "timeout")
+	var value = $GameModes.victory(kill_death, team, gamemode)
+	winner = value[0]
+	highest = value[1]
+	print('the winner is: ' + winner)
+	rpc_id(0, "VictoryScreen", winner, highest, gamemode)
+	$MatchRestart.start()
+
+func RestartMatch():
+	print('restarting match')
 	rpc_id(0, "LoadNextScene", 'res://Client/Client.tscn')
 	for i in kill_death.keys():
 		kill_death[i]['k'] = 0
 		kill_death[i]['d'] = 0
+	for i in team.keys():
+		team[i] = 0
 	$GameEnd.start()
 #	get_tree().reload_current_scene()
 	pass # Replace with function body.

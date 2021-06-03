@@ -6,6 +6,7 @@ var hp = 100
 var coyote_time = true
 var alive = true
 var nextshoot = true
+var team = null
 
 var BulletLoad = load('res://assets/Enemy/Bulletcol.tscn')
 

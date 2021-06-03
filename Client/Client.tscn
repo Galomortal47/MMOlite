@@ -186,6 +186,17 @@ margin_left = 12.2704
 margin_top = 41.2142
 margin_right = 840.27
 margin_bottom = 55.2142
+text = "calculating online players...."
+autowrap = true
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ping4" type="Label" parent="UI"]
+margin_left = 12.2704
+margin_top = 55.2142
+margin_right = 840.27
+margin_bottom = 69.2142
 text = "lag compesation is on"
 autowrap = true
 __meta__ = {

@@ -30,12 +30,14 @@ func update_score(score):
 	var text = space+' Username '+space+'K'+space+'D'
 	for i in get_node(players).get_children():
 		text += '\n'
+		text += '[color='+ get_parent().loggedusers_buffer[int(i.name)]['team']+']'
 		text += space
 		text += i.get_node('Label').get_text()
 		text += space
 		text += str(score[int(i.name)]['k'])
 		text += space
 		text += str(score[int(i.name)]['d'])
+		text += '[/color]'
 	
 	$score.set_bbcode(str(text))
 
@@ -60,8 +62,7 @@ func _on_Timer_timeout():
 		2:
 			$ping2.set_text('Connected UwU')
 	$ping3.set_text('players online: '+ str(get_node(players).get_child_count()))
-#	if get_node(players).lag_compesation:
-#		$ping3.set_text('lag compesation is: '+ str(get_node(players).lag_compesation_ammount))
+	$ping4.set_text('lag compesation is: '+ str(get_node(players).lag_compesation_ammount))
 #	else:
 #		$ping3.set_text('lag compesation is off')
 #	pass # Replace with function body.
@@ -70,9 +71,14 @@ func _on_Server_connected():
 	get_parent().TokenVerificationResults(Tokendata.token, get_instance_id())
 	pass # Replace with function body.
 
-func victory(winner, highest):
+func victory(winner, highest, gamemode):
 	var win 
-	if not winner == null:
-		if has_node(players):
-			win = get_node(players).get_node(str(winner)).get_node('Label').get_text()
-	$Victory.set_text("The Winner is " + win + " With an Score of " +  str(highest))
+	match gamemode:
+		'ffa':
+			if not winner == null:
+				if has_node(players):
+					if get_node(players).has_node(str(winner)):
+						win = get_node(players).get_node(str(winner)).get_node('Label').get_text()
+						$Victory.set_text("The Winner is " + win + " With an Score of " +  str(highest))
+		'TDM':
+			$Victory.set_text('Team ' + str(winner) + " Had Won the Game ")

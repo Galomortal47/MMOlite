@@ -249,3 +249,5 @@ script = SubResource( 5 )
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="melee"]
 anims/attack = SubResource( 6 )
+
+[node name="Tween" type="Tween" parent="."]

@@ -7,6 +7,7 @@ var motion = Vector2(0,0)
 var UP = Vector2(0,-1)
 var hp = 100
 var alive = true
+var team = null
 
 func _ready():
 	get_node('../..').entityshealth[get_instance_id()] = hp

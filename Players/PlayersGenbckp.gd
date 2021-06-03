@@ -2,13 +2,15 @@ extends Node2D
 
 var PlayerLoad = load('res://Players/PlayerTemplate.tscn')
 var lag_compesation = true
-var lag_compesation_ammount = 2.0
+var lag_compesation_ammount = 1.0
 var movment_smooth = 0.4
 var hp = 100
 var main_user = ''
 var weapon_selected = 1
+var lag = 0.250
 
 func _physics_process(delta):
+#	yield(get_tree().create_timer(lag), "timeout")
 	var attack = ''
 	var movment = 'stop'
 	if Input.is_action_pressed("ui_left"):
@@ -55,12 +57,20 @@ func spawn_despawn(loggedusers):
 			var instance = PlayerLoad.instance()
 			instance.name = str(i)
 			instance.get_node('anims/Sprite').texture = skin
-			instance.get_node('Label').set_text(loggedusers[i])
+			match loggedusers[i]['team']:
+				'red':
+					instance.get_node('Label').modulate = Color(1,0,0)
+				'green':
+					instance.get_node('Label').modulate = Color(0,1,0)
+				'blue':
+					instance.get_node('Label').modulate = Color(0,0,1)
+			instance.get_node('Label').set_text(loggedusers[i]['name'])
 			add_child(instance)
 
 var bufferdata = [{},{}]
 
 func sync_position(userdata):
+#	yield(get_tree().create_timer(lag), "timeout")
 	bufferdata.append(userdata.duplicate())
 	if bufferdata.size() > 1:
 		bufferdata.remove(0)
@@ -71,10 +81,11 @@ func sync_position(userdata):
 			if bufferdata[0].has(i) and lag_compesation:
 				var new_delta = userdata[i]['pos'] - bufferdata[0][i]['pos']
 				var new_pos = userdata[i]['pos'] + (new_delta*lag_compesation_ammount)
-				get_node(str(i)).position = ((get_node(str(i)).position*movment_smooth) + lerp(userdata[i]['pos'], new_pos, 0.5))/(movment_smooth+1.0)
+				get_node(str(i)).tween('position', get_node(str(i)).position,new_pos)
 			else:
 				get_node(str(i)).position = userdata[i]['pos']
 			get_node(str(i)).get_node('melee').rotation_degrees = userdata[i]['lk']
+			 
 
 func user_remove(player_id):
 	print("Player: " +str(player_id)+" has been desconnected")

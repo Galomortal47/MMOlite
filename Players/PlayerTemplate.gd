@@ -1,6 +1,7 @@
 extends KinematicBody2D
 
 var hp = 100 
+var team = 'white'
 export(Texture) var weapon_texture_1
 export(Texture) var weapon_texture_2
 
@@ -40,3 +41,8 @@ func melee_attack():
 func chat(text):
 	$chatbubble/text.set_text(text)
 	$chatbubble/text/AnimationPlayer.play("anim")
+
+func tween(variable, value1, value2):
+	var tween = get_node("Tween")
+	tween.interpolate_property(self, variable, value1, value2, 0.05, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
+	tween.start()

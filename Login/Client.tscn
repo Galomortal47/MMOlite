@@ -235,6 +235,7 @@ __meta__ = {
 }
 
 [node name="Timer" type="Timer" parent="."]
+wait_time = 5.0
 autostart = true
 [connection signal="button_down" from="Login/VBoxContainer/Button" to="Login" method="_on_Button_button_down"]
 [connection signal="button_down" from="Login/VBoxContainer/Button2" to="Login" method="_on_Button2_button_down"]

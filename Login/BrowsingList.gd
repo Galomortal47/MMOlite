@@ -22,9 +22,9 @@ func browse_list(list):
 		text += space
 		text +=  str(list[i].map)
 		text += space
+		text += str(list[i].playeronline)
+		text += ' / '
 		text += str(list[i].max_players)
-		text += '/'
-		text +=  str(list[i].playeronline)
 #		text +=  str(list[i].ip)
 #		text +=  str(list[i].port)
 		$RichTextLabel.add_item(text)

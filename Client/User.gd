@@ -93,8 +93,9 @@ remote func InitialPlayerData(playershealth):
 		if $Players.has_node(str(player_id)):
 			$Players.get_node(str(player_id)).hurt(playershealth[player_id ])
 
-remote func VictoryScreen(winner, highest):
-	$UI.victory(winner, highest)
+remote func VictoryScreen(winner, highest, gamemode):
+	print('Game Over')
+	$UI.victory(winner, highest, gamemode)
 
 func GetInitialPlayerData():
 	rpc_id(1,"RequestInitialPlayerData")
