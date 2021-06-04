@@ -1,7 +1,7 @@
 extends Node
 
 var network = NetworkedMultiplayerENet.new()
-var ip = '157.245.218.42'#'157.245.218.42'#"127.0.0.1"#"104.207.129.209" #"189.126.106.201"
+var ip = '45.76.247.182'#'157.245.218.42'#"127.0.0.1"#"104.207.129.209" #"189.126.106.201"
 export var port = 1911
 var cert = load('user://Certificate/x509_Certificate2.crt')
 
@@ -9,8 +9,8 @@ func _ready():
 	StartServer()
 
 func StartServer():
-#	network.set_dtls_enabled(true)
-#	network.set_dtls_verify_enabled(false)
+	network.set_dtls_enabled(true)
+	network.set_dtls_verify_enabled(false)
 #	network.set_dtls_certificate(cert)
 	network.create_client(ip, port)
 	get_tree().set_network_peer(network)

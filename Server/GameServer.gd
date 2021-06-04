@@ -34,9 +34,10 @@ func server_config():
 		gamemode = loader.data[0]['gamemode']
 		map = loader.data[0]['map']
 		ip = loader.data[0]['ip']
+		online_verification_disable  = loader.data[0]["online ver off"]
 	else:
 		var data2 = load("res://Launcher/dataresource.gd").new()
-		var data = {'room':'room2','gamemode':'ffa','map':'ffa_forest','ip':'157.245.218.42'}
+		var data = {'room':'room2','gamemode':'ffa','map':'ffa_forest','ip':'127.0.0.1',"online ver off": true}
 		data2.data.append(data)
 		ResourceSaver.save("user://serverconfig.tres", data2)
 
