@@ -297,6 +297,7 @@ collision_mask = 0
 
 [node name="ParallaxLayer" type="ParallaxLayer" parent="ParallaxBackground"]
 modulate = Color( 0.807843, 0.807843, 0.807843, 1 )
+motion_scale = Vector2( 0, 0 )
 
 [node name="Sprite" type="Sprite" parent="ParallaxBackground/ParallaxLayer"]
 rotation = 1.5708

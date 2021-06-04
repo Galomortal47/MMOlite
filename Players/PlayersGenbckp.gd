@@ -81,7 +81,8 @@ func sync_position(userdata):
 			if bufferdata[0].has(i) and lag_compesation:
 				var new_delta = userdata[i]['pos'] - bufferdata[0][i]['pos']
 				var new_pos = userdata[i]['pos'] + (new_delta*lag_compesation_ammount)
-				get_node(str(i)).tween('position', get_node(str(i)).position,new_pos)
+				var old_pos = get_node(str(i)).position
+				get_node(str(i)).tween('position', old_pos,new_pos)
 			else:
 				get_node(str(i)).position = userdata[i]['pos']
 			get_node(str(i)).get_node('melee').rotation_degrees = userdata[i]['lk']

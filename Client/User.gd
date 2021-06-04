@@ -32,11 +32,11 @@ remote func return_data(data, requester):
 func TokenVerificationResults(token, requester):
 	print('verification token send')
 	rpc_id(1,"ReturnTokenVerification", token, requester)
-
 #var PlayerLoad = load('res://Players/PlayerTemplate.tscn')
 
 remote func ReturnTokenVerificationResults(data, username, requester, player_id):
 	$Players.main_user = str(player_id)
+	print(data)
 	if not data == 'Token Valid':
 		network.close_connection()
 	pass
@@ -102,7 +102,7 @@ func GetInitialPlayerData():
 
 remote func LoadNextScene(scene):
 	get_tree().change_scene_to(load(scene))
-
+#func GetSkin():
 #func GetSkin():
 #	rpc_id(1,"SendSkinBack")
 

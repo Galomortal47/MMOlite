@@ -21,6 +21,7 @@ var chat = []
 var NPCs = {}
 var userroom = {}
 var team = {'red':0,'blue':0}
+export var spawn1 = [Vector2(-1500,-220), Vector2(1700,200)]
 
 var kill_death = {}
 
@@ -88,7 +89,7 @@ remote func ReturnTokenVerification(data, requester):
 		kill_death[player_id] = {'d':0,'k':0}
 		var instance = PlayerLoad.instance()
 		randomize()
-		instance.position = Vector2( rand_range(0,100),rand_range(0,60))
+		instance.position = Vector2( rand_range(spawn1[0].x,spawn1[1].x),rand_range(spawn1[0].y,spawn1[1].y))
 		instance.name = str(player_id)
 		instance.team = team
 		$Players.add_child(instance)

@@ -10,7 +10,8 @@ func hurt(damage):
 	$hp.set_text(str(hp)+'hp')
 	$hp/icon.rect_size.x = float(hp)
 
-#func _ready():
+func _ready():
+	add_camera()
 #	get_parent().get_parent().GetSkin()
 
 func playnanims(anim):
@@ -46,3 +47,13 @@ func tween(variable, value1, value2):
 	var tween = get_node("Tween")
 	tween.interpolate_property(self, variable, value1, value2, 0.05, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
 	tween.start()
+
+
+func add_camera():
+	if str(get_tree().get_network_unique_id()) == name:
+		var camera = Camera2D.new()
+		print('adding camera to player')
+		add_child(camera)
+		camera.set_h_drag_enabled(true)
+		camera.set_v_drag_enabled(true)
+		camera._set_current(true)
