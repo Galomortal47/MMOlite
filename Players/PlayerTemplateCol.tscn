@@ -41,10 +41,10 @@ tracks/0/keys = {
 extents = Vector2( 20, 20 )
 
 [sub_resource type="RectangleShape2D" id=5]
-extents = Vector2( 640, 360 )
+extents = Vector2( 320, 180 )
 
 [node name="PlayerTemplate" type="KinematicBody2D"]
-collision_layer = 524801
+collision_layer = 513
 collision_mask = 2148007953
 script = ExtResource( 1 )
 
@@ -70,7 +70,7 @@ position = Vector2( 0, 12 )
 shape = SubResource( 4 )
 
 [node name="coyotetime" type="Timer" parent="."]
-wait_time = 0.25
+wait_time = 0.1
 
 [node name="shoottimer" type="Timer" parent="."]
 wait_time = 0.25
@@ -88,7 +88,7 @@ collision_layer = 2148007936
 collision_mask = 524288
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="AreaofInterest"]
-visible = false
+position = Vector2( 0, -90 )
 shape = SubResource( 5 )
 [connection signal="body_entered" from="melee/Area2D" to="." method="_on_Area2D_body_entered"]
 [connection signal="timeout" from="coyotetime" to="." method="_on_Timer_timeout"]

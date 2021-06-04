@@ -103,14 +103,9 @@ func Respaw():
 
 func SyncData():
 	var Areadata = {}
-	var count = 0
-	var maxs = 25
 	for i in $AreaofInterest.get_overlapping_bodies():
-		if count <= maxs:
-			var player_id = int(i.name)
-			if not get_node('../..').userdata.has(player_id):
-				return
+		var player_id = int(i.name)
+		if get_node('../..').userdata.has(player_id):
 			Areadata[player_id] = get_node('../..').userdata[player_id]
-			count += 1
 	get_node('../..').AreaofInterestWorldPosition(int(name),Areadata)
 	pass # Replace with function body.

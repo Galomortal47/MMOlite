@@ -52,21 +52,22 @@ one_shot = true
 autostart = true
 
 [node name="Debug" type="StaticBody2D" parent="."]
+visible = false
 
 [node name="Camera2D" type="Camera2D" parent="Debug"]
 current = true
 
 [node name="Players" type="Node2D" parent="."]
+visible = false
 
 [node name="TileMap" parent="." instance=ExtResource( 4 )]
+visible = false
 
 [node name="NPCs" type="Node2D" parent="."]
+visible = false
 
 [node name="GameModes" type="Node" parent="."]
 script = ExtResource( 7 )
-
-[node name="Node2D" type="Node2D" parent="."]
-position = Vector2( 1762.58, 270.609 )
 [connection signal="timeout" from="ServerBrowse/Timer" to="ServerBrowse" method="send_data"]
 [connection signal="timeout" from="WorldState" to="." method="WorldState"]
 [connection signal="timeout" from="WorldState" to="." method="ChatState"]

@@ -131,10 +131,10 @@ __meta__ = {
 }
 
 [node name="chat" type="LineEdit" parent="UI"]
-margin_left = 12.0
-margin_top = 373.0
-margin_right = 198.0
-margin_bottom = 397.0
+margin_left = 377.539
+margin_top = 6.2142
+margin_right = 563.539
+margin_bottom = 30.2142
 focus_mode = 1
 placeholder_text = "chat..."
 script = ExtResource( 6 )
@@ -145,7 +145,7 @@ __meta__ = {
 [node name="RichTextLabel" type="RichTextLabel" parent="UI/chat"]
 margin_top = 32.0
 margin_right = 253.0
-margin_bottom = 216.0
+margin_bottom = 96.0
 bbcode_enabled = true
 scroll_following = true
 __meta__ = {

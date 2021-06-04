@@ -57,3 +57,4 @@ func add_camera():
 		camera.set_h_drag_enabled(true)
 		camera.set_v_drag_enabled(true)
 		camera._set_current(true)
+		camera.position.y -= 90
