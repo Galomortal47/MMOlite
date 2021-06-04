@@ -19,11 +19,11 @@ func hunt_player():
 			target = i
 
 func die():
-	get_node('../..').room_array[0].NPCdata.erase(name) 
+	get_node('../..').NPCdata.erase(name) 
 	get_node('../..').NPCs.erase(name) 
 
 func move():
-	get_node('../..').room_array[0].NPCdata[name] = {'pos':position}
+	get_node('../..').NPCdata[name] = {'pos':position}
 	if target == null or not alive:
 		return
 	if position.distance_to(target.position) < 64:
@@ -34,7 +34,7 @@ func move():
 		if is_on_floor():
 			motion.y -= 900
 	if not is_on_floor():
-		motion.y += 30
+		motion.y += 90
 	motion = move_and_slide(motion, UP)
 
 func attack():

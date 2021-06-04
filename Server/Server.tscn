@@ -68,6 +68,7 @@ script = ExtResource( 7 )
 [connection signal="timeout" from="WorldState" to="." method="WorldState"]
 [connection signal="timeout" from="WorldState" to="." method="ChatState"]
 [connection signal="timeout" from="WorldPosition" to="." method="WorldPosition"]
+[connection signal="timeout" from="WorldNPCState" to="." method="ChatState"]
 [connection signal="timeout" from="WorldNPCState" to="." method="WorldNPCState"]
 [connection signal="timeout" from="WorldNPCPosition" to="." method="WorldNPCPosition"]
 [connection signal="timeout" from="ScoreUpdate" to="." method="ScoreState"]

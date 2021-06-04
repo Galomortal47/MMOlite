@@ -48,7 +48,7 @@ func jump():
 
 func _physics_process(delta):
 	if not is_on_floor():
-		motion.y += 10
+		motion.y += 30
 		$coyotetime.start()
 	else:
 		coyote_time = true

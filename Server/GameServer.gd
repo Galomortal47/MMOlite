@@ -41,6 +41,7 @@ func server_config():
 		ResourceSaver.save("user://serverconfig.tres", data2)
 
 func _ready():
+	Engine.iterations_per_second = 20
 	server_config()
 	StartServer()
 
@@ -141,7 +142,9 @@ remote func MovePlayer(dir, look, attack):
 
 remote func ReceiveChatMessage(message, requester):
 	var player_id = get_tree().get_rpc_sender_id()
-	chat.append({str(loggedusers[player_id]) : str(message)})
+	var newmsg = {str(loggedusers[player_id]) : str(message)}
+	chat.append(newmsg)
+	print(newmsg)
 
 func DamagePlayer(instance_id,damage, attacker):
 	var node = instance_from_id(instance_id)
