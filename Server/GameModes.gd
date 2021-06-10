@@ -8,6 +8,8 @@ func chooseteam(gamemode):
 			return FreeForAll()
 		'TDM':
 			return TeamDeathMatch()
+		'PVE':
+			return PVE()
 	pass
 
 func FreeForAll():
@@ -22,6 +24,8 @@ func TeamDeathMatch():
 		return 'red'
 
 func PVE():
+	get_parent().get_node("MonsterSpawner").start()
+	return 'red'
 	pass
 
 func victory(kill_death, team, gamemode):
@@ -34,6 +38,11 @@ func victory(kill_death, team, gamemode):
 					highest =  kill_death[i]['k'] 
 					winner =  i
 		'TDM':
+			for i in team.keys():
+				if team[i] > highest:
+					highest =  team[i]
+					winner =  i
+		'PVE':
 			for i in team.keys():
 				if team[i] > highest:
 					highest =  team[i]

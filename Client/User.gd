@@ -103,9 +103,9 @@ func GetInitialPlayerData():
 remote func LoadNextScene(scene):
 	get_tree().change_scene_to(load(scene))
 
-func GetPlayerSkin(requester):
+func GetPlayerSkin(requester, namerq):
 	print('requesting skin')
-	rpc_id(1,"GetPlayerSkin", requester)
+	rpc_id(1,"GetPlayerSkin", requester, namerq)
 
 remote func GetPlayerSkinResponse(nameskin,requester):
 	print('skin received is: '+nameskin)

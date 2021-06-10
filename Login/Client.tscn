@@ -331,6 +331,6 @@ autostart = true
 [connection signal="item_activated" from="BrowsingList/RichTextLabel" to="BrowsingList" method="_on_RichTextLabel_item_activated"]
 [connection signal="item_activated" from="Store/RichTextLabel" to="Store" method="_on_RichTextLabel_item_activated"]
 [connection signal="confirmed" from="Store/ConfirmationDialog" to="Store" method="_on_ConfirmationDialog_confirmed"]
-[connection signal="button_down" from="store" to="Store" method="_on_store_button_down"]
 [connection signal="button_down" from="store" to="BrowsingList" method="_on_store_button_down"]
+[connection signal="button_down" from="store" to="Store" method="_on_store_button_down"]
 [connection signal="timeout" from="Timer" to="." method="fetch_server_list"]

@@ -11,8 +11,7 @@ var room = 0
 var father
 
 func _ready():
-	randomize()
-	name += str(randi())
+	name = str(get_instance_id())
 	get_node('../..').NPCs[name] = 'bullet'
 
 func die():

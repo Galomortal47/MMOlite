@@ -44,7 +44,7 @@ func _on_HTTPRequest2_request_completed(result, response_code, headers, body):
 		print(dataprocess)
 		body_size = dataprocess['size']
 		var dict = Directory.new()
-		if dataprocess['version'] > currentversion or not dict.file_exists('user://patches/newpatch.pck'):
+		if dataprocess['version'] > currentversion:
 			dowloadupdate()
 			dowload = false
 			var data2 = load("res://Launcher/dataresource.gd").new()

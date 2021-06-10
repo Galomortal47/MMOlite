@@ -12,7 +12,7 @@ func hurt(damage):
 
 func _ready():
 	add_camera()
-	get_node('../..').GetPlayerSkin(get_instance_id())
+	get_node('../..').GetPlayerSkin(get_instance_id(),int(name))
 #	get_parent().get_parent().GetSkin()
 
 func playnanims(anim):

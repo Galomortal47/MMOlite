@@ -181,7 +181,7 @@ func DamagePlayer(instance_id,damage, attacker):
 		if node.get_parent() == get_node("Players"):
 			kill_death[int(node.name)]['d'] += 1 
 			node.get_node('Respaw').start()
-			print('player respawning in five seconds')
+			print('player ' +loggedusers[node.name]+ ' was killed by: ' + loggedusers[attacker.name])
 		node.set_physics_process(false)
 		if node.has_node('CollisionShape2D'):
 			node.get_node('CollisionShape2D').set_deferred("disabled", true)
@@ -232,8 +232,8 @@ func RestartMatch():
 func AreaofInterestWorldPosition(player_id, data):
 	rpc_unreliable_id(player_id, "WorldPosUpdate", data)
 
-remote func GetPlayerSkin(requester):
+remote func GetPlayerSkin(requester,namerq):
 	var player_id = get_tree().get_rpc_sender_id()
-	var skin = skin_list2[player_id]
+	var skin = skin_list2[namerq]
 	print('send skin: ' + skin)
 	rpc_id(player_id,"GetPlayerSkinResponse", skin, requester)
