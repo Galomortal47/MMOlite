@@ -38,3 +38,7 @@ func _on_RichTextLabel_item_activated(index):
 #	get_parent().network.close_connection()
 	get_tree().change_scene("res://Client/Client.tscn")
 	pass # Replace with function body.
+
+func _on_store_button_down():
+	visible = !visible
+	pass # Replace with function body.

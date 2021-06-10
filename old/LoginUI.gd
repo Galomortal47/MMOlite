@@ -18,4 +18,5 @@ func results(state):
 	if state == "Welcome back":
 		self.hide()
 		get_parent().get_node("BrowsingList").show()
+		get_parent().get_node("store").show()
 	

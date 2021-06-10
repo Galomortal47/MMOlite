@@ -1,9 +1,10 @@
-[gd_scene load_steps=7 format=2]
+[gd_scene load_steps=8 format=2]
 
 [ext_resource path="res://Login/BrowsingList.gd" type="Script" id=1]
 [ext_resource path="res://Server/Server.gd" type="Script" id=2]
 [ext_resource path="res://old/LoginUI.gd" type="Script" id=3]
 [ext_resource path="res://old/RegisterUI.gd" type="Script" id=4]
+[ext_resource path="res://store/Store.gd" type="Script" id=5]
 
 [sub_resource type="Gradient" id=1]
 offsets = PoolRealArray( 0 )
@@ -234,6 +235,91 @@ __meta__ = {
 "_edit_use_anchors_": false
 }
 
+[node name="Store" type="NinePatchRect" parent="."]
+visible = false
+anchor_left = 0.5
+anchor_right = 0.5
+anchor_bottom = 1.0
+script = ExtResource( 5 )
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="TextureRect" type="TextureRect" parent="Store"]
+margin_left = -400.0
+margin_top = 87.0
+margin_right = 400.0
+margin_bottom = 487.0
+texture = SubResource( 2 )
+stretch_mode = 1
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label2" type="Label" parent="Store"]
+margin_left = -400.0
+margin_top = 493.258
+margin_right = 400.0
+margin_bottom = 507.258
+text = "2500 gold"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="Label3" type="Label" parent="Store"]
+margin_left = -400.0
+margin_top = 62.2576
+margin_right = 400.0
+margin_bottom = 76.2576
+text = "Shop:"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="RichTextLabel" type="ItemList" parent="Store"]
+margin_left = -400.0
+margin_top = 87.0
+margin_right = 400.0
+margin_bottom = 487.0
+max_columns = 10
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Store"]
+visible = false
+anchor_left = 0.5
+anchor_right = 0.5
+anchor_bottom = 1.0
+margin_left = -400.0
+margin_right = 400.0
+grow_horizontal = 2
+grow_vertical = 2
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
+[node name="ConfirmationDialog" type="ConfirmationDialog" parent="Store"]
+margin_right = 200.0
+margin_bottom = 70.0
+dialog_text = "Do you want to buy this Skin?"
+
+[node name="AcceptDialog" type="AcceptDialog" parent="Store"]
+margin_right = 83.0
+margin_bottom = 58.0
+dialog_text = "..."
+
+[node name="store" type="Button" parent="."]
+visible = false
+margin_left = 803.0
+margin_top = 63.0
+margin_right = 848.0
+margin_bottom = 83.0
+text = "store"
+__meta__ = {
+"_edit_use_anchors_": false
+}
+
 [node name="Timer" type="Timer" parent="."]
 wait_time = 5.0
 autostart = true
@@ -243,4 +329,8 @@ autostart = true
 [connection signal="button_down" from="Register/VBoxContainer/Button" to="Register" method="_on_Button_button_down"]
 [connection signal="button_down" from="Register/VBoxContainer/Button2" to="Register" method="_on_Button2_button_down"]
 [connection signal="item_activated" from="BrowsingList/RichTextLabel" to="BrowsingList" method="_on_RichTextLabel_item_activated"]
+[connection signal="item_activated" from="Store/RichTextLabel" to="Store" method="_on_RichTextLabel_item_activated"]
+[connection signal="confirmed" from="Store/ConfirmationDialog" to="Store" method="_on_ConfirmationDialog_confirmed"]
+[connection signal="button_down" from="store" to="Store" method="_on_store_button_down"]
+[connection signal="button_down" from="store" to="BrowsingList" method="_on_store_button_down"]
 [connection signal="timeout" from="Timer" to="." method="fetch_server_list"]

@@ -1,9 +1,9 @@
 extends Node
 
 var network = NetworkedMultiplayerENet.new()
-var ip = '45.76.247.182'#'157.245.218.42'#"127.0.0.1"#"104.207.129.209" #"189.126.106.201"
+var ip = '127.0.0.1'#'45.76.247.182'#'157.245.218.42'#"127.0.0.1"#"104.207.129.209" #"189.126.106.201"
 export var port = 1911
-var cert = load('user://Certificate/x509_Certificate2.crt')
+#var cert = load('user://Certificate/x509_Certificate2.crt')
 
 func _ready():
 	StartServer()
@@ -51,3 +51,11 @@ remote func return_server_list(list):
 func FetchServerAddress(ip, port):
 	print('fetching server: ' + ip + ":" + str(port))
 	rpc_id(1, 'ServerAddress',ip, port)
+
+func BuyItem(index):
+	rpc_id(1,"BuyItem", index)
+
+remote func BuyItemReponse(money, state):
+	$Store.response(state, money)
+	$Store.money = money
+	$Store.setmoney()

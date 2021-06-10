@@ -1,7 +1,7 @@
 extends Node
 
 var network = NetworkedMultiplayerENet.new()
-export var port = 1909
+export var port = 1911
 var max_players = 100
 var cert = load('user://Certificate/x509_Certificate.crt')
 var key = load('user://Certificate/x509_Key.key')
@@ -9,6 +9,7 @@ var server_list
 var room_list = {}
 
 var token_list = {}
+var client_authlist = {}
 
 func _ready():
 	StartServer()
@@ -47,8 +48,10 @@ remote func AuthenticatePlayer(username, password, requester):
 		randomize()
 		var token = (str(randi()).sha256_text() + signature).sha256_text() + str(OS.get_unix_time())
 		token_list[player_id] = {'tk':token,'usr':playerdic.username}
+		client_authlist[player_id] = playerdic.username
 		rpc_id(player_id, "AuthenticateResults", "Welcome back", token, requester)
 		print('connection sucess')
+		print((playerdic.data).split(","))
 		return
 	else:
 		rpc_id(player_id, "AuthenticateResults", "connection failed", {}, requester)
@@ -67,7 +70,8 @@ remote func RegisterPlayer(username, password, email, salt, requester):
 	if $SQLite.ReadItem("UserLogin","username",username).size() > 0:
 		rpc_id(player_id, "AuthenticateResults", "username is taken", {}, requester)
 		return
-	$SQLite.CreateItem("UserLogin",username,'username, password, email, salt',[encryptor(salt, password),email,salt])
+	var blob =  'cat'
+	$SQLite.CreateItem("UserLogin",username,'username, password, email, salt, data',[encryptor(salt, password),email,salt, blob])
 	rpc_id(player_id, "AuthenticateResults", "Thanks for Registering: " + str(username), {}, requester)
 	pass
 
@@ -83,3 +87,32 @@ remote func fetch_servers():
 #	print('data requested')
 	var player_id = get_tree().get_rpc_sender_id()
 	rpc_id(player_id, "return_server_list", server_list)
+
+export var price = {'chick':750,'cat':500,'cat2':1200,'cat3':1150}
+var money = 2500
+var have = []
+
+remote func BuyItem(index):
+	var player_id = get_tree().get_rpc_sender_id()
+	if client_authlist.has(player_id):
+		var find = client_authlist[player_id]
+		var sql = $SQLite.ReadItem("UserLogin","username",find)
+		if not sql.size() > 0:
+			return
+		var data = sql[0]
+		have = []
+		for i in (data.data).split(","):
+			have.append(i)
+		print(have)
+		var name2 = price.keys()[index]
+		if not have.has(name2):
+			if money > price.values()[index]:
+				money -= price.values()[index]
+				rpc_id(player_id, "BuyItemReponse", money, 'you brought the item: ' + name2)
+				have.append(name2)
+				$SQLite.UpdateItem("UserLogin","username",'data',find,data.data+','+name2)
+			else:
+				rpc_id(player_id, "BuyItemReponse", money, "you don't have enough money")
+		else:
+			rpc_id(player_id, "BuyItemReponse", money, 'you already have the item: ' + name2)
+	

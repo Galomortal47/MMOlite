@@ -10,7 +10,7 @@
 [node name="Server" type="Node"]
 script = ExtResource( 1 )
 online_verification_disable = true
-spawn1 = [ Vector2( -1500, -200 ), Vector2( 1700, 200 ) ]
+spawn1 = [ Vector2( -3800, -200 ), Vector2( 3800, 200 ) ]
 
 [node name="Player" type="Node" parent="."]
 script = ExtResource( 2 )
@@ -47,7 +47,7 @@ wait_time = 10.0
 one_shot = true
 
 [node name="GameEnd" type="Timer" parent="."]
-wait_time = 100.0
+wait_time = 1000.0
 one_shot = true
 autostart = true
 
@@ -72,8 +72,8 @@ script = ExtResource( 7 )
 [connection signal="timeout" from="WorldState" to="." method="WorldState"]
 [connection signal="timeout" from="WorldState" to="." method="ChatState"]
 [connection signal="timeout" from="WorldPosition" to="." method="WorldPosition"]
-[connection signal="timeout" from="WorldNPCState" to="." method="WorldNPCState"]
 [connection signal="timeout" from="WorldNPCState" to="." method="ChatState"]
+[connection signal="timeout" from="WorldNPCState" to="." method="WorldNPCState"]
 [connection signal="timeout" from="WorldNPCPosition" to="." method="WorldNPCPosition"]
 [connection signal="timeout" from="ScoreUpdate" to="." method="ScoreState"]
 [connection signal="timeout" from="MatchRestart" to="." method="RestartMatch"]

@@ -11,6 +11,16 @@ var roomname = 'room1'
 var gamemode = 'ffa'
 var map = 'ffa_dust'
 var ip = '157.245.218.42'
+var compression = 0
+var data = {
+	'room':'room2',
+	'gamemode':'ffa',
+	'map':'ffa_forest',
+	'ip':'127.0.0.1',
+	"online ver off": true,
+	"compression":0,
+	"tickspersecond":20
+	}
 
 var userdata = {}
 var NPCdata = {}
@@ -36,14 +46,14 @@ func server_config():
 		map = loader.data[0]['map']
 		ip = loader.data[0]['ip']
 		online_verification_disable  = loader.data[0]["online ver off"]
+		compression = loader.data[0]["compression"]
+		Engine.iterations_per_second = loader.data[0]["tickspersecond"]
 	else:
 		var data2 = load("res://Launcher/dataresource.gd").new()
-		var data = {'room':'room2','gamemode':'ffa','map':'ffa_forest','ip':'127.0.0.1',"online ver off": true}
 		data2.data.append(data)
 		ResourceSaver.save("user://serverconfig.tres", data2)
 
 func _ready():
-	Engine.iterations_per_second = 20
 	server_config()
 	StartServer()
 
@@ -52,6 +62,7 @@ func StartServer():
 #	network.set_dtls_certificate(cert)
 #	network.set_dtls_enabled(true)
 	network.create_server(port, max_players)
+	network.set_compression_mode(compression) 
 	get_tree().set_network_peer(network)
 	print("serv start on port: " + str(port) + " with an limit of "+str(max_players) )
 	

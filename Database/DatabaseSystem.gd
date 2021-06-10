@@ -3,11 +3,11 @@ class_name DatabaseManaer
 
 const SQLite = preload("res://addons/godot-sqlite/bin/gdsqlite.gdns")
 onready var db = SQLite.new()
-export var db_name = "res://DataStore/database1000"
+export var db_name = "user://DataStore/MMOLiteDataBase"
 
-func _ready():
-	db.path = db_name
-	db.open_db()
+#func _ready():
+#	db.path = db_name
+#	db.open_db()
 #	var table = 'PlayerInfo8'
 #	CreateTable(table,['id integer PRIMARY KEY AUTOINCREMENT','Name text','Score integer','Item text','Level integer'])
 #	DeleteItem(table,"Name",'Player')

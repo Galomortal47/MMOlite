@@ -7,7 +7,6 @@
 
 [node name="Server" type="Node"]
 script = ExtResource( 1 )
-port = 1911
 
 [node name="Token" type="Node" parent="."]
 script = ExtResource( 2 )
