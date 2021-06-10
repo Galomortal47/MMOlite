@@ -51,12 +51,8 @@ func spawn_despawn(loggedusers):
 		players.append(i.name)
 	for i in loggedusers.keys():
 		if not players.has(str(i)):
-			var n = ['chick', 'cat','cat2', 'cat3']
-			var number = fmod(i,n.size())
-			var skin = load('res://assets/sprites/'+str(n[number])+'.png')
 			var instance = PlayerLoad.instance()
 			instance.name = str(i)
-			instance.get_node('anims/Sprite').texture = skin
 			match loggedusers[i]['team']:
 				'red':
 					instance.get_node('Label').modulate = Color(1,0,0)

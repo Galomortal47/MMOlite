@@ -55,7 +55,10 @@ func FetchServerAddress(ip, port):
 func BuyItem(index):
 	rpc_id(1,"BuyItem", index)
 
-remote func BuyItemReponse(money, state):
-	$Store.response(state, money)
+func StoreData():
+	rpc_id(1,"StoreData")
+
+remote func BuyItemReponse(money, state,have):
+	$Store.response(state, money,have)
 	$Store.money = money
 	$Store.setmoney()

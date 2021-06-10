@@ -26,7 +26,6 @@ wait_time = 5.0
 autostart = true
 
 [node name="WorldState" type="Timer" parent="."]
-wait_time = 0.5
 
 [node name="WorldPosition" type="Timer" parent="."]
 wait_time = 0.05
@@ -72,8 +71,8 @@ script = ExtResource( 7 )
 [connection signal="timeout" from="WorldState" to="." method="WorldState"]
 [connection signal="timeout" from="WorldState" to="." method="ChatState"]
 [connection signal="timeout" from="WorldPosition" to="." method="WorldPosition"]
-[connection signal="timeout" from="WorldNPCState" to="." method="ChatState"]
 [connection signal="timeout" from="WorldNPCState" to="." method="WorldNPCState"]
+[connection signal="timeout" from="WorldNPCState" to="." method="ChatState"]
 [connection signal="timeout" from="WorldNPCPosition" to="." method="WorldNPCPosition"]
 [connection signal="timeout" from="ScoreUpdate" to="." method="ScoreState"]
 [connection signal="timeout" from="MatchRestart" to="." method="RestartMatch"]

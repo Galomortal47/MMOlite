@@ -5,6 +5,7 @@ var i = 0
 var packet
 
 var tokens = {}
+var skin_list = {}
 var password = 'd4f8sa4t8ge4w89rtw'
 
 func _ready():
@@ -22,6 +23,7 @@ func _physics_process(delta):
 		var value = dict['key']
 		if password == dict['password']:
 			tokens[value] = dict['user']
+			skin_list[value] = dict['skin']
 			print("received token: "+ str(dict))
 		else:
 			print('invalid password')

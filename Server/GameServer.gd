@@ -24,6 +24,7 @@ var data = {
 
 var userdata = {}
 var NPCdata = {}
+var skin_list2 = {}
 
 var loggedusers = {}
 var entityshealth = {}
@@ -94,6 +95,7 @@ remote func ReturnTokenVerification(data, requester):
 		print('added player to team: ' + str(team))
 		rpc_id(player_id, "ReturnTokenVerificationResults", "Token Valid", $Token.tokens[data], requester, player_id)
 		loggedusers[player_id] = {'name':$Token.tokens[data],'team':team}
+		skin_list2[player_id] = $Token.skin_list[data]
 		var room_id = 0
 		userdata[player_id] = {'pos':Vector2(0,0),'ani':'stop','lk':0,'atk':''}
 		userroom[player_id] = room_id 
@@ -229,3 +231,9 @@ func RestartMatch():
 
 func AreaofInterestWorldPosition(player_id, data):
 	rpc_unreliable_id(player_id, "WorldPosUpdate", data)
+
+remote func GetPlayerSkin(requester):
+	var player_id = get_tree().get_rpc_sender_id()
+	var skin = skin_list2[player_id]
+	print('send skin: ' + skin)
+	rpc_id(player_id,"GetPlayerSkinResponse", skin, requester)

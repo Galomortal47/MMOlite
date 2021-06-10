@@ -6,4 +6,12 @@ func _ready():
 	var tableName = 'PlayerInfo'
 	var dict3 : Dictionary = Dictionary()
 	db.create_table(tableName, dict3)
-	CreateTable("UserLogin",['id integer PRIMARY KEY AUTOINCREMENT','username text','password text','email text','salt text','data blob'])
+	CreateTable("UserLogin",[
+'id integer PRIMARY KEY AUTOINCREMENT',
+'username text',
+'password text',
+'email text',
+'salt text',
+'data blob',
+'money integer',
+'skin text'])
