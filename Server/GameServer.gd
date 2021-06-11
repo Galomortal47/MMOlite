@@ -111,7 +111,6 @@ remote func ReturnTokenVerification(data, requester):
 	else:
 		rpc_id(player_id, "ReturnTokenVerificationResults", "Token Invalid", requester)
 		print('token is invalid')
-	WorldState()
 
 func WorldState():
 	if loggedusers.size() == 0:
@@ -120,8 +119,7 @@ func WorldState():
 #	rpc_unreliable_id(0, "WorldTeamUpdate", teams)
 
 func WorldPosition():
-	for j in loggedusers.keys():
-		rpc_unreliable_id(j, "WorldPosUpdate", userdata)
+	rpc_unreliable_id(0, "WorldPosUpdate", userdata)
 
 func WorldNPCState():
 	if loggedusers.size() == 0:
@@ -129,8 +127,7 @@ func WorldNPCState():
 	rpc_unreliable_id(0, "NPCUpdate", NPCs)
 
 func WorldNPCPosition():
-	for j in loggedusers.keys():
-		rpc_unreliable_id(j, "PosNPCUpdate", NPCdata)
+	rpc_unreliable_id(0, "PosNPCUpdate", NPCdata)
 #		room_array[userroom[j]].NPCdata = {}
 
 func ChatState():
@@ -174,6 +171,7 @@ func DamagePlayer(instance_id,damage, attacker):
 			return
 		node.die()
 		Kill(node)
+		print('player ' +loggedusers[node.name]+ ' was killed by: ' + loggedusers[attacker.name])
 		if attacker.get_parent() == get_node("Players"):
 			kill_death[int(attacker.name)]['k'] += 1 
 			if not attacker.team == null:
@@ -181,7 +179,6 @@ func DamagePlayer(instance_id,damage, attacker):
 		if node.get_parent() == get_node("Players"):
 			kill_death[int(node.name)]['d'] += 1 
 			node.get_node('Respaw').start()
-			print('player ' +loggedusers[node.name]+ ' was killed by: ' + loggedusers[attacker.name])
 		node.set_physics_process(false)
 		if node.has_node('CollisionShape2D'):
 			node.get_node('CollisionShape2D').set_deferred("disabled", true)

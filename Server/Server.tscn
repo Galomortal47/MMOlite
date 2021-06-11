@@ -27,6 +27,7 @@ wait_time = 5.0
 autostart = true
 
 [node name="WorldState" type="Timer" parent="."]
+autostart = true
 
 [node name="WorldPosition" type="Timer" parent="."]
 wait_time = 0.05

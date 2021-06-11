@@ -16,6 +16,7 @@ func _ready():
 #	get_parent().get_parent().GetSkin()
 
 func playnanims(anim):
+	visible = true
 	match anim:
 		'stop':
 			$AnimationPlayer.play('stop')
@@ -46,9 +47,10 @@ func chat(text):
 
 func tween(variable, value1, value2):
 	var tween = get_node("Tween")
+	if value1 == Vector2(0,0):
+		value1 = value2
 	tween.interpolate_property(self, variable, value1, value2, 0.05, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
 	tween.start()
-
 
 func add_camera():
 	if str(get_tree().get_network_unique_id()) == name:
@@ -59,3 +61,9 @@ func add_camera():
 		camera.set_v_drag_enabled(true)
 		camera._set_current(true)
 		camera.position.y -= 90
+
+func _on_VisibilityNotifier2D_screen_exited():
+	yield(get_tree().create_timer(1.0), "timeout")
+	print('deleting player')
+	queue_free()
+	pass # Replace with function body.

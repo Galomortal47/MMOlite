@@ -2,12 +2,14 @@ extends Node2D
 
 var PlayerLoad = load('res://Players/PlayerTemplate.tscn')
 var lag_compesation = true
-var lag_compesation_ammount = 1.0
+var lag_compesation_ammount = 0.0
 var movment_smooth = 0.4
 var hp = 100
 var main_user = ''
 var weapon_selected = 1
 var lag = 0.250
+var bufferdata = [{},{}]
+var loggedusersbuffer = {}
 
 func _physics_process(delta):
 #	yield(get_tree().create_timer(lag), "timeout")
@@ -46,6 +48,11 @@ func _physics_process(delta):
 		movment_smooth -= 0.2
 
 func spawn_despawn(loggedusers):
+	loggedusersbuffer = loggedusers
+
+func spawn_despawn2(loggedusers):
+	if loggedusersbuffer == {}:
+		return
 	var players = []
 	for i in get_children():
 		players.append(i.name)
@@ -53,17 +60,15 @@ func spawn_despawn(loggedusers):
 		if not players.has(str(i)):
 			var instance = PlayerLoad.instance()
 			instance.name = str(i)
-			match loggedusers[i]['team']:
+			match loggedusersbuffer[i]['team']:
 				'red':
 					instance.get_node('Label').modulate = Color(1,0,0)
 				'green':
 					instance.get_node('Label').modulate = Color(0,1,0)
 				'blue':
 					instance.get_node('Label').modulate = Color(0,0,1)
-			instance.get_node('Label').set_text(loggedusers[i]['name'])
+			instance.get_node('Label').set_text(loggedusersbuffer[i]['name'])
 			add_child(instance)
-
-var bufferdata = [{},{}]
 
 func sync_position(userdata):
 #	yield(get_tree().create_timer(lag), "timeout")
@@ -82,7 +87,7 @@ func sync_position(userdata):
 			else:
 				get_node(str(i)).position = userdata[i]['pos']
 			get_node(str(i)).get_node('melee').rotation_degrees = userdata[i]['lk']
-			 
+	spawn_despawn2(userdata)
 
 func user_remove(player_id):
 	print("Player: " +str(player_id)+" has been desconnected")

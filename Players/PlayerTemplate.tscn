@@ -251,3 +251,7 @@ script = SubResource( 5 )
 anims/attack = SubResource( 6 )
 
 [node name="Tween" type="Tween" parent="."]
+
+[node name="VisibilityNotifier2D" type="VisibilityNotifier2D" parent="."]
+rect = Rect2( -128, 0, 256, 32 )
+[connection signal="screen_exited" from="VisibilityNotifier2D" to="." method="_on_VisibilityNotifier2D_screen_exited"]

@@ -28,17 +28,17 @@ func update_time(time):
 func update_score(score):
 	var space = "                   "
 	var text = space+' Username '+space+'K'+space+'D'
-	for i in get_node(players).get_children():
+	for i in get_node(players).loggedusersbuffer.keys():
 		text += '\n'
-		if not get_parent().loggedusers_buffer[int(i.name)]['team'] == null:
-			text += '[color='+ get_parent().loggedusers_buffer[int(i.name)]['team']+']'
+		if not get_parent().loggedusers_buffer[int(i)]['team'] == null:
+			text += '[color='+ get_parent().loggedusers_buffer[int(i)]['team']+']'
 		text += space
-		text += i.get_node('Label').get_text()
+		text += get_node(players).get_node(str(i)).get_node('Label').get_text()
 		text += space
-		text += str(score[int(i.name)]['k'])
+		text += str(score[int(i)]['k'])
 		text += space
-		text += str(score[int(i.name)]['d'])
-		if not get_parent().loggedusers_buffer[int(i.name)]['team'] == null:
+		text += str(score[int(i)]['d'])
+		if not get_parent().loggedusers_buffer[int(i)]['team'] == null:
 			text += '[/color]'
 	
 	$score.set_bbcode(str(text))
@@ -63,7 +63,7 @@ func _on_Timer_timeout():
 			$ping2.set_text('Trying to Connect O.O')
 		2:
 			$ping2.set_text('Connected UwU')
-	$ping3.set_text('players online: '+ str(get_node(players).get_child_count()))
+	$ping3.set_text('players online: '+  str(get_node(players).get_child_count())+'/'+str(get_node(players).loggedusersbuffer.keys().size()))
 	$ping4.set_text('lag compesation is: '+ str(get_node(players).lag_compesation_ammount))
 #	else:
 #		$ping3.set_text('lag compesation is off')
@@ -83,4 +83,6 @@ func victory(winner, highest, gamemode):
 						win = get_node(players).get_node(str(winner)).get_node('Label').get_text()
 						$Victory.set_text("The Winner is " + win + " With an Score of " +  str(highest))
 		'TDM':
+			$Victory.set_text('Team ' + str(winner) + " Had Won the Game ")	
+		'PVE':
 			$Victory.set_text('Team ' + str(winner) + " Had Won the Game ")
