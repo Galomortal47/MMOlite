@@ -26,22 +26,7 @@ func update_time(time):
 	$time.set_text(text)
 
 func update_score(score):
-	var space = "                   "
-	var text = space+' Username '+space+'K'+space+'D'
-	for i in get_node(players).loggedusersbuffer.keys():
-		text += '\n'
-		if not get_parent().loggedusers_buffer[int(i)]['team'] == null:
-			text += '[color='+ get_parent().loggedusers_buffer[int(i)]['team']+']'
-		text += space
-		text += get_node(players).get_node(str(i)).get_node('Label').get_text()
-		text += space
-		text += str(score[int(i)]['k'])
-		text += space
-		text += str(score[int(i)]['d'])
-		if not get_parent().loggedusers_buffer[int(i)]['team'] == null:
-			text += '[/color]'
-	
-	$score.set_bbcode(str(text))
+	$score.set_bbcode(str(score))
 
 func consolelog(data):
 	$Label.set_text(data.lineedit)

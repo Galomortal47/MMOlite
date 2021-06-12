@@ -3,8 +3,6 @@ extends Node
 var network = NetworkedMultiplayerENet.new()
 onready var port =1909
 onready var max_players = Tokendata.maxs_players
-#var cert = load('user://Certificate/x509_Certificate.crt')
-#var key = load('user://Certificate/x509_Key.key')
 export var online_verification_disable = false
 
 var roomname = 'room1'
@@ -28,6 +26,7 @@ var skin_list2 = {}
 
 var loggedusers = {}
 var entityshealth = {}
+var playerhp = {}
 var chat = []
 var NPCs = {}
 var userroom = {}
@@ -59,9 +58,6 @@ func _ready():
 	StartServer()
 
 func StartServer():
-#	network.set_dtls_key(key)
-#	network.set_dtls_certificate(cert)
-#	network.set_dtls_enabled(true)
 	network.create_server(port, max_players)
 	network.set_compression_mode(compression) 
 	get_tree().set_network_peer(network)
@@ -91,20 +87,21 @@ remote func ReturnTokenVerification(data, requester):
 	if online_verification_disable:
 		$Token.tokens[data] = str(player_id)
 	if $Token.tokens.has(data):
-		var team = $GameModes.chooseteam(gamemode)
-		print('added player to team: ' + str(team))
+		var team2 = $GameModes.chooseteam(gamemode)
+		print('added player to team: ' + str(team2))
 		rpc_id(player_id, "ReturnTokenVerificationResults", "Token Valid", $Token.tokens[data], requester, player_id)
-		loggedusers[player_id] = {'name':$Token.tokens[data],'team':team}
+		loggedusers[player_id] = {'name':$Token.tokens[data],'team':team2}
 		skin_list2[player_id] = $Token.skin_list[data]
 		var room_id = 0
 		userdata[player_id] = {'pos':Vector2(0,0),'ani':'stop','lk':0,'atk':''}
 		userroom[player_id] = room_id 
-		kill_death[player_id] = {'d':0,'k':0}
+		kill_death[$Token.tokens[data]] = {'d':0,'k':0,'t':team2}
 		var instance = PlayerLoad.instance()
 		randomize()
+		playerhp[player_id] = 100
 		instance.position = Vector2( rand_range(spawn1[0].x,spawn1[1].x),rand_range(spawn1[0].y,spawn1[1].y))
 		instance.name = str(player_id)
-		instance.team = team
+		instance.team = team2
 		$Players.add_child(instance)
 #		$Token.tokens.erase(data)
 		print('token is valid')
@@ -164,6 +161,7 @@ func DamagePlayer(instance_id,damage, attacker):
 		if attacker.team == node.team:
 			return
 	entityshealth[instance_id] -= damage
+	playerhp[int(node.name)] = entityshealth[instance_id]
 	if entityshealth[instance_id] > 0:
 		rpc_id(0, "DamageUpdate", node.get_path(), entityshealth[instance_id])
 	else:
@@ -173,11 +171,11 @@ func DamagePlayer(instance_id,damage, attacker):
 		Kill(node)
 		print('player ' +loggedusers[node.name]+ ' was killed by: ' + loggedusers[attacker.name])
 		if attacker.get_parent() == get_node("Players"):
-			kill_death[int(attacker.name)]['k'] += 1 
+			kill_death[loggedusers[int(attacker.name)]['name']]['k'] += 1 
 			if not attacker.team == null:
 				team[attacker.team] += 1
 		if node.get_parent() == get_node("Players"):
-			kill_death[int(node.name)]['d'] += 1 
+			kill_death[loggedusers[int(node.name)]['name']]['d'] += 1 
 			node.get_node('Respaw').start()
 		node.set_physics_process(false)
 		if node.has_node('CollisionShape2D'):
@@ -196,13 +194,6 @@ func Revive(node):
 remote func RequestInitialPlayerData():
 	var player_id = get_tree().get_rpc_sender_id()
 	rpc_id(player_id, "InitialPlayerData", entityshealth)
-
-#remote func SendSkinBack():
-#	var player_id = get_tree().get_rpc_sender_id()
-#	var n = ['bird', 'cat','cat2', 'cat3']
-#	var number = fmod(player_id,n.size())
-#	var skin = load('res://assets/sprites/'+str(n[number])+'.png')
-#	rpc_id(player_id, "SkinFromServer",player_id , skin.get_data().get_format(), skin.get_data().get_data())
 
 func GameEnd():
 	var winner = ''
@@ -223,7 +214,6 @@ func RestartMatch():
 	for i in team.keys():
 		team[i] = 0
 	$GameEnd.start()
-#	get_tree().reload_current_scene()
 	pass # Replace with function body.
 
 func AreaofInterestWorldPosition(player_id, data):
@@ -234,3 +224,7 @@ remote func GetPlayerSkin(requester,namerq):
 	var skin = skin_list2[namerq]
 	print('send skin: ' + skin)
 	rpc_id(player_id,"GetPlayerSkinResponse", skin, requester)
+
+remote func GetPlayerHealth(requester, id):
+	var player_id = get_tree().get_rpc_sender_id()
+	rpc_id(player_id,"GetPlayerHealthResponse", playerhp[id], requester)

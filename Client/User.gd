@@ -112,9 +112,9 @@ remote func GetPlayerSkinResponse(nameskin,requester):
 	var skin = load('res://assets/sprites/'+nameskin+'.png')
 	instance_from_id(requester).get_node('anims/Sprite').texture = skin
 
-#func GetSkin():
-#func GetSkin():
-#	rpc_id(1,"SendSkinBack")
+func GetPlayerHealth(requester, id):
+	rpc_id(1,"GetPlayerHealth", requester, id)
 
-#remote func SkinFromServer(player_id,format, skin):
-#	get_node("Players").change_skin(player_id,format, skin)
+remote func GetPlayerHealthResponse(hpserver,requester):
+	print('getting hp back')
+	instance_from_id(requester).hurt(hpserver)

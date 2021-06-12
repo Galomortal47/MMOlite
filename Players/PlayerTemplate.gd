@@ -13,10 +13,9 @@ func hurt(damage):
 func _ready():
 	add_camera()
 	get_node('../..').GetPlayerSkin(get_instance_id(),int(name))
-#	get_parent().get_parent().GetSkin()
+	get_node('../..').GetPlayerHealth(get_instance_id(), int(name))
 
 func playnanims(anim):
-	visible = true
 	match anim:
 		'stop':
 			$AnimationPlayer.play('stop')
@@ -63,7 +62,6 @@ func add_camera():
 		camera.position.y -= 90
 
 func _on_VisibilityNotifier2D_screen_exited():
-	yield(get_tree().create_timer(1.0), "timeout")
 	print('deleting player')
 	queue_free()
 	pass # Replace with function body.

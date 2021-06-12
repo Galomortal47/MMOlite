@@ -60,6 +60,9 @@ func spawn_despawn2(loggedusers):
 		if not players.has(str(i)):
 			var instance = PlayerLoad.instance()
 			instance.name = str(i)
+			add_child(instance)
+		if loggedusersbuffer.has(i):
+			var instance = get_node(str(i))
 			match loggedusersbuffer[i]['team']:
 				'red':
 					instance.get_node('Label').modulate = Color(1,0,0)
@@ -68,7 +71,6 @@ func spawn_despawn2(loggedusers):
 				'blue':
 					instance.get_node('Label').modulate = Color(0,0,1)
 			instance.get_node('Label').set_text(loggedusersbuffer[i]['name'])
-			add_child(instance)
 
 func sync_position(userdata):
 #	yield(get_tree().create_timer(lag), "timeout")
