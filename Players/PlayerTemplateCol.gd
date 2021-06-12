@@ -8,6 +8,11 @@ var alive = true
 var nextshoot = true
 var team = null
 
+var lk = 0
+var ani = "stop"
+var atk = ""
+var pos = Vector2()
+
 var BulletLoad = load('res://assets/Enemy/Bulletcol.tscn')
 
 func _ready():
@@ -101,7 +106,28 @@ func Respaw():
 	get_node('../..').setHealth(hp, self)
 	pass # Replace with function body.
 
+var add = 10
+var thread = Thread.new()
+
 func SyncData():
+	lightpos()
+#	_on_load_pressed()
+
+func _bg_load(path):
+	var tex = lightpos()
+	call_deferred("_bg_load_done")
+	return tex # return it
+
+func _bg_load_done():
+	var tex = thread.wait_to_finish()
+	add = tex
+
+func _on_load_pressed():
+	if (thread.is_active()):
+		return
+	thread.start(self, "_bg_load", add)
+
+func lightpos():
 	var Areadata = {}
 	var bodies = $AreaofInterest.get_overlapping_bodies()
 	if bodies.size() > 20:
@@ -109,7 +135,12 @@ func SyncData():
 		bodies.append(self)
 	for i in bodies:
 		var player_id = int(i.name)
-		if get_node('../..').userdata.has(player_id):
-			Areadata[player_id] = get_node('../..').userdata[player_id]
+		Areadata[player_id] = {}
+		Areadata[player_id]['pos'] = i.position
+		Areadata[player_id]['ani'] = i.ani
+		Areadata[player_id]['lk'] = i.lk
+		Areadata[player_id]['atk'] = i.atk
+#		if get_node('../..').userdata.has(player_id):
+#			Areadata[player_id] = get_node('../..').userdata[player_id]
 	get_node('../..').AreaofInterestWorldPosition(int(name),Areadata)
 	pass # Replace with function body.

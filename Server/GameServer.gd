@@ -91,7 +91,10 @@ remote func ReturnTokenVerification(data, requester):
 		print('added player to team: ' + str(team2))
 		rpc_id(player_id, "ReturnTokenVerificationResults", "Token Valid", $Token.tokens[data], requester, player_id)
 		loggedusers[player_id] = {'name':$Token.tokens[data],'team':team2}
-		skin_list2[player_id] = $Token.skin_list[data]
+		if online_verification_disable:
+			skin_list2[player_id] = 'cat'
+		else:
+			skin_list2[player_id] = $Token.skin_list[data]
 		var room_id = 0
 		userdata[player_id] = {'pos':Vector2(0,0),'ani':'stop','lk':0,'atk':''}
 		userroom[player_id] = room_id 
@@ -144,10 +147,9 @@ remote func MovePlayer(dir, look, attack):
 		node.attack(attack)
 		node.move(dir)
 		node.aim(look)
-		userdata[player_id]['pos'] = node.position
-		userdata[player_id]['ani'] = dir
-		userdata[player_id]['lk'] = look
-		userdata[player_id]['atk'] = attack
+		node.ani = dir
+		node.lk = look
+		node.atk = attack
 
 remote func ReceiveChatMessage(message, requester):
 	var player_id = get_tree().get_rpc_sender_id()
