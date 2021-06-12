@@ -222,7 +222,6 @@ func AreaofInterestWorldPosition(player_id, data):
 remote func GetPlayerSkin(requester,namerq):
 	var player_id = get_tree().get_rpc_sender_id()
 	var skin = skin_list2[namerq]
-	print('send skin: ' + skin)
 	rpc_id(player_id,"GetPlayerSkinResponse", skin, requester)
 
 remote func GetPlayerHealth(requester, id):

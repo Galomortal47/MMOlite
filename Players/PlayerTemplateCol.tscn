@@ -41,7 +41,7 @@ tracks/0/keys = {
 extents = Vector2( 20, 20 )
 
 [sub_resource type="RectangleShape2D" id=5]
-extents = Vector2( 608, 398 )
+extents = Vector2( 600, 400 )
 
 [node name="PlayerTemplate" type="KinematicBody2D"]
 collision_layer = 513

@@ -104,10 +104,11 @@ remote func LoadNextScene(scene):
 	get_tree().change_scene_to(load(scene))
 
 func GetPlayerSkin(requester, namerq):
-	print('requesting skin')
 	rpc_id(1,"GetPlayerSkin", requester, namerq)
 
 remote func GetPlayerSkinResponse(nameskin,requester):
+	if nameskin == null:
+		return
 	print('skin received is: '+nameskin)
 	var skin = load('res://assets/sprites/'+nameskin+'.png')
 	instance_from_id(requester).get_node('anims/Sprite').texture = skin
@@ -116,5 +117,4 @@ func GetPlayerHealth(requester, id):
 	rpc_id(1,"GetPlayerHealth", requester, id)
 
 remote func GetPlayerHealthResponse(hpserver,requester):
-	print('getting hp back')
 	instance_from_id(requester).hurt(hpserver)
