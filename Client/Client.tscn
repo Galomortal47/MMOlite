@@ -310,7 +310,12 @@ autostart = true
 
 [node name="NPCs" type="Node2D" parent="."]
 script = ExtResource( 5 )
+
+[node name="AreaOfInterestData" type="Timer" parent="."]
+wait_time = 0.2
+autostart = true
 [connection signal="connected" from="." to="UI" method="_on_Server_connected"]
 [connection signal="button_down" from="UI/chat/Button" to="UI/chat" method="_on_Button_button_down"]
 [connection signal="timeout" from="UI/Timer" to="UI" method="_on_Timer_timeout"]
 [connection signal="timeout" from="Timer" to="." method="GetInitialPlayerData"]
+[connection signal="timeout" from="AreaOfInterestData" to="Players" method="_on_AreaOfInterestData_timeout"]

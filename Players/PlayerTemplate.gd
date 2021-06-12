@@ -62,6 +62,5 @@ func add_camera():
 		camera.position.y -= 90
 
 func _on_VisibilityNotifier2D_screen_exited():
-	print('deleting player')
+	yield(get_tree().create_timer(.5), "timeout")
 	queue_free()
-	pass # Replace with function body.

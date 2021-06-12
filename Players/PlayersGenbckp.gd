@@ -89,7 +89,6 @@ func sync_position(userdata):
 			else:
 				get_node(str(i)).position = userdata[i]['pos']
 			get_node(str(i)).get_node('melee').rotation_degrees = userdata[i]['lk']
-	spawn_despawn2(userdata)
 
 func user_remove(player_id):
 	print("Player: " +str(player_id)+" has been desconnected")
@@ -104,3 +103,6 @@ func change_skin(player_id, format, skin):
 	texture.create_from_image(image)
 	get_node(str(player_id)).get_node('anims/Sprite').texture = texture
 
+func _on_AreaOfInterestData_timeout():
+	spawn_despawn2(bufferdata[0])
+	pass # Replace with function body.
