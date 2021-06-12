@@ -110,8 +110,7 @@ var add = 10
 var thread = Thread.new()
 
 func SyncData():
-	lightpos()
-#	_on_load_pressed()
+	_on_load_pressed()
 
 func _bg_load(path):
 	var tex = lightpos()
@@ -140,7 +139,5 @@ func lightpos():
 		Areadata[player_id]['ani'] = i.ani
 		Areadata[player_id]['lk'] = i.lk
 		Areadata[player_id]['atk'] = i.atk
-#		if get_node('../..').userdata.has(player_id):
-#			Areadata[player_id] = get_node('../..').userdata[player_id]
 	get_node('../..').AreaofInterestWorldPosition(int(name),Areadata)
 	pass # Replace with function body.
