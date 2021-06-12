@@ -8,7 +8,7 @@ export(Texture) var weapon_texture_2
 func hurt(damage):
 	hp = damage
 	$hp.set_text(str(hp)+'hp')
-	$hp/icon.rect_size.x = float(hp)
+	$hp/icon.rect_size.x = int(hp)
 
 func _ready():
 	add_camera()

@@ -11,7 +11,7 @@ var lag = 0.250
 var bufferdata = [{},{}]
 var loggedusersbuffer = {}
 
-func _physics_process(delta):
+func SendDataToServ():
 #	yield(get_tree().create_timer(lag), "timeout")
 	var attack = ''
 	var movment = 'stop'
