@@ -31,6 +31,7 @@ autostart = true
 
 [node name="WorldPosition" type="Timer" parent="."]
 wait_time = 0.05
+autostart = true
 
 [node name="WorldNPCState" type="Timer" parent="."]
 wait_time = 0.25
@@ -83,11 +84,10 @@ position = Vector2( 1786.8, 224.176 )
 [node name="Node2D4" type="Node2D" parent="MonsterSpawner"]
 position = Vector2( 1782.31, 76.0106 )
 [connection signal="timeout" from="ServerBrowse/Timer" to="ServerBrowse" method="send_data"]
-[connection signal="timeout" from="WorldState" to="." method="WorldState"]
 [connection signal="timeout" from="WorldState" to="." method="ChatState"]
-[connection signal="timeout" from="WorldPosition" to="." method="WorldPosition"]
-[connection signal="timeout" from="WorldNPCState" to="." method="WorldNPCState"]
+[connection signal="timeout" from="WorldState" to="." method="WorldState"]
 [connection signal="timeout" from="WorldNPCState" to="." method="ChatState"]
+[connection signal="timeout" from="WorldNPCState" to="." method="WorldNPCState"]
 [connection signal="timeout" from="WorldNPCPosition" to="." method="WorldNPCPosition"]
 [connection signal="timeout" from="ScoreUpdate" to="." method="ScoreState"]
 [connection signal="timeout" from="MatchRestart" to="." method="RestartMatch"]

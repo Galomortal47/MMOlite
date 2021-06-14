@@ -108,9 +108,10 @@ func Respaw():
 
 var add = 10
 var thread = Thread.new()
-
+var Areadata = {}
 func SyncData():
 	_on_load_pressed()
+	
 
 func _bg_load(path):
 	var tex = lightpos()
@@ -119,6 +120,7 @@ func _bg_load(path):
 
 func _bg_load_done():
 	var tex = thread.wait_to_finish()
+	get_node('../..').rpc_unreliable_id(int(name), "WorldPosUpdate", Areadata)
 	add = tex
 
 func _on_load_pressed():
@@ -127,7 +129,7 @@ func _on_load_pressed():
 	thread.start(self, "_bg_load", add)
 
 func lightpos():
-	var Areadata = {}
+	
 	var bodies = $AreaofInterest.get_overlapping_bodies()
 	if bodies.size() > 20:
 		bodies.resize(20)
@@ -139,5 +141,4 @@ func lightpos():
 		Areadata[player_id]['ani'] = i.ani
 		Areadata[player_id]['lk'] = i.lk
 		Areadata[player_id]['atk'] = i.atk
-	get_node('../..').AreaofInterestWorldPosition(int(name),Areadata)
 	pass # Replace with function body.
