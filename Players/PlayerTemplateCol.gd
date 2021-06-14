@@ -129,7 +129,7 @@ func _on_load_pressed():
 	thread.start(self, "_bg_load", add)
 
 func lightpos():
-	
+	Areadata = {}
 	var bodies = $AreaofInterest.get_overlapping_bodies()
 	if bodies.size() > 20:
 		bodies.resize(20)
