@@ -135,16 +135,16 @@ func _on_load_pressed():
 func lightpos():
 	Areadata = {}
 	var bodies = $AreaofInterest.get_overlapping_bodies()
+	mutex.lock()
 	if bodies.size() > 20:
 		bodies.resize(20)
 		bodies.append(self)
+	mutex.unlock()
 	for i in bodies:
 		mutex.lock()
 		var player_id = int(i.name)
-		Areadata[player_id] = {}
-		Areadata[player_id]['pos'] = i.position
-		Areadata[player_id]['ani'] = i.ani
-		Areadata[player_id]['lk'] = i.lk
-		Areadata[player_id]['atk'] = i.atk
+		mutex.lock()
+		mutex.unlock()
+		Areadata[player_id] = {'pos':i.position, 'ani':i.ani, 'lk':i.lk,'atk':i.atk}
 		mutex.unlock()
 	pass # Replace with function body.
