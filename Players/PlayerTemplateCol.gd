@@ -18,8 +18,8 @@ var BulletLoad = load('res://assets/Enemy/Bulletcol.tscn')
 func _ready():
 	get_node('../..').entityshealth[get_instance_id()] = hp
 
-func move(dir):
-	match dir:
+func move():
+	match ani:
 		'jump':
 			jump()
 		'left':
@@ -36,10 +36,13 @@ func move(dir):
 					motion.x += 10
 		'stop':
 			if is_on_floor():
-				motion.x *= 0.8
+				motion.x *= 0.95
 
-func attack(dir):
-	match dir:
+func aim():
+	$melee.rotation_degrees  = lk
+
+func attack():
+	match atk:
 		'attk':
 			melee_attack()
 		'shot':
@@ -58,9 +61,6 @@ func _physics_process(delta):
 	else:
 		coyote_time = true
 	motion = move_and_slide(motion, UP)
-
-func aim(dir):
-	$melee.rotation_degrees  = dir
 
 func melee_attack():
 	if alive:
@@ -108,10 +108,14 @@ func Respaw():
 
 var add = 10
 var thread = Thread.new()
+var mutex = Mutex.new()
 var Areadata = {}
+
 func SyncData():
 	_on_load_pressed()
-	
+	attack()
+	move()
+	aim()
 
 func _bg_load(path):
 	var tex = lightpos()
@@ -135,10 +139,12 @@ func lightpos():
 		bodies.resize(20)
 		bodies.append(self)
 	for i in bodies:
+		mutex.lock()
 		var player_id = int(i.name)
 		Areadata[player_id] = {}
 		Areadata[player_id]['pos'] = i.position
 		Areadata[player_id]['ani'] = i.ani
 		Areadata[player_id]['lk'] = i.lk
 		Areadata[player_id]['atk'] = i.atk
+		mutex.unlock()
 	pass # Replace with function body.

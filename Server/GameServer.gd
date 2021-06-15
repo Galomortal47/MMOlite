@@ -144,9 +144,6 @@ remote func MovePlayer(dir, look, attack):
 	var player_id = get_tree().get_rpc_sender_id()
 	if $Players.has_node(str(player_id)):
 		var node = $Players.get_node(str(player_id))
-		node.attack(attack)
-		node.move(dir)
-		node.aim(look)
 		node.ani = dir
 		node.lk = look
 		node.atk = attack

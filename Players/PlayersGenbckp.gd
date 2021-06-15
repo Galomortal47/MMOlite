@@ -2,7 +2,7 @@ extends Node2D
 
 var PlayerLoad = load('res://Players/PlayerTemplate.tscn')
 var lag_compesation = true
-var lag_compesation_ammount = 0.0
+var lag_compesation_ammount = 2.0
 var movment_smooth = 0.4
 var hp = 100
 var main_user = ''
@@ -10,11 +10,13 @@ var weapon_selected = 1
 var lag = 0.250
 var bufferdata = [{},{}]
 var loggedusersbuffer = {}
+var attack = ''
+var movment = 'stop'
 
-func SendDataToServ():
+func _physics_process(delta):
 #	yield(get_tree().create_timer(lag), "timeout")
-	var attack = ''
-	var movment = 'stop'
+	attack = ''
+	movment = 'stop'
 	if Input.is_action_pressed("ui_left"):
 		movment = 'left'
 	if Input.is_action_pressed("ui_right"):
@@ -33,11 +35,6 @@ func SendDataToServ():
 	if Input.is_action_pressed("ui_2"):
 		weapon_selected = 2
 		attack = 'change2'
-	var look_at =  self
-	if has_node(main_user):
-		look_at = get_node(main_user)
-	var look = int(rad2deg(look_at.get_angle_to(get_global_mouse_position())))
-	get_parent().MovePlayer(movment,look, attack)
 	if Input.is_action_just_pressed("ui_lagcomp"):
 		lag_compesation = !lag_compesation
 	if Input.is_action_just_pressed("ui_plus"):
@@ -46,6 +43,13 @@ func SendDataToServ():
 	if Input.is_action_just_pressed("ui_minus"):
 		lag_compesation_ammount -= 1.0
 		movment_smooth -= 0.2
+
+func SendDataToServ():
+	var look_at =  self
+	if has_node(main_user):
+		look_at = get_node(main_user)
+	var look = int(rad2deg(look_at.get_angle_to(get_global_mouse_position())))
+	get_parent().MovePlayer(movment,look, attack)
 
 func spawn_despawn(loggedusers):
 	loggedusersbuffer = loggedusers

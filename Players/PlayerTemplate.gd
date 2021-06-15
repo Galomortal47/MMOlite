@@ -48,7 +48,7 @@ func tween(variable, value1, value2):
 	var tween = get_node("Tween")
 	if value1 == Vector2(0,0):
 		value1 = value2
-	tween.interpolate_property(self, variable, value1, value2, 0.05, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
+	tween.interpolate_property(self, variable, value1, value2, 0.025, Tween.TRANS_LINEAR, Tween.EASE_IN_OUT)
 	tween.start()
 
 func add_camera():
